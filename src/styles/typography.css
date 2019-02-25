@@ -1,0 +1,167 @@
+html {
+    font: 12px/1.5 "Segoe UI", sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+@media screen and (min-width:500px) {
+    html {
+        font-size: 14px
+    }
+}
+
+@media screen and (min-width:700px) {
+    html {
+        font-size: 16px
+    }
+}
+
+@media screen and (min-width:1600px) {
+    html {
+        font-size: 18px
+    }
+}
+
+table,
+td,
+th,
+tr,
+input,
+ textarea,
+ select,
+ button {
+    font: inherit;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font: 1em/1.2 "Georgia", serif;
+    margin: 1rem 0 0.5em 0;
+    padding: 0;
+}
+
+h1 {
+    font-size: 2.2rem;
+}
+
+h2 {
+    font-size: 2rem;
+}
+
+h3 {
+    font-size: 1.8rem;
+}
+
+h4 {
+    font-size: 1.6rem;
+}
+
+h5 {
+    font-size: 1.4rem;
+}
+
+h5 {
+    font-size: 1.2rem;
+}
+
+p {
+    margin: 0;
+    padding-bottom: 1.5rem;
+}
+
+ol,
+ul,
+dl {
+    margin: 0 0 1.5rem 0;
+}
+
+ol,
+ul {
+    padding: 0;
+    margin-left: 1.5rem;
+}
+
+ul li,
+ol li {
+    list-style-position: inside;
+}
+
+
+ul ul {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+ul li {
+    list-style-type: square;
+}
+
+ul ul li {
+    list-style-type: disc;
+}
+
+ul ul ul li {
+    list-style-type: circle;
+}
+
+blockquote {
+    border-left: 4px solid #ddd;
+    font-style: italic;
+    margin-bottom: 0 0 1.5rem 2rem;
+    padding: 1rem 2rem
+}
+
+blockquote .author {
+    text-align: right;
+}
+
+table {
+    width: 100%;
+    table-layout: fixed;
+    margin: 1.5rem 0;
+    border: 1px solid #bbb;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+table td,
+table th {
+    border: 1px solid #ccc;
+    padding: 0.3rem 0.5rem;
+    transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+table td:first-child,
+table th:first-child {
+    width:5%
+}
+
+table th {
+    border: 1px solid #333;
+}
+
+table thead th {
+    background: #333;
+    color: orange
+}
+
+table tr:nth-child(odd) td {
+    background: #eee;
+}
+
+table tr:hover td {
+    background: #888;
+    color: #fff;
+    border-color: #888;
+}
+
+hr {
+    margin: 2rem 0;
+    border: 0;
+    height: 2px;
+    background: #666;
+    background-image: linear-gradient(to right, #ddd, #666, #ddd);
+}

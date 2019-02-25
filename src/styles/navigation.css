@@ -1,0 +1,33 @@
+
+.site-header-nav ul {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.site-header-nav li{
+    padding: 0 1rem;
+    display: block;
+    list-style: none;
+}
+
+.site-header-nav li a{  
+    padding: 0.5rem 0;  
+    color:white;
+    font-size: 1.1rem;
+}
+
+.site-header-nav li a:after{
+    display: block;
+    content: "";
+    padding-bottom: 2px;
+    background:orange;
+    width:0;
+    transition:width 0.3s ease-out, background 0.3s ease-out;
+}
+
+.site-header-nav li a:hover:after{
+    width:100%;
+}

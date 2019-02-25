@@ -1,0 +1,150 @@
+.site-header,
+.site-footer {
+    padding: 0.7rem 1rem;
+    background: #333;
+}
+
+.site-header {
+    padding-top: 0;
+}
+
+.site-header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.site-header p {
+    padding: 0;
+    color: white;
+}
+
+
+.site-footer p {
+    text-align: center;
+    padding: 0;
+    color: #ccc;
+}
+
+.site-header a,
+.site-footer a {
+    text-decoration: none;
+}
+
+
+.logo {
+    font-size: 3rem;
+    font-weight: bold
+}
+
+
+.logo .fa-paw {
+    font-size: 0.9em;
+    padding: 0.5rem;
+}
+
+.slogan {
+    font-style: initial;
+    text-transform: uppercase;
+    font-size: 0.7em;
+    font-weight: lighter;
+    letter-spacing: 0.1rem;
+    color: white;
+}
+
+.site-content {
+    min-height: 77vh;
+}
+
+.site-content a:not(.button),
+.logo a,
+.site-footer a {
+    color: orange
+}
+/* Guest pages */
+.guest .site-index {
+    width: 40rem;
+    padding: 8rem 0;
+    margin: 0 auto;
+    text-align: center;
+    color: white;
+}
+
+
+.guest .site-index h1 {
+    font-size: 5rem;
+    margin: 0 0 2rem 0;
+    letter-spacing: 0.2rem;
+}
+
+.guest .site-index p {
+    color: #ccc;
+}
+
+.site-login {
+    padding: 5rem 0;
+}
+
+.guest {
+    background: #555;
+}
+
+/* User adn Admin pages */
+.admin,
+.user {
+    background: #eee;
+}
+
+.site-catalog,
+.admin .site-index,
+.user .site-index,
+.site-details,
+.site-details {
+    padding: 2rem 4rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.site-catalog h1,
+.admin .site-index h1,
+.user .site-index h1 {
+    flex: 1 0 100%;
+    text-align: center;
+}
+
+.admin .site-catalog h1:after,
+.user .site-index h1:after {
+    display: block;
+    content: "";
+    padding-bottom: 2px;
+    width:30%;
+    margin: 0 auto;
+    margin-top:2.5rem ;
+    background: orange;
+    background-image: linear-gradient(to right, #ddd, orange, #ddd);
+}
+
+.site-details .card{
+    width: 60%;
+}
+
+.site-details h2 {
+    color:#333;
+    font-weight: bold;
+}
+
+
+.site-details p>span{
+    padding-right: 0.7rem;
+    font-weight: bold;
+    color:orange;
+}
+
+.site-details .content p:last-of-type{
+    padding-top: 1rem;
+    font-size: 0.8rem;
+    font-style: italic;
+    color:#999;
+}
