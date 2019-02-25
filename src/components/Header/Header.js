@@ -2,7 +2,8 @@ import React, {Fragment } from 'react';
 import {Link} from 'react-router-dom';
 
 const Header =(props)=>{
-    const {username, isAdmin}=props;
+    const {username, isAdmin, logout}=props;
+
     return(
     <header className="site-header">
         <div className="site-branding">
@@ -21,7 +22,7 @@ const Header =(props)=>{
                        :null
                 }
                 <li key='catalog'><Link to="/catalog">Catalog</Link></li>
-                <li key='logout'><a href="../guest/index.html">Logout</a></li>
+                <li key='logout'><button className="button" onClick={()=>logout()}>Logout</button></li>
             </ul>
             :null
         }

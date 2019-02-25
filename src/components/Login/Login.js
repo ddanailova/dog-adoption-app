@@ -10,11 +10,24 @@ class Login extends Component{
         }
     }
 
+    handelSubmit = (ev)=>{
+        ev.preventDefault();
+        this.props.login(this.state);
+    }
+
+    handleInputChange =(ev)=>{
+        const {name, value}=ev.target;
+        this.setState({
+            [name]:value
+        });
+    }
+
     render(){
+        const {username, password}=this.state;
         return(
             <main className='site-content guest'>
                 <section className="site-login">
-                    <form>
+                    <form onSubmit={this.handelSubmit}>
                         <h2>Login</h2>
                         <p className="field">
                             <label htmlFor="username">Username</label>
@@ -23,6 +36,8 @@ class Login extends Component{
                                     type="text" 
                                     id="username" 
                                     name="username"
+                                    value={username}
+                                    onChange={this.handleInputChange}
                                 />
                                 <span className="actions"></span>
                                 <i className="fas fa-user"></i>
@@ -36,6 +51,8 @@ class Login extends Component{
                                     type="password" 
                                     id="password" 
                                     name="password"
+                                    value={password}
+                                    onChange={this.handleInputChange}
                                 />
                                 <span className="actions"></span>
                                 <i className="fas fa-key"></i>
