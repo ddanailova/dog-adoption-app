@@ -22,7 +22,7 @@ const Header =(props)=>{
                        :null
                 }
                 <li key='catalog'><Link to="/catalog">Catalog</Link></li>
-                <li key='logout'><button className="button" onClick={()=>logout()}>Logout</button></li>
+                <li key='logout'><Link to="/login" onClick={logout}>Logout</Link></li>
             </ul>
             :null
         }

@@ -17,16 +17,8 @@ class Register extends Component{
 
     handelSubmit = (ev)=>{
         ev.preventDefault();
-     let userData = Object.assign({}, this.state, {roles:['User']});
-    delete userData.repeatPassword;
-        // const userData = {
-        //     username:this.state.username,
-        //     password:this.state.password,
-        //     fullName:this.state.fullName,
-        //     email:this.state.email,
-        //     phone:this.state.phone,
-        //     roles:['User']
-        // }
+        let userData = {...this.state};
+        delete userData.repeatPassword;
         this.props.register(userData);
     }
 
