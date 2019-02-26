@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { toast } from 'react-toastify';
 
 class Login extends Component{
     constructor(props){
@@ -22,6 +23,15 @@ class Login extends Component{
         });
     }
 
+    checkInputValidation=(ev)=>{
+        const {target}=ev;
+        if(!target.checkValidity()){
+          toast.error(target.validationMessage, {
+            closeButton: false
+          });
+        }
+    }
+
     render(){
         const {username, password}=this.state;
         return(
@@ -38,6 +48,9 @@ class Login extends Component{
                                     name="username"
                                     value={username}
                                     onChange={this.handleInputChange}
+                                    onBlur={this.checkInputValidation}
+                                    minLength="3"
+                                    maxLength="15"
                                 />
                                 <span className="actions"></span>
                                 <i className="fas fa-user"></i>
@@ -53,6 +66,9 @@ class Login extends Component{
                                     name="password"
                                     value={password}
                                     onChange={this.handleInputChange}
+                                    onBlur={this.checkInputValidation}
+                                    minLength="5"
+                                    maxLength="15"
                                 />
                                 <span className="actions"></span>
                                 <i className="fas fa-key"></i>

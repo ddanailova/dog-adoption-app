@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { toast } from 'react-toastify';
 
 
 class Register extends Component{
@@ -29,6 +30,21 @@ class Register extends Component{
         });
     }
 
+    checkInputValidation=(ev)=>{
+        const {target}=ev;
+        if(!target.checkValidity()){
+          toast.error(target.validationMessage, {
+            closeButton: false
+          });
+        }
+        // if(this.state.password !== this.state.repeatPassword){
+        //     toast.error('The passwords must match', {
+        //         closeButton: false
+        //       });
+        // }
+    }
+
+
     render(){
         const {
             username,
@@ -53,6 +69,9 @@ class Register extends Component{
                                     name="username"
                                     value={username}
                                     onChange={this.handleInputChange}
+                                    onBlur={this.checkInputValidation}
+                                    minLength="3"
+                                    maxLength="15"
                                 />
                                 <span className="actions"></span>
                                 <i className="fas fa-user"></i>
@@ -68,6 +87,9 @@ class Register extends Component{
                                     name="password"
                                     value={password}
                                     onChange={this.handleInputChange}
+                                    onBlur={this.checkInputValidation}
+                                    minLength="5"
+                                    maxLength="15"
                                 />
                                 <span className="actions"></span>
                                 <i className="fas fa-key"></i>
@@ -83,6 +105,8 @@ class Register extends Component{
                                     name="repeatPassword"
                                     value={repeatPassword}
                                     onChange={this.handleInputChange}
+                                    onBlur={this.checkInputValidation}
+                                    pattern={this.state.password}
                                 />
                                 <span className="actions"></span>
                                 <i className="fas fa-key"></i>
@@ -98,6 +122,9 @@ class Register extends Component{
                                     name="fullName"
                                     value={fullName}
                                     onChange={this.handleInputChange}
+                                    onBlur={this.checkInputValidation}
+                                    minLength="3"
+                                    maxLength="25"
                                 />
                                 <span className="actions"></span>
                                 <i className="fas fa-user"></i>
@@ -113,6 +140,8 @@ class Register extends Component{
                                     name="email"
                                     value={email}
                                     onChange={this.handleInputChange}
+                                    onBlur={this.checkInputValidation}
+                                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
                                 />
                                 <span className="actions"></span>
                                 <i className="fas fa-envelope"></i>
@@ -123,11 +152,12 @@ class Register extends Component{
                             <label htmlFor="phone">Phone</label>
                             <span className="input">
                                 <input 
-                                    type="text" 
+                                    type="tel" 
                                     id="phone" 
                                     name="phone"
                                     value={phone}
                                     onChange={this.handleInputChange}
+                                    onBlur={this.checkInputValidation}
                                 />
                                 <span className="actions"></span>
                                 <i className="fas fa-phone"></i>

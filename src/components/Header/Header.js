@@ -1,8 +1,10 @@
 import React, {Fragment } from 'react';
 import {Link} from 'react-router-dom';
 
+import Navigation from '../Navigation/Navigation'
+
 const Header =(props)=>{
-    const {username, isAdmin, logout}=props;
+    const {username}=props;
 
     return(
     <header className="site-header">
@@ -10,23 +12,9 @@ const Header =(props)=>{
             <p className="logo"><Link to="/"><i className="fas fa-paw"></i>Dogs</Link></p>
             <p className="slogan">Adopt, make a difference!</p>
         </div>
-        <nav className="site-header-nav">
-        { username?
-            <ul>
-                {
-                    isAdmin?
-                       <Fragment>
-                           <li key='home'><Link to="/">Home</Link></li>
-                           <li key='newCart'><a href="new-card.html">New Cart</a></li>
-                       </Fragment>
-                       :null
-                }
-                <li key='catalog'><Link to="/catalog">Catalog</Link></li>
-                <li key='logout'><Link to="/login" onClick={logout}>Logout</Link></li>
-            </ul>
-            :null
+        { 
+            username?<Navigation {...props}/>:null
         }
-        </nav>
     </header>
 )};
 
