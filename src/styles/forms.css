@@ -7,10 +7,8 @@ form {
 
 form label {
     font-weight: bold;
-}
-
-form label {
     display: block;
+    text-transform: capitalize;
 }
 
 form h2 {
@@ -96,8 +94,16 @@ textarea:focus,
     color: orange;
 }
 
+.form-error +.input input +.actions{
+    border-color: red;
+}
+.form-error + .input input+.actions+.fas {
+    color: tomato;
+}
+
 .form-error,
 .form-error-textarea {
+    width:100%;
     position: absolute;
     top: 3.5rem;
     left: 50%;
