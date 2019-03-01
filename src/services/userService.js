@@ -1,4 +1,4 @@
-import {post} from './requester'
+import {post} from '../data/requester'
 const ADMINROLEID = 'b4bf1116-2fb3-4a53-87fe-0a518453c892';
 
 class userService {
@@ -10,21 +10,21 @@ class userService {
         return this._adminId
     }
     
-    register = function(userData){
+    register = (userData)=>{
          return post('user', '', 'basic', userData)
-        .then(rawData=>rawData.json())
+          .then(rawData=>rawData.json())
       }
     
-      login = function(userData){
-      return  post('user', 'login', 'basic', userData)
-        .then(rawData=>rawData.json())
+      login = (userData)=>{
+        return  post('user', 'login', 'basic', userData)
+          .then(rawData=>rawData.json())
       }
     
-      logout = function(){
+      logout = ()=>{
         let logoutData = {
           authtoken: localStorage.getItem('authtoken')
         };
-       return post('user', '_logout', 'kinvey', logoutData)
+        return post('user', '_logout', 'kinvey', logoutData)
       }
 
       isUserAdmin=(body)=>{

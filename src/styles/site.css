@@ -54,7 +54,7 @@
 }
 
 .site-content {
-    min-height: 77vh;
+    min-height: 80vh;
 }
 
 .site-content a:not(.button),
@@ -63,23 +63,24 @@
     color: orange
 }
 /* Guest pages */
-.guest .site-index {
-    width: 40rem;
+.guest .site-index {   
     padding: 8rem 0;
     margin: 0 auto;
     text-align: center;
     color: white;
 }
 
-
 .guest .site-index h1 {
     font-size: 5rem;
     margin: 0 0 2rem 0;
     letter-spacing: 0.2rem;
+    text-transform: capitalize;
 }
 
-.guest .site-index p {
+.guest .site-index .site-description {
     color: #ccc;
+    width: 40rem;
+    margin: 0 auto;
 }
 
 .site-login {
@@ -147,4 +148,23 @@
     font-size: 0.8rem;
     font-style: italic;
     color:#999;
+}
+
+.toast-container {
+    font-size: 0.9rem;
+    text-align: center;
+    padding: 0 1rem;
+    opacity: 0.9;
+}
+
+.not-found {
+    text-align: center;
+    padding-top:10rem; 
+}
+.not-found h2{
+    font-size:3rem;
+}
+.not-found i{
+    font-size:4rem;
+    color: orange
 }
