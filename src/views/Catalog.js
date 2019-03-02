@@ -59,7 +59,7 @@ class Catalog extends Component{
                     ):(dogs.length===0 ? (
                         <h3><i className="fas fa-paw"></i> Sorry, there are no dogs available for adoption at the moment <i className="fas fa-paw"></i></h3>
                     ) : (
-                        dogs.map(dog=><Card {...this.props} details={dog} isThumbnail={true} key={dogs._id}/>)
+                        dogs.map(dog=><Card {...this.props} details={dog} isThumbnail={true} key={dogs._id} />)
                     ))
                 }
                 </section>

@@ -11,6 +11,7 @@ import RegisterWithContext from '../views/Register';
 import LogoutWithContext from '../views/Logout';
 import Catalog from '../views/Catalog';
 import Details from '../views/Details';
+import Profile from '../views/Profile';
 import Dashboard from '../views/Dashboard';
 import NotFound from '../views/NotFound';
 
@@ -174,6 +175,10 @@ class App extends Component {
                   path='/details/:id' 
                   component={Details}
                 />
+                <Route 
+                path='/profile' 
+                component={Profile}
+              />
                 <Route 
                   path='/dashboard' 
                   component={Dashboard} 

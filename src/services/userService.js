@@ -43,7 +43,8 @@ class userService {
         localStorage.setItem('authtoken', body._kmd.authtoken);
         localStorage.setItem('userId', body._id);
         localStorage.setItem('username', body.username);
-        localStorage.setItem('isAdmin', isAdmin)
+        localStorage.setItem('isAdmin', isAdmin);
+        localStorage.setItem('checked', []);
       }
 
       clearStoredData=()=>{

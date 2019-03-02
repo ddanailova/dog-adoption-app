@@ -100,7 +100,6 @@
 .site-catalog,
 .admin .site-index,
 .user .site-index,
-.site-details,
 .site-details {
     padding: 2rem 4rem;
     display: flex;
@@ -172,3 +171,28 @@
     font-size:5rem;
     color: orange
 }
+
+@media screen and (max-width:1200px) {
+    .site-details .card{
+        width: 80%;
+    }
+}
+
+
+@media screen and (max-width:900px) {
+    .site-details .card{
+        width: 100%;
+    }
+    .site-catalog,
+    .admin .site-index,
+    .user .site-index,
+    .site-details {
+        padding: 2rem 2rem;
+      
+    }
+}
+/* @media screen and (max-width:700px) {
+    .site-details .card{
+        width: 100%;
+    }
+} */

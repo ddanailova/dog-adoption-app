@@ -11,7 +11,7 @@ const CardContent =(props)=>{
         return (
             <div className="content">
             <h3>Hello, my name is {name}</h3>
-            <Link to={`/details/${_id}`} className="button button-revelse">Details</Link>
+            <Link to={`/details/${_id}`} className="button button-revelse" >Details</Link>
         </div>
         )
     }

@@ -47,14 +47,18 @@ class Details extends Component{
 
 
     render(){
-        const {selectedItem,isLoading}=this.state;
+        const {selectedItem,isLoaing}=this.state;
         return (
             <main className='site-content user'>
                 <section className="site-details">
-                {isLoading ? (
-                        <h3><i className="fas fa-paw"></i> Loading ........ <i className="fas fa-paw"></i></h3>
-                    ) :( <CardWithContext {...this.props} details={selectedItem} />)
-                }
+                    {
+                        isLoaing ? (
+                            <h3><i className="fas fa-paw"></i> Loading ........ <i className="fas fa-paw"></i></h3>
+                        ) : (
+                            
+                            <CardWithContext {...this.props} details={selectedItem} />
+                        )
+                    }
                 </section>
             </main>
         )
