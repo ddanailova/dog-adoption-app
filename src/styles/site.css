@@ -54,7 +54,7 @@
 }
 
 .site-content {
-    min-height: 80vh;
+    min-height: 77vh;
 }
 
 .site-content a:not(.button),
@@ -150,21 +150,25 @@
     color:#999;
 }
 
+/*For messages*/
 .toast-container {
     font-size: 0.9rem;
     text-align: center;
-    padding: 0 1rem;
-    opacity: 0.9;
+    padding: 1rem;
+    opacity: 0.8;
 }
 
+/*For Page Not Found*/
 .not-found {
     text-align: center;
-    padding-top:10rem; 
+    padding-top:8rem; 
+    height: 100%;
 }
 .not-found h2{
     font-size:3rem;
+    color:white
 }
 .not-found i{
-    font-size:4rem;
+    font-size:5rem;
     color: orange
 }
