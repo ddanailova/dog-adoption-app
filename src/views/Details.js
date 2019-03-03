@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {UserContext} from '../components/contexts/userContext';
 import toast from 'react-toastify';
+import {DogContext} from '../components/contexts/dogContext'
 import dogService from '../services/dogService';
 import CardWithContext from './../components/Card';
 
@@ -17,32 +17,55 @@ class Details extends Component{
     }
     static DogService = new dogService();
 
+    checkIfDogIsChecked=()=>{
+        const {id}= this.props.match.params;
+        const {checkedDogs}=this.props;
+
+        if (checkedDogs.length !== 0) {
+           return checkedDogs.find(dog => dog._id === id);
+        }
+        return false;
+    }
+
     componentDidMount(){
         const {id}= this.props.match.params;
-        Details.DogService.getById(id)
-        .then(resBody=>{
-            if(resBody.error){
-                toast.error(resBody.description, {
-                    closeButton: false,
-                    autoClose: false
+        const {updateCheckedDogs}=this.props;
+        const dog=this.checkIfDogIsChecked();
+            if(dog){
+                this.setState({
+                    selectedItem: dog,
+                    isLoaing: false
                 })
             }else{
-                this.setState({
-                    selectedItem:resBody,
-                    isLoaing:false
+                Details.DogService.getById(id)
+                .then(resBody => {
+                    if (resBody.error) {
+                        toast.error(resBody.description, {
+                            closeButton: false,
+                            autoClose: false
+                        })
+                    } else {
+                        console.log(typeof updateCheckedDogs)
+                        updateCheckedDogs(resBody);
+
+                        this.setState({
+                            selectedItem: resBody,
+                            isLoaing: false
+                        })
+                    }
                 })
-            }
-        })
-        .catch(err=>{
-            console.log(err);
-            this.setState({
-                isLoading:false
-            });
-            toast.error('Sorry, something went wrong with the server. We are working on it!', {
-                closeButton: false,
-                autoClose: false
+                .catch(err => {
+                    console.log(err);
+                    this.setState({
+                        isLoading: false
+                    });
+                    toast.error('Sorry, something went wrong with the server. We are working on it!', {
+                        closeButton: false,
+                        autoClose: false
+                    }
+                )
             })
-        })
+        }
     }
 
 
@@ -65,26 +88,19 @@ class Details extends Component{
     }
 }
 
-// const DetailsWithContext =(props)=>{
-//     return(
-//         <UserContext.Consumer>
-//             {
-//                 ({isAdmin})=>{
-//                     let buttons = ['adopt'];
-//                     let note='If you press the Adopt button we will get in touch with you for more details before proceeding with your request.';
+const DetailsWithContext =(props)=>{
+    return(
+        <DogContext.Consumer>
+            {
+                ({checkedDogs, updateCheckedDogs})=>{
+                    return(
+                        <Details {...props} checkedDogs={checkedDogs} updateCheckedDogs={updateCheckedDogs}/>
+                    )
+                }
+            }
+        </DogContext.Consumer>
+    )
+}
 
-//                     if(isAdmin){
-//                         buttons=['edit','delete'];
-//                         note='Pressing Delete button is irreversible. Please proceed with caution!'
-//                     }
-//                     return(
-//                         <Details {...props} buttons={buttons} note={note}/>
-//                     )
-//                 }
-//             }
-//         </UserContext.Consumer>
-//     )
-// }
-
-
-export default Details;
+export {Details}
+export default DetailsWithContext;

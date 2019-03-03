@@ -99,12 +99,17 @@
 
 .site-catalog,
 .admin .site-index,
-.user .site-index,
-.site-details {
+.user .site-index {
     padding: 2rem 4rem;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
+}
+
+.site-details{
+    display: block;
+    text-align: center;
+    padding: 2rem 0;
 }
 
 .site-catalog h1,
@@ -128,7 +133,9 @@
 
 .site-details .card{
     width: 60%;
+    margin: 0 auto;
 }
+
 
 .site-details h2 {
     color:#333;
@@ -149,6 +156,27 @@
     color:#999;
 }
 
+.watch-list{
+    width:60%;
+    margin: 0 auto;
+    margin-top: 3rem;
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+.watch-list h2, h5,hr {
+    flex:1 0 100%;
+}
+.watch-list .card{
+    flex:0 0 26%;
+    margin-bottom: 2rem;
+}
+
+.watch-list hr{
+    margin: 0 auto;
+    margin-bottom:2rem;
+}
 /*For messages*/
 .toast-container {
     font-size: 0.9rem;
@@ -173,6 +201,11 @@
 }
 
 @media screen and (max-width:1200px) {
+
+    .watch-list .card{
+        flex:0 0 45%;
+    }
+
     .site-details .card{
         width: 80%;
     }
@@ -180,6 +213,12 @@
 
 
 @media screen and (max-width:900px) {
+    .watch-list {
+        display: block;
+    }
+    .watch-list .card{
+        width: 100%;
+    }
     .site-details .card{
         width: 100%;
     }
@@ -188,7 +227,6 @@
     .user .site-index,
     .site-details {
         padding: 2rem 2rem;
-      
     }
 }
 /* @media screen and (max-width:700px) {

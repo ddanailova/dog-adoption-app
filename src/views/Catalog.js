@@ -52,14 +52,13 @@ class Catalog extends Component{
             <main className='site-content user'>
                 <section className="site-index">
                 <h1>Dogs available for adoption</h1>
-                <hr/>
                 {
                     isLoading ? (
                         <h3><i className="fas fa-paw"></i> Loading ........ <i className="fas fa-paw"></i></h3>
                     ):(dogs.length===0 ? (
                         <h3><i className="fas fa-paw"></i> Sorry, there are no dogs available for adoption at the moment <i className="fas fa-paw"></i></h3>
                     ) : (
-                        dogs.map(dog=><Card {...this.props} details={dog} isThumbnail={true} key={dogs._id} />)
+                        dogs.map(dog=><Card {...this.props} details={dog} isThumbnail={true} key={dog._id} />)
                     ))
                 }
                 </section>

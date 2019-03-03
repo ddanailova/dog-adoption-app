@@ -1,4 +1,4 @@
-import {post} from '../data/requester'
+import {post, get} from '../data/requester'
 const ADMINROLEID = 'b4bf1116-2fb3-4a53-87fe-0a518453c892';
 
 class userService {
@@ -27,6 +27,11 @@ class userService {
         return post('user', '_logout', 'kinvey', logoutData)
       }
 
+      getUserById =(id)=>{
+        return get('user', id, 'kinvey')
+        .then(rawData=>rawData.json())
+      }
+
       isUserAdmin=(body)=>{
         let isAdmin = false;
         if(body._kmd.roles){
@@ -44,7 +49,6 @@ class userService {
         localStorage.setItem('userId', body._id);
         localStorage.setItem('username', body.username);
         localStorage.setItem('isAdmin', isAdmin);
-        localStorage.setItem('checked', []);
       }
 
       clearStoredData=()=>{

@@ -1,8 +1,8 @@
 import {createContext} from 'react';
 
 const defaultDogState = { 
-    selectedDog:{},
-    selectDog(){}
+    checkedDogs:[],
+    updateCheckedDogs(){}
 };
 const DogContext = createContext(defaultDogState);
 

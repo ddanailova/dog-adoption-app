@@ -10,14 +10,15 @@ import LoginWithContext from '../views/Login';
 import RegisterWithContext from '../views/Register';
 import LogoutWithContext from '../views/Logout';
 import Catalog from '../views/Catalog';
-import Details from '../views/Details';
-import Profile from '../views/Profile';
+import DetailsWithContext from '../views/Details';
+import ProfileWithDogContext from '../views/Profile';
 import Dashboard from '../views/Dashboard';
 import NotFound from '../views/NotFound';
 
 import HeaderWithContext from '../components/Header';
 import Footer from '../components/Footer';
 import {defaultUserState, UserContext} from '../components/contexts/userContext';
+import {defaultDogState, DogContext} from '../components/contexts/dogContext';
 
 import './App.css';
 
@@ -27,19 +28,33 @@ class App extends Component {
 
     this.state = {
       user:defaultUserState,
+      dogs:{
+        checkedDogs:defaultDogState.checkedDogs,
+        updateCheckedDogs:this.updateCheckedDogs
+      }
     }
   }
   
   static authService= new userService();
 
-  componentDidMound(){
-    
+  componentWillUnmount(){
+    this.updateCheckedDogs();
   }
 
   updateUser =(userData)=>{
-    this.setState({userData})
+    this.setState({user:userData})
   }
 
+  updateCheckedDogs =(dogData)=>{
+      this.setState(prevState=>(
+        {
+          dogs:{
+            checkedDogs:[...prevState.dogs.checkedDogs, dogData],
+            updateCheckedDogs:this.updateCheckedDogs
+          }
+        }
+      ));
+  }
   register =(userData)=>{
 
     App.authService.register(userData).then((resBody)=>{
@@ -130,7 +145,11 @@ class App extends Component {
             username:null,
             isAdmin:false,
             updateUser:defaultUserState.updateUser
-          }
+          },
+          // dogs:{
+          //   checkedDogs:defaultDogState.checkedDogs,
+          //   updateCheckedDogs:this.updateCheckedDogs
+          // }
         })
       }
     }).catch(err=>{
@@ -143,10 +162,11 @@ class App extends Component {
   }
 
   render() {
-    const {user, dog}=this.state;
+    const {user, dogs}=this.state;
     return (
       <Router>
         <UserContext.Provider value={user}>
+        <DogContext.Provider value={dogs}>       
           <div className="site">
             <HeaderWithContext />
             <ToastContainer className='toast-container'/>
@@ -173,11 +193,11 @@ class App extends Component {
                 />
                 <Route 
                   path='/details/:id' 
-                  component={Details}
+                  component={DetailsWithContext}
                 />
                 <Route 
                 path='/profile' 
-                component={Profile}
+                component={ProfileWithDogContext}
               />
                 <Route 
                   path='/dashboard' 
@@ -189,6 +209,7 @@ class App extends Component {
               </Switch>
             <Footer/>
           </div>
+          </DogContext.Provider>
         </UserContext.Provider>
       </Router>
     );

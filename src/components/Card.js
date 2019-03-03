@@ -3,12 +3,17 @@ import {UserContext} from '../components/contexts/userContext';
 import CardContent from './CardContent';
 
 const Card =(props)=>{
-    const {imageUrl} =props.details;
+    const {details, isProfile}=props;
+    
     return (
         <div className="card">
-            <div className="media">
-                <img src={imageUrl} alt="Dog"/>
-            </div>
+            {
+                !isProfile? (
+                    <div className="media">
+                        <img src={details.imageUrl} alt="Dog"/>
+                    </div>
+                ):null
+            }
             <CardContent {...props}/>
         </div>
     )
