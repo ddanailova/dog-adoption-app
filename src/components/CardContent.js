@@ -3,8 +3,15 @@ import {Link} from 'react-router-dom';
 
 
 const CardContent =(props)=>{
-    const {details, buttons, note, isThumbnail, isProfile}=props;
-    
+    const {details, buttons, note, isThumbnail, isProfile, remove}=props;
+    const handleClickButton =(ev)=>{
+        const buttonType =ev.target.text;
+        switch(buttonType){
+            case 'delete': 
+                remove(details._id);
+                break;
+        }
+    }
     if(isThumbnail){
         return (
             <div className="content">
@@ -35,15 +42,18 @@ const CardContent =(props)=>{
             <hr/>
             <p><span>Breed: </span>{details.breed}</p>
             <p><span>Age: </span>{details.age}</p>
+            <p><span>Status: </span>{details.status}</p>
             <p><span>Story: </span>{details.story}</p>
             {
                 buttons.map(button=>{
-                    let classCancelle =''
+                    let classCancelle ='';
+                    let path=`/${button}`
                     if(button==='delete'){
-                        classCancelle='cancelle'
+                        classCancelle='cancelle';
+                        path='/'
                     }
                     return(
-                        <Link to={`/${button}`} key={button} className={`button button-revelse ${classCancelle}`}>{button}</Link>
+                        <Link to={path} key={button} className={`button button-revelse ${classCancelle}`} onClick={handleClickButton}>{button}</Link>
                         )}
                     )
             }

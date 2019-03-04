@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import staticData from '../constants/staticData.js'
 
 class BindingForm extends Component {
     constructor(props){
@@ -9,27 +10,12 @@ class BindingForm extends Component {
         }
     }
 
-    iconsList = {
-        username:'fas fa-user',
-        password:'fas fa-key',
-        'repeat-password':'fas fa-key',
-        'full-name':'fas fa-user',
-        email:'fas fa-envelope',
-        phone:'fas fa-phone'
-    }
-
-    errorMassages = {
-        username:'User name must be 3 to 15 symbols',
-        password:'Password must be 5 to 10 symbols',
-        'repeat-password':'Passwords should match',
-        'full-name':'Full name must be 5 to 25 symbols',
-        email:'Please provide a valid email',
-        phone:'Please provide a valid phone number'
-    }
+    static iconsList = staticData.iconsList;
+    static errorMassages =staticData.errorMassages;
 
     componentDidMount(){
         this.props.children.forEach(child=>{
-            if(child.type==='input'){
+            if(child.type==='input' || child.type==='select'|| child.type==='textarea'){
                 this.setState({
                     [child.props.name]:null,
                 })
@@ -50,7 +36,7 @@ class BindingForm extends Component {
         const {name}=target
         if(!target.validity.valid){
             this.setState({
-                errors:{[name]:this.errorMassages[name]}
+                errors:{[name]:BindingForm.errorMassages[name]}
             })
         }else{
             this.setState({
@@ -65,9 +51,9 @@ class BindingForm extends Component {
             <h2>{this.props.formType}</h2>
                 {
                     React.Children.map(this.props.children,(child)=>{
-                        if(child.type === 'input'){
+                        if(child.type === 'input' || child.type==='select'|| child.type==='textarea'){
                             const inputName =child.props.name;
-                            const icon = this.iconsList[inputName];
+                            const icon = BindingForm.iconsList[inputName];
                             let newChild = React.cloneElement(child,{onChange:this.handleChange, ...child.props} )
                             return (
                                 <p className="field">
@@ -77,18 +63,29 @@ class BindingForm extends Component {
                                     <span className="form-error">{this.state.errors[inputName]}</span>
                                     :null
                                 }
-                                <span className="input">
-                                    {newChild}
-                                    <span className="actions"></span>
-                                    <i className={icon}></i>
-                                </span>
+                                {
+                                    (child.type === 'input') ? (
+                                        <span className="input">
+                                            {newChild}
+                                            <span className="actions"></span>
+                                            <i className={icon}></i>
+                                        </span>
+                                        ) : (
+                                            newChild
+                                    )
+                                }
                             </p>
                             )
                         }
                         return child;
                     })
                 }
-                <button className="button">{this.props.formType}</button>
+                { localStorage.getItem('username')?(
+                    <button className="button button-revelse">{this.props.formType}</button>
+
+                ):(
+                    <button className="button">{this.props.formType}</button>
+                )}
             </form>
         )
     }

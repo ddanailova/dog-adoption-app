@@ -10,7 +10,7 @@ const Card =(props)=>{
             {
                 !isProfile? (
                     <div className="media">
-                        <img src={details.imageUrl} alt="Dog"/>
+                        <img src={details['image-url']} alt="Dog"/>
                     </div>
                 ):null
             }

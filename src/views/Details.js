@@ -29,43 +29,38 @@ class Details extends Component{
 
     componentDidMount(){
         const {id}= this.props.match.params;
-        const {updateCheckedDogs}=this.props;
+        const {updateCheckedDogs, getById}=this.props;
         const dog=this.checkIfDogIsChecked();
-            if(dog){
-                this.setState({
-                    selectedItem: dog,
-                    isLoaing: false
-                })
-            }else{
-                Details.DogService.getById(id)
-                .then(resBody => {
-                    if (resBody.error) {
-                        toast.error(resBody.description, {
-                            closeButton: false,
-                            autoClose: false
-                        })
-                    } else {
-                        console.log(typeof updateCheckedDogs)
-                        updateCheckedDogs(resBody);
 
-                        this.setState({
-                            selectedItem: resBody,
-                            isLoaing: false
-                        })
-                    }
-                })
-                .catch(err => {
-                    console.log(err);
-                    this.setState({
-                        isLoading: false
-                    });
-                    toast.error('Sorry, something went wrong with the server. We are working on it!', {
+        Details.DogService.getById(id)
+            .then(resBody => {
+                if (resBody.error) {
+                    toast.error(resBody.description, {
                         closeButton: false,
                         autoClose: false
+                    })
+                } else {
+                    if(!dog){
+                        updateCheckedDogs(resBody);
                     }
-                )
+
+                    this.setState({
+                        selectedItem: resBody,
+                        isLoaing: false
+                    })
+                }
             })
-        }
+            .catch(err => {
+                console.log(err);
+                this.setState({
+                    isLoading: false
+                });
+                toast.error('Sorry, something went wrong with the server. We are working on it!', {
+                    closeButton: false,
+                    autoClose: false
+                }
+            )
+        })
     }
 
 

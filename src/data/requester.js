@@ -39,6 +39,7 @@ function update (module, endpoint, auth, data, options) {
 }
 // Function to return DELETE promise
 function remove (module, endpoint, auth, options) {
+    console.log(makeRequest('DELETE', auth, options))
     return fetch(makeUrl(module, endpoint),makeRequest('DELETE', auth, options));
 }
 export {

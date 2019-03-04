@@ -4,11 +4,14 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import userService from '../services/userService';
+import dogService from '../services/dogService';
 
 import HomeWithContext from '../views/Home';
 import LoginWithContext from '../views/Login';
 import RegisterWithContext from '../views/Register';
 import LogoutWithContext from '../views/Logout';
+import CreateWithContext from '../views/Create';
+import EditWithContext from '../views/Create';
 import Catalog from '../views/Catalog';
 import DetailsWithContext from '../views/Details';
 import ProfileWithDogContext from '../views/Profile';
@@ -36,25 +39,17 @@ class App extends Component {
   }
   
   static authService= new userService();
+  static dogService= new dogService();
 
   componentWillUnmount(){
     this.updateCheckedDogs();
   }
 
+    // for the user
   updateUser =(userData)=>{
     this.setState({user:userData})
   }
 
-  updateCheckedDogs =(dogData)=>{
-      this.setState(prevState=>(
-        {
-          dogs:{
-            checkedDogs:[...prevState.dogs.checkedDogs, dogData],
-            updateCheckedDogs:this.updateCheckedDogs
-          }
-        }
-      ));
-  }
   register =(userData)=>{
 
     App.authService.register(userData).then((resBody)=>{
@@ -161,6 +156,71 @@ class App extends Component {
     })
   }
 
+  //for the dogs
+
+  updateCheckedDogs =(dogData)=>{
+    this.setState(prevState=>(
+      {
+        dogs:{
+          checkedDogs:[...prevState.dogs.checkedDogs, dogData],
+          updateCheckedDogs:this.updateCheckedDogs
+        }
+      }
+    ));
+  }
+
+  create =(dogData)=>{
+    App.dogService.create(dogData)
+    .then(resBody=>{
+      if(resBody.error){
+        toast.error(resBody.description , {
+          closeButton: false,
+          autoClose: 6000
+        });
+      }else{
+        toast.success(`You have successfully created a card for ${resBody.name}!`, {
+          closeButton: false,
+          position: toast.POSITION.BOTTOM_RIGHT,
+          autoClose: 3000
+        });
+      }
+    }).catch(err=>{
+      console.log(err);
+      toast.error('Sorry, something went wrong with the server. We are working on it!', {
+          closeButton: false,
+          autoClose: false
+      })
+    })
+  }
+
+  remove=(id)=>{
+    App.dogService.remove(id)
+    .then(resBody=>{
+      if(resBody.error){
+        toast.error(resBody.description , {
+          closeButton: false,
+          autoClose: 6000
+        });
+      }else{
+        toast.success(`You have successfully deleted ${resBody.name}'s card!`, {
+          closeButton: false,
+          position: toast.POSITION.BOTTOM_RIGHT,
+          autoClose: 3000
+        });
+      }
+    }).catch(err=>{
+      console.log(err);
+      toast.error('Sorry, something went wrong with the server. We are working on it!', {
+          closeButton: false,
+          autoClose: false
+      })
+    })
+  }
+
+  edit=()=>{
+
+  }
+
   render() {
     const {user, dogs}=this.state;
     return (
@@ -192,8 +252,16 @@ class App extends Component {
                   render={(props)=><Catalog {...props} selectDog={this.selectDog}/>} 
                 />
                 <Route 
+                  path='/create' 
+                  render={(props)=><CreateWithContext {...props} create={this.create}/>} 
+                />
+                <Route 
+                path='/edit' 
+                render={(props)=><EditWithContext {...props} create={this.edit}/>} 
+              />
+                <Route 
                   path='/details/:id' 
-                  component={DetailsWithContext}
+                  render={(props)=><DetailsWithContext {...props} remove={this.remove} getById={this.getById}/>}
                 />
                 <Route 
                 path='/profile' 

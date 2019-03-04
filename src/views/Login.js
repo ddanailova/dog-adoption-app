@@ -28,6 +28,7 @@ const Login =(props) =>{
                         name="username"
                         minLength="3"
                         maxLength="15"
+                        required
                     />
                     <input 
                         type="password" 
@@ -35,6 +36,7 @@ const Login =(props) =>{
                         name="password"
                         minLength="5"
                         maxLength="15"
+                        required
                     />
                 </BindingForm>
             </section>
