@@ -1,4 +1,4 @@
-import {get, post, put, remove} from '../data/requester';
+import {get, post, update, remove} from '../data/requester';
 
 class dogService {
 
@@ -15,6 +15,12 @@ class dogService {
 
     create =(data)=>{
         return post('appdata', 'dogs', 'kinvey', data)
+        .then(rawData=>rawData.json())
+    }
+
+    update =(id,data)=>{
+        const endpoint = `dogs/${id}`
+        return update('appdata', endpoint, 'kinvey', data)
         .then(rawData=>rawData.json())
     }
 

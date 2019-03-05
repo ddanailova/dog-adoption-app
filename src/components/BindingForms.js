@@ -1,11 +1,13 @@
 import React, {Component} from 'react';
-import staticData from '../constants/staticData.js'
+import staticData from '../constants/staticData.js';
+import isEqual from 'react-fast-compare';
 
 class BindingForm extends Component {
     constructor(props){
         super(props);
 
         this.state={
+            initialState:{},
             errors:{}
         }
     }
@@ -13,11 +15,33 @@ class BindingForm extends Component {
     static iconsList = staticData.iconsList;
     static errorMassages =staticData.errorMassages;
 
+    // shouldComponentUpdate(nextProps, nextState) {
+    //     return !isEqual(nextProps.initialState, this.props.initialState);
+    // }
+
+    static getDerivedStateFromProps(props, state){
+
+        if(!props.initialState){
+            return state;
+        }else if(Object.keys(props.initialState).length !==0 && !isEqual(props.initialState,state.initialState)){
+            return {
+                ...props.initialState,
+                errors:{},
+                initialState:props.initialState
+            }
+        }
+        return state;
+    }
     componentDidMount(){
+        const {initialState} = this.props;
+        if(initialState){
+
+        }
         this.props.children.forEach(child=>{
             if(child.type==='input' || child.type==='select'|| child.type==='textarea'){
                 this.setState({
-                    [child.props.name]:null,
+                    [child.props.name]:'',
+                    initialState:{}
                 })
             }
         });
@@ -54,7 +78,7 @@ class BindingForm extends Component {
                         if(child.type === 'input' || child.type==='select'|| child.type==='textarea'){
                             const inputName =child.props.name;
                             const icon = BindingForm.iconsList[inputName];
-                            let newChild = React.cloneElement(child,{onChange:this.handleChange, ...child.props} )
+                            let newChild = React.cloneElement(child,{value:this.state[inputName],onChange:this.handleChange, ...child.props} )
                             return (
                                 <p className="field">
                                 <label htmlFor={inputName}>{inputName.replace('-', ' ')}</label>

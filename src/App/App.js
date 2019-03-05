@@ -11,7 +11,7 @@ import LoginWithContext from '../views/Login';
 import RegisterWithContext from '../views/Register';
 import LogoutWithContext from '../views/Logout';
 import CreateWithContext from '../views/Create';
-import EditWithContext from '../views/Create';
+import EditWithContext from '../views/Edit';
 import Catalog from '../views/Catalog';
 import Details from '../views/Details';
 import ProfileWithDogContext from '../views/Profile';
@@ -38,7 +38,7 @@ class App extends Component {
   static DogService= new dogService();
 
   componentWillUnmount(){
-    this.updateCheckedDogs();
+    
   }
 
     // for the user
@@ -201,7 +201,15 @@ class App extends Component {
         } else {
 
             this.setState({
-                selectedItem:resBody,
+                selectedItem:{
+                  name:resBody.name,
+                  breed:resBody.breed,
+                  age:resBody.age,
+                  'image-url':resBody['image-url'],
+                  status:resBody.status,
+                  story:resBody.story,
+                  '_id':resBody._id
+              },
             })
         }
     })
@@ -225,6 +233,30 @@ class App extends Component {
         });
       }else{
         toast.success(`You have successfully created a card for ${resBody.name}!`, {
+          closeButton: false,
+          position: toast.POSITION.BOTTOM_RIGHT,
+          autoClose: 3000
+        });
+      }
+    }).catch(err=>{
+      console.log(err);
+      toast.error('Sorry, something went wrong with the server. We are working on it!', {
+          closeButton: false,
+          autoClose: false
+      })
+    })
+  }
+
+  edit =(id,dogData)=>{
+    App.DogService.update(id,dogData)
+    .then(resBody=>{
+      if(resBody.error){
+        toast.error(resBody.description , {
+          closeButton: false,
+          autoClose: 6000
+        });
+      }else{
+        toast.success(`You have successfully edited a card for ${resBody.name}!`, {
           closeButton: false,
           position: toast.POSITION.BOTTOM_RIGHT,
           autoClose: 3000
@@ -263,9 +295,6 @@ class App extends Component {
     })
   }
 
-  edit=()=>{
-
-  }
 
   render() {
     const {user}=this.state;
@@ -302,8 +331,8 @@ class App extends Component {
                   render={(props)=><CreateWithContext {...props} create={this.create}/>} 
                 />
                 <Route 
-                path='/edit' 
-                render={(props)=><EditWithContext {...props} create={this.edit}/>} 
+                path='/edit/:id' 
+                render={(props)=><EditWithContext {...props} edit={this.edit} getDogById={this.getDogById}/>} 
               />
                 <Route 
                   path='/details/:id' 

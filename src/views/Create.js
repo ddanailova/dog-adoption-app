@@ -9,7 +9,16 @@ import staticData from '../constants/staticData.js';
 
 const Create =(props) =>{
     const {isAdmin, create}=props;
-
+    const breeds = staticData.breeds;
+    const statuses= staticData.statuses;
+    let initialState={
+        name:'',
+        breed:'mix',
+        age:'',
+        'image-url':'',
+        status:'available',
+        story:''
+    }
     const handelSubmit = (ev, data)=>{
         ev.preventDefault();
         if(!Object.keys(data.errors).length){
@@ -28,17 +37,18 @@ const Create =(props) =>{
                 create(dogData);
         }
     }
-    const breeds = staticData.breeds;
-    const statuses= staticData.statuses;
 
     if(!isAdmin){
        return <Redirect to="/"/>
     }
     return (
-
         <main className='site-content admin'>
             <section className="site-create">
-                <BindingForm formType='create' onSubmit={handelSubmit}>
+                <BindingForm 
+                    formType='create' 
+                    onSubmit={handelSubmit}
+                    initialState={initialState}
+                >
                    <input 
                         type="text" 
                         id="name" 
@@ -49,7 +59,6 @@ const Create =(props) =>{
                     <select 
                         id="breed" 
                         name="breed"
-                        defaultValue="mix"
                     >
                         {breeds.map(breed=>(<option key={breed}>{breed}</option>))}
                     </select>
@@ -62,7 +71,7 @@ const Create =(props) =>{
                         max="15"
                     />
                     <input 
-                        type="imageUrl" 
+                        type="text" 
                         id="image-url" 
                         name="image-url"
                         pattern="(http)?s?:?(\/\/[^']*\.(?:png|jpg|jpeg|gif|png|svg))"
@@ -70,7 +79,6 @@ const Create =(props) =>{
                     <select 
                         id="status" 
                         name="status"
-                        defaultValue="available"
                     >
                         {statuses.map(status=>(<option key={status}>{status}</option>))}
                     </select>

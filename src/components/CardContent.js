@@ -52,7 +52,7 @@ const CardContent =(props)=>{
             {
                 buttons.map(button=>{
                     let classCancelle ='';
-                    let path=`/${button}`
+                    let path=`/${button}/${details._id}`
                     if(button==='delete'){
                         classCancelle='cancelle';
                         path='/'
