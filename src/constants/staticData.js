@@ -30,7 +30,7 @@ const staticData = {
         age:'Age must be a number from 0 to 15',
         'image-url':'Please provide a valid URL',
         status:'Status field is required',
-        story:'Story field is required'
+        story:'Story must up to symbols'
     },
     statuses:[
         'available',

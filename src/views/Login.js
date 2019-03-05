@@ -2,16 +2,24 @@ import React from 'react';
 import {Redirect} from 'react-router-dom'
 import BindingForm from '../components/BindingForms';
 import {UserContext} from '../components/contexts/userContext';
+import { toast } from 'react-toastify';
 
 const Login =(props) =>{
     const {username, login}=props;
     const handelSubmit = (ev, data)=>{
         ev.preventDefault();
-        const userData = {
-            username:data.username,
-            password:data.password
-        };
-        login(userData);
+        if(!Object.keys(data.errors).length){
+            toast.error('Please fill in all form fields!' , {
+                closeButton: false,
+                autoClose:6000
+            });
+        }else{
+            const userData = {
+                username:data.username,
+                password:data.password
+            };
+            login(userData);
+        }
     }
 
     if(username){
@@ -28,7 +36,6 @@ const Login =(props) =>{
                         name="username"
                         minLength="3"
                         maxLength="15"
-                        required
                     />
                     <input 
                         type="password" 
@@ -36,7 +43,6 @@ const Login =(props) =>{
                         name="password"
                         minLength="5"
                         maxLength="15"
-                        required
                     />
                 </BindingForm>
             </section>

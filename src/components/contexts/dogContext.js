@@ -1,8 +1,10 @@
 import {createContext} from 'react';
-
+const dogDataFromStorage = JSON.parse(localStorage.getItem('selectedDog'));
 const defaultDogState = { 
-    checkedDogs:[],
-    updateCheckedDogs(){}
+    selectedDog:dogDataFromStorage || null,
+    updateSelectedDog(){}
+    // checkedDogs:[],
+    // updateCheckedDogs(){}
 };
 const DogContext = createContext(defaultDogState);
 

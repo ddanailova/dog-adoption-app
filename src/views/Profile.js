@@ -61,11 +61,11 @@ class Profile extends Component{
                     <h2>Watch List</h2>
                     <hr/>
                     {
-                        (checkedDogs.length === 0) ? (
-                            <h5> You have nothing in your watch list yet.</h5>
-                        ) : (
-                                checkedDogs.map(dog=><Card {...this.props} details={dog} isThumbnail={true} key={dog._id} />)
-                        )
+                        // (checkedDogs.length === 0) ? (
+                        //     <h5> You have nothing in your watch list yet.</h5>
+                        // ) : (
+                        //         checkedDogs.map(dog=><Card {...this.props} details={dog} isThumbnail={true} key={dog._id} />)
+                        // )
                     }
                     </section>
                     </Fragment>

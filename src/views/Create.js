@@ -1,22 +1,32 @@
 import React from 'react';
 import {Redirect} from 'react-router-dom'
+import { toast } from 'react-toastify';
+
 import BindingForm from '../components/BindingForms';
 import {UserContext} from '../components/contexts/userContext';
-import staticData from '../constants/staticData.js'
+import staticData from '../constants/staticData.js';
+
 
 const Create =(props) =>{
     const {isAdmin, create}=props;
+
     const handelSubmit = (ev, data)=>{
         ev.preventDefault();
-        const dogData = {
-            name:data.name,
-            breed:data.breed || 'mix',
-            age:data.age,
-            'image-url':data['image-url'],
-            status:data.status || 'available',
-            story:data.story
-        };
-        create(dogData);
+        if(!Object.keys(data.errors).length){
+            toast.error('Please fill in all form fields!' , {
+                closeButton: false,
+                autoClose:6000
+            })}else{
+                const dogData = {
+                    name:data.name,
+                    breed:data.breed || 'mix',
+                    age:data.age,
+                    'image-url':data['image-url'],
+                    status:data.status || 'available',
+                    story:data.story
+                };
+                create(dogData);
+        }
     }
     const breeds = staticData.breeds;
     const statuses= staticData.statuses;
@@ -35,13 +45,11 @@ const Create =(props) =>{
                         name="name"
                         minLength="2"
                         maxLength="10"
-                        required
                     />
                     <select 
                         id="breed" 
                         name="breed"
                         defaultValue="mix"
-                        required
                     >
                         {breeds.map(breed=>(<option key={breed}>{breed}</option>))}
                     </select>
@@ -52,20 +60,17 @@ const Create =(props) =>{
                         name="age"
                         min="0"
                         max="15"
-                        required
                     />
                     <input 
                         type="imageUrl" 
                         id="image-url" 
                         name="image-url"
                         pattern="(http)?s?:?(\/\/[^']*\.(?:png|jpg|jpeg|gif|png|svg))"
-                        required
                     />
                     <select 
                         id="status" 
                         name="status"
                         defaultValue="available"
-                        required
                     >
                         {statuses.map(status=>(<option key={status}>{status}</option>))}
                     </select>
@@ -73,7 +78,8 @@ const Create =(props) =>{
                         type="text" 
                         id="story" 
                         name="story"
-                        required
+                        minLength="0"
+                        maxLength="500"
                     />
                 </BindingForm>
             </section>

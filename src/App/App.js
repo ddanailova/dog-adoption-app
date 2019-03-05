@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -13,7 +13,7 @@ import LogoutWithContext from '../views/Logout';
 import CreateWithContext from '../views/Create';
 import EditWithContext from '../views/Create';
 import Catalog from '../views/Catalog';
-import DetailsWithContext from '../views/Details';
+import Details from '../views/Details';
 import ProfileWithDogContext from '../views/Profile';
 import Dashboard from '../views/Dashboard';
 import NotFound from '../views/NotFound';
@@ -31,15 +31,11 @@ class App extends Component {
 
     this.state = {
       user:defaultUserState,
-      dogs:{
-        checkedDogs:defaultDogState.checkedDogs,
-        updateCheckedDogs:this.updateCheckedDogs
-      }
     }
   }
   
-  static authService= new userService();
-  static dogService= new dogService();
+  static UserService= new userService();
+  static DogService= new dogService();
 
   componentWillUnmount(){
     this.updateCheckedDogs();
@@ -52,15 +48,15 @@ class App extends Component {
 
   register =(userData)=>{
 
-    App.authService.register(userData).then((resBody)=>{
+    App.UserService.register(userData).then((resBody)=>{
       if(resBody.error){
           toast.error(resBody.description , {
             closeButton: false,
             autoClose: 6000
           });
         }else{
-          let isAdmin = App.authService.isUserAdmin(resBody);
-          App.authService.storeUserData(resBody, isAdmin);
+          let isAdmin = App.UserService.isUserAdmin(resBody);
+          App.UserService.storeUserData(resBody, isAdmin);
           
           toast.success(`Registration successful! Welcome, ${resBody.username}`, {
             closeButton: false,
@@ -86,7 +82,7 @@ class App extends Component {
   }
 
   login=(userData)=>{
-    App.authService.login(userData)
+    App.UserService.login(userData)
     .then(resBody=>{ 
       if(resBody.error){
         toast.error(resBody.description , {
@@ -94,8 +90,8 @@ class App extends Component {
           autoClose: 6000
         });
       }else{
-        let isAdmin = App.authService.isUserAdmin(resBody);
-        App.authService.storeUserData(resBody, isAdmin);
+        let isAdmin = App.UserService.isUserAdmin(resBody);
+        App.UserService.storeUserData(resBody, isAdmin);
   
         toast.success(`Login successful! Welcome back, ${resBody.username}`, {
           closeButton: false,
@@ -121,7 +117,7 @@ class App extends Component {
   }
 
   logout = () => {
-    App.authService.logout()
+    App.UserService.logout()
     .then(response=>{
       if(response.error){
           toast.error(response.description , {
@@ -129,7 +125,7 @@ class App extends Component {
             autoClose: 6000
           });
         }else{
-        App.authService.clearStoredData();
+        App.UserService.clearStoredData();
         toast.success('Logout successful! Come back soon!', {
           closeButton: false,
           position: toast.POSITION.BOTTOM_RIGHT,
@@ -158,19 +154,69 @@ class App extends Component {
 
   //for the dogs
 
-  updateCheckedDogs =(dogData)=>{
-    this.setState(prevState=>(
-      {
-        dogs:{
-          checkedDogs:[...prevState.dogs.checkedDogs, dogData],
-          updateCheckedDogs:this.updateCheckedDogs
+  // updateCheckedDogs =(dogData)=>{
+  //   this.setState(prevState=>(
+  //     {
+  //       dogs:{
+  //         checkedDogs:[...prevState.dogs.checkedDogs, dogData],
+  //         updateCheckedDogs:this.updateCheckedDogs
+  //       }
+  //     }
+  //   ));
+  // }
+  getAllDogs(){
+    App.DogService.getAll()
+        .then(resBody=>{
+            if(resBody.error){
+                toast.error(resBody.description, {
+                    closeButton: false,
+                    autoClose: false
+                })
+            }else{
+                this.setState({
+                    dogs:resBody,
+                    isLoading:false
+                })
+            }
+        })
+        .catch(err=>{
+            console.log(err);
+            this.setState({
+                isLoading:false
+            });
+            toast.error('Sorry, something went wrong with the server. We are working on it!', {
+                closeButton: false,
+                autoClose: false
+            })
+        })
+  }
+  getDogById(id){
+    App.DogService.getById(id)
+    .then(resBody => {
+        if (resBody.error) {
+            toast.error(resBody.description, {
+                closeButton: false,
+                autoClose: false
+            })
+        } else {
+
+            this.setState({
+                selectedItem:resBody,
+            })
         }
-      }
-    ));
+    })
+    .catch(err => {
+        console.log(err);
+        toast.error('Sorry, something went wrong with the server. We are working on it!', {
+            closeButton: false,
+            autoClose: false
+        }
+      )
+    })
   }
 
   create =(dogData)=>{
-    App.dogService.create(dogData)
+    App.DogService.create(dogData)
     .then(resBody=>{
       if(resBody.error){
         toast.error(resBody.description , {
@@ -194,7 +240,7 @@ class App extends Component {
   }
 
   remove=(id)=>{
-    App.dogService.remove(id)
+    App.DogService.remove(id)
     .then(resBody=>{
       if(resBody.error){
         toast.error(resBody.description , {
@@ -202,7 +248,7 @@ class App extends Component {
           autoClose: 6000
         });
       }else{
-        toast.success(`You have successfully deleted ${resBody.name}'s card!`, {
+        toast.success(`You have successfully deleted the card!`, {
           closeButton: false,
           position: toast.POSITION.BOTTOM_RIGHT,
           autoClose: 3000
@@ -222,11 +268,11 @@ class App extends Component {
   }
 
   render() {
-    const {user, dogs}=this.state;
+    const {user}=this.state;
     return (
       <Router>
         <UserContext.Provider value={user}>
-        <DogContext.Provider value={dogs}>       
+        {/*} <DogContext.Provider value={dogs}>  */}     
           <div className="site">
             <HeaderWithContext />
             <ToastContainer className='toast-container'/>
@@ -249,7 +295,7 @@ class App extends Component {
                 />
                 <Route 
                   path='/catalog' 
-                  render={(props)=><Catalog {...props} selectDog={this.selectDog}/>} 
+                  render={(props)=><Catalog {...props} getAllDogs={this.getAllDogs}/>} 
                 />
                 <Route 
                   path='/create' 
@@ -261,7 +307,7 @@ class App extends Component {
               />
                 <Route 
                   path='/details/:id' 
-                  render={(props)=><DetailsWithContext {...props} remove={this.remove} getById={this.getById}/>}
+                  render={(props)=><Details {...props} remove={this.remove}  getDogById={this.getDogById}/>}
                 />
                 <Route 
                 path='/profile' 
@@ -277,7 +323,7 @@ class App extends Component {
               </Switch>
             <Footer/>
           </div>
-          </DogContext.Provider>
+         {/* </DogContext.Provider> */}
         </UserContext.Provider>
       </Router>
     );

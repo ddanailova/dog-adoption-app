@@ -26,7 +26,7 @@ class BindingForm extends Component {
     handleChange=(ev)=>{
         const {name, value}= ev.target;
         this.setState({
-            [name]:value
+            [name]:value,
         })
         this.checkInputValidit(ev)
     }

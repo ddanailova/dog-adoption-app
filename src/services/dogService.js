@@ -23,6 +23,10 @@ class dogService {
         return remove('appdata', endpoint, 'kinvey')
         .then(rawData=>rawData.json())
     }
+
+    saveDogInStorage=(dogData, itemName)=>{
+        localStorage.setItem(itemName, JSON.stringify(dogData));
+    }
 }
 
 export default dogService

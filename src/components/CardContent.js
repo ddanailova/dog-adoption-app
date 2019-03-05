@@ -1,22 +1,27 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 
-
 const CardContent =(props)=>{
     const {details, buttons, note, isThumbnail, isProfile, remove}=props;
+
     const handleClickButton =(ev)=>{
-        const buttonType =ev.target.text;
+        const buttonType =ev.target.text.toLowerCase();
+
         switch(buttonType){
             case 'delete': 
                 remove(details._id);
                 break;
+            default:
+                break;
         }
     }
+    
     if(isThumbnail){
+
         return (
             <div className="content">
             <h3>Hello, my name is {details.name}</h3>
-            <Link to={`/details/${details._id}`} className="button button-revelse">Details</Link>
+            <Link to={`/details/${details._id}` } className="button button-revelse">Details</Link>
         </div>
         )
     }

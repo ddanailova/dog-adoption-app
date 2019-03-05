@@ -9,9 +9,13 @@ const Register =(props)=> {
 
     const handelSubmit = (ev, data)=>{
         ev.preventDefault();
-        
-        if(data.password !== data['repeat-password']){
-            
+
+        if(!Object.keys(data.errors).length){
+            toast.error('Please fill in all form fields!' , {
+                closeButton: false,
+                autoClose:6000
+            });
+        }else if(data.password !== data['repeat-password']){
             toast.error('Both passwords should match!' , {
                 closeButton: false,
                 autoClose:6000
@@ -42,7 +46,6 @@ const Register =(props)=> {
                         name="username"
                         minLength="3"
                         maxLength="15"
-                        required
                     />
                     <input 
                         type="password" 
@@ -50,7 +53,6 @@ const Register =(props)=> {
                         name="password"
                         minLength="5"
                         maxLength="15"
-                        required
                     />
                     <input
                         type="password" 
@@ -58,7 +60,6 @@ const Register =(props)=> {
                         name="repeat-password"
                         minLength="5"
                         maxLength="15"
-                        required      
                     />
                     <input
                         type="text" 
@@ -66,20 +67,17 @@ const Register =(props)=> {
                         name="full-name"
                         minLength="3"
                         maxLength="25"
-                        required
                     />
                     <input
                         type="email" 
                         id="email" 
                         name="email"
                         pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
-                        required
                     />
                     <input
                         type="tel" 
                         id="phone" 
                         name="phone"
-                        required
                     />
                 </BindingForm>
             </section>
