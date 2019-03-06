@@ -12,41 +12,20 @@ class Profile extends Component{
             userDetails:{},
             isLoaing:true
         }
+
+        this.getUserById=this.props.getUserById.bind(this)
     }
     
     static UserService = new userService();
     
     componentDidMount(){
-        const id= localStorage.getItem('userId');
-        Profile.UserService.getUserById(id)
-        .then(resBody=>{
-            if(resBody.error){
-                toast.error(resBody.description, {
-                    closeButton: false,
-                    autoClose: false
-                })
-            }else{
-                this.setState({
-                    userDetails:resBody,
-                    isLoaing:false
-                })
-            }
-        })
-        .catch(err=>{
-            console.log(err);
-            this.setState({
-                isLoading:false
-            });
-            toast.error('Sorry, something went wrong with the server. We are working on it!', {
-                closeButton: false,
-                autoClose: false
-            })
-        })
+        const {id}= this.props.match.params;
+        this.getUserById(id);
     }
 
     render(){
         const {userDetails, isLoading}=this.state;
-        const {checkedDogs}=this.props;
+        // const {checkedDogs}=this.props;
         const note = 'At the moment the option of editing your profile details is unavailable trought the platform. If there is an error get in touch and we will assist you changing the details.';
         return(
         <main className='site-content user'>

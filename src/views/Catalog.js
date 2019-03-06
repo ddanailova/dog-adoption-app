@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import dogService from '../services/dogService';
 import {Card} from '../components/Card'
+import {UserContext} from '../components/contexts/userContext';
 
 
 class Catalog extends Component{
@@ -17,8 +18,14 @@ class Catalog extends Component{
 
     static DogService = new dogService();
 
-    componentDidMount(){
-        this.getAllDogs()
+    componentDidMount(props){
+        const isAdmin=this.props.isAdmin;
+        if(isAdmin){
+            this.getAllDogs()
+        }else{
+            const filter='"status":"available"';
+            this.getAllDogs(filter);
+        }
     }
 
     render(){
@@ -43,5 +50,20 @@ class Catalog extends Component{
     }
 }
 
-export default Catalog;
+const CatalogWithContext =(props)=>{
+    return(
+        <UserContext.Consumer>
+            {
+                ({isAdmin})=>{
+                    return(
+                        <Catalog {...props} isAdmin={isAdmin}/>
+                    )
+                }
+            }
+        </UserContext.Consumer>
+    )
+}
+
+export {Catalog};
+export default CatalogWithContext;
 

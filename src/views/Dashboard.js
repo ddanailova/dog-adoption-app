@@ -1,101 +1,83 @@
 import React, {Component}from 'react';
+import {Link} from 'react-router-dom'
+import {UserContext} from '../components/contexts/userContext';
 
 class Dashboard extends Component{
+    constructor(props){
+        super(props);
+
+        this.state ={
+            applications:[],
+            isLoading:true
+        }
+
+        this.getAllApplications=this.props.getAllApplications.bind(this);
+    }
+
+    componentDidMount(props){
+        this.getAllApplications()
+    }
 
     render(){
+        const {applications, isLoading}=this.state;
         return(
             <main className='site-content admin'>
                 <section className="site-index">
-                    <h1>Adoption requests</h1>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Dog ID</th>
-                                <th>User ID</th>
-                                <th>Status</th>
-                                <th>Update</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td><a href="details.html">5c6018ff2cbf650698471b5c</a></td>
-                                <td><a href="#">5c60192a2cbf650698471b5d</a></td>
-                                <td>Pending</td>
-                                <td><button className="button button-revelse">Approve</button><button className="button button-revelse cancelle">Cancelle</button></td>
+                    <h1>Adoption applications</h1>
+                    {
+                        isLoading?(
+                            <h3><i className="fas fa-paw"></i> Loading ........ <i className="fas fa-paw"></i></h3>
+                        ):(
+                            (applications.length===0)?(
+                                <h3><i className="fas fa-paw"></i> There are no dogs adoption applications at the moment. <i className="fas fa-paw"></i></h3>
+                            ):(
+                                <table>
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Dog ID</th>
+                                        <th>User ID</th>
+                                        <th>Status</th>
+                                        <th>Update</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {
+                                    applications.map((application, i)=>
+                                        <tr key={application._id}>
+                                            <td>{i+1}</td>
+                                            <td><Link to={`/details/${application.dogId}`}>{application.dogId}</Link></td>
+                                            <td><Link to={`/profile/${application.userId}`}>{application.userId}</Link></td>
+                                            <td>{application.status}</td>
+                                            <td><button className="button button-revelse">Approve</button><button className="button button-revelse cancelle">Cancelle</button></td>
+                                        </tr>)
+                                }
 
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td><a href="details.html">5c52fadacd7ced417c313db0</a></td>
-                                <td><a href="#">5c52faf0cd7ced417c313db1</a></td>
-                                <td>Pending</td>
-                                <td><button className="button button-revelse">Approve</button><button className="button button-revelse cancelle">Cancelle</button></td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td><a href="details.html">5c52fb06cd7ced417c313db2</a></td>
-                                <td><a href="#">5c52fb3acd7ced417c313db4</a></td>
-                                <td>Approved</td>
-                                <td><button className="button button-revelse">Approve</button><button className="button button-revelse cancelle">Cancelle</button></td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td><a href="details.html">5c52fb51cd7ced417c313db5</a></td>
-                                <td><a href="#">5c60192a2cbf650698471b5d</a></td>
-                                <td>Pending</td>
-                                <td><button className="button button-revelse">Approve</button><button className="button button-revelse cancelle">Cancelle</button></td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td><a href="details.html">5c52fc0ecd7ced417c313db8</a></td>
-                                <td><a href="#">5c52fc2acd7ced417c313db9</a></td>
-                                <td>Cancelled</td>
-                                <td><button className="button button-revelse">Approve</button><button className="button button-revelse cancelle">Cancelle</button></td>
-                            </tr>
-                            <tr>
-                                <td>6</td>
-                                <td><a href="details.html">5c52fb06cd7ced417c313db2</a></td>
-                                <td><a href="#">5c52fb3acd7ced417c313db4</a></td>
-                                <td>Pending</td>
-                                <td><button className="button button-revelse">Approve</button><button className="button button-revelse cancelle">Cancelle</button></td>
-                            </tr>
-                            <tr>
-                                <td>7</td>
-                                <td><a href="details.html">5c6018ff2cbf650698471b5c</a></td>
-                                <td><a href="#">5c60192a2cbf650698471b5d</a></td>
-                                <td>Pending</td>
-                                <td><button className="button button-revelse">Approve</button><button className="button button-revelse cancelle">Cancelle</button></td>
-
-                            </tr>
-                            <tr>
-                                <td>8</td>
-                                <td><a href="details.html">5c52fadacd7ced417c313db0</a></td>
-                                <td><a href="#">5c52faf0cd7ced417c313db1</a></td>
-                                <td>Pending</td>
-                                <td><button className="button button-revelse">Approve</button><button className="button button-revelse cancelle">Cancelle</button></td>
-                            </tr>
-                            <tr>
-                                <td>9</td>
-                                <td><a href="details.html">5c52fb06cd7ced417c313db2</a></td>
-                                <td><a href="#">5c52fb3acd7ced417c313db4</a></td>
-                                <td>Approved</td>
-                                <td><button className="button button-revelse">Approve</button><button className="button button-revelse cancelle">Cancelle</button></td>
-                            </tr>
-                            <tr>
-                                <td>10</td>
-                                <td><a href="details.html">5c52fb51cd7ced417c313db5</a></td>
-                                <td><a href="#">5c60192a2cbf650698471b5d</a></td>
-                                <td>Pending</td>
-                                <td><button className="button button-revelse">Approve</button><button className="button button-revelse cancelle">Cancelle</button></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                                </tbody>
+                            </table>
+                            )
+                        )
+                    }
                 </section>
             </main>
         );
     }
 }
 
-export default Dashboard;
+const DashboardWithContext =(props)=> {
+    return (
+        <UserContext.Consumer>
+            {
+                ({isAdmin})=>(
+                    <Dashboard
+                        {...props}
+                        isAdmin={isAdmin}
+                    />
+                )
+            }
+        </UserContext.Consumer>
+    )
+}
+
+export {Dashboard}
+export default DashboardWithContext;

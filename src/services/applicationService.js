@@ -1,42 +1,37 @@
 import {get, post, update, remove} from '../data/requester';
 
-class DogService {
-
+class ApplicationService {
     getAll = (filter)=>{
-        let endpoint='dogs';
+        let endpoint='applications';
         if(filter){
-            endpoint=`dogs?query={${filter}}`;
+            endpoint=`applications?query={${filter}}`;
         }
         return get('appdata', endpoint, 'kinvey')
          .then(rawData=>rawData.json())
      }
 
     getById =(id)=>{
-        const endpoint = `dogs/${id}`
+        const endpoint = `applications/${id}`
         return get('appdata', endpoint, 'kinvey')
          .then(rawData=>rawData.json())
     }
 
     create =(data)=>{
-        return post('appdata', 'dogs', 'kinvey', data)
+        return post('appdata', 'applications', 'kinvey', data)
         .then(rawData=>rawData.json())
     }
 
     update =(id,data)=>{
-        const endpoint = `dogs/${id}`
+        const endpoint = `applications/${id}`
         return update('appdata', endpoint, 'kinvey', data)
         .then(rawData=>rawData.json())
     }
 
     remove = (id)=>{
-        const endpoint = `dogs/${id}`
+        const endpoint = `applications/${id}`
         return remove('appdata', endpoint, 'kinvey')
         .then(rawData=>rawData.json())
     }
-
-    saveDogInStorage=(dogData, itemName)=>{
-        localStorage.setItem(itemName, JSON.stringify(dogData));
-    }
 }
 
-export default DogService
+export default ApplicationService;

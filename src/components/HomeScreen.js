@@ -10,7 +10,13 @@ const HomeScreen=(props)=>{
                 {props.description}
             </p>
                 {
-                    props.buttons.map(button=><Link to={`/${button}`} key={button}className="button">{button}</Link>)
+                    props.buttons.map(button=>{
+                        const userId = localStorage.getItem('userId');
+                        if(button==='profile'){
+                            return<Link to={`/${button}/${userId}`} key={button} className="button">{button}</Link>
+                        }
+                        return<Link to={`/${button}`} key={button} className="button">{button}</Link>
+                    })
                 }
         </section>
     </main>

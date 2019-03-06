@@ -11,11 +11,11 @@ class Edit extends Component{
 
         this.state={
             selectedItem:{},
-            redirectToDetails:false
+            redirect:false
         }
 
         this.getDogById=this.props.getDogById.bind(this);
-        this.edit=this.props.edit.bind(this);
+        this.editDog=this.props.editDog.bind(this);
     }
 
     handelSubmit = (ev, data)=>{
@@ -35,7 +35,7 @@ class Edit extends Component{
             status:data.status,
             story:data.story
         };
-        this.edit(id,dogData);
+        this.editDog(id,dogData)
         }
     }
 
@@ -44,7 +44,7 @@ class Edit extends Component{
         this.getDogById(id);
     }
     render(){
-        const {selectedItem, redirectToDetails}=this.state;
+        const {selectedItem, redirect}=this.state;
         const {id}= this.props.match.params;
         const {isAdmin}=this.props;
         const breeds = staticData.breeds;
@@ -52,7 +52,7 @@ class Edit extends Component{
 
         if(!isAdmin){
             return <Redirect to="/"/>
-         }else if(redirectToDetails){
+         }else if(redirect){
             return <Redirect to={`/details/${id}`}/>
          }
         return(

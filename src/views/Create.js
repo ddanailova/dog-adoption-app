@@ -15,7 +15,7 @@ class Create extends Component{
             redirectToHome:false
         }
 
-        this.create=this.props.create.bind(this);
+        this.createDog=this.props.createDog.bind(this);
     }
 
     static breeds = staticData.breeds;
@@ -43,7 +43,7 @@ class Create extends Component{
                     status:data.status || 'available',
                     story:data.story
                 };
-                this.create(dogData);
+                this.createDog(dogData);
         }
     }
 

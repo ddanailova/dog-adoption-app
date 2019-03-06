@@ -3,8 +3,9 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import userService from '../services/userService';
-import dogService from '../services/dogService';
+import UserService from '../services/userService';
+import DogService from '../services/dogService';
+import AplicationService from '../services/applicationService';
 
 import HomeWithContext from '../views/Home';
 import LoginWithContext from '../views/Login';
@@ -12,10 +13,10 @@ import RegisterWithContext from '../views/Register';
 import LogoutWithContext from '../views/Logout';
 import CreateWithContext from '../views/Create';
 import EditWithContext from '../views/Edit';
-import Catalog from '../views/Catalog';
+import CatalogWithContext from '../views/Catalog';
 import Details from '../views/Details';
 import ProfileWithDogContext from '../views/Profile';
-import Dashboard from '../views/Dashboard';
+import DashboardWithContext from '../views/Dashboard';
 import NotFound from '../views/NotFound';
 
 import HeaderWithContext from '../components/Header';
@@ -34,8 +35,9 @@ class App extends Component {
     }
   }
   
-  static UserService= new userService();
-  static DogService= new dogService();
+  static UserService= new UserService();
+  static DogService= new DogService();
+  static ApplicationService = new AplicationService();
 
   componentWillUnmount(){
     
@@ -47,7 +49,6 @@ class App extends Component {
   }
 
   register =(userData)=>{
-
     App.UserService.register(userData).then((resBody)=>{
       if(resBody.error){
           toast.error(resBody.description , {
@@ -137,10 +138,6 @@ class App extends Component {
             isAdmin:false,
             updateUser:defaultUserState.updateUser
           },
-          // dogs:{
-          //   checkedDogs:defaultDogState.checkedDogs,
-          //   updateCheckedDogs:this.updateCheckedDogs
-          // }
         })
       }
     }).catch(err=>{
@@ -152,20 +149,36 @@ class App extends Component {
     })
   }
 
+  getUserById(id){
+    App.UserService.getUserById(id)
+    .then(resBody=>{
+        if(resBody.error){
+            toast.error(resBody.description, {
+                closeButton: false,
+                autoClose: false
+            })
+        }else{
+            this.setState({
+                userDetails:resBody,
+                isLoaing:false
+            })
+        }
+    })
+    .catch(err=>{
+        console.log(err);
+        this.setState({
+            isLoading:false
+        });
+        toast.error('Sorry, something went wrong with the server. We are working on it!', {
+            closeButton: false,
+            autoClose: false
+        })
+    })
+  }
   //for the dogs
 
-  // updateCheckedDogs =(dogData)=>{
-  //   this.setState(prevState=>(
-  //     {
-  //       dogs:{
-  //         checkedDogs:[...prevState.dogs.checkedDogs, dogData],
-  //         updateCheckedDogs:this.updateCheckedDogs
-  //       }
-  //     }
-  //   ));
-  // }
-  getAllDogs(){
-    App.DogService.getAll()
+  getAllDogs(filter){
+    App.DogService.getAll(filter)
         .then(resBody=>{
             if(resBody.error){
                 toast.error(resBody.description, {
@@ -190,6 +203,7 @@ class App extends Component {
             })
         })
   }
+
   getDogById(id){
     App.DogService.getById(id)
     .then(resBody => {
@@ -223,7 +237,7 @@ class App extends Component {
     })
   }
 
-  create(dogData){
+  createDog(dogData){
     App.DogService.create(dogData)
     .then(resBody=>{
       if(resBody.error){
@@ -251,7 +265,7 @@ class App extends Component {
     })
   }
 
-  edit(id,dogData){
+  editDog(id,dogData){
     App.DogService.update(id,dogData)
     .then(resBody=>{
       if(resBody.error){
@@ -260,7 +274,6 @@ class App extends Component {
           autoClose: 6000
         });
       }else{
-
         toast.success(`You have successfully edited a card for ${resBody.name}!`, {
           closeButton: false,
           position: toast.POSITION.BOTTOM_RIGHT,
@@ -268,7 +281,7 @@ class App extends Component {
         });
 
         this.setState({
-          redirectToDetails:true
+          redirect:true
         });
       }
     }).catch(err=>{
@@ -280,7 +293,8 @@ class App extends Component {
     })
   }
 
-  remove=(id)=>{
+
+  removeDog(id){
     App.DogService.remove(id)
     .then(resBody=>{
       if(resBody.error){
@@ -304,6 +318,55 @@ class App extends Component {
     })
   }
 
+  //for applications 
+
+  getAllApplications(){
+    App.ApplicationService.getAll()
+      .then(resBody=>{
+        if(resBody.error){
+          toast.error(resBody.description , {
+            closeButton: false,
+            autoClose: 6000
+          });
+        }else{
+          this.setState({
+            applications:resBody,
+            isLoading:false
+          })
+        }
+      }).catch(err=>{
+        console.log(err);
+        toast.error('Sorry, something went wrong with the server. We are working on it!', {
+            closeButton: false,
+            autoClose: false
+        })
+      })
+  }
+
+  createApplication(data, dogDetails){
+    App.ApplicationService.create(data)
+    .then(resBody=>{
+      if(resBody.error){
+        toast.error(resBody.description , {
+          closeButton: false,
+          autoClose: 6000
+        });
+      }else{
+        toast.success(`Your application has been sent. We will get in touch with you shortly for more details.`, {
+          closeButton: false,
+          position: toast.POSITION.BOTTOM_RIGHT,
+          autoClose: 6000
+        });
+        App.DogService.update(data.dogId,{...dogDetails, status:'processing'});
+      }
+    }).catch(err=>{
+      console.log(err);
+      toast.error('Sorry, something went wrong with the server. We are working on it!', {
+          closeButton: false,
+          autoClose: false
+      })
+    })
+  }
 
   render() {
     const {user}=this.state;
@@ -333,27 +396,27 @@ class App extends Component {
                 />
                 <Route 
                   path='/catalog' 
-                  render={(props)=><Catalog {...props} getAllDogs={this.getAllDogs}/>} 
+                  render={(props)=><CatalogWithContext {...props} getAllDogs={this.getAllDogs}/>} 
                 />
                 <Route 
                   path='/create' 
-                  render={(props)=><CreateWithContext {...props} create={this.create}/>} 
+                  render={(props)=><CreateWithContext {...props} createDog={this.createDog}/>} 
                 />
                 <Route 
                 path='/edit/:id' 
-                render={(props)=><EditWithContext {...props} edit={this.edit} getDogById={this.getDogById}/>} 
+                render={(props)=><EditWithContext {...props} editDog={this.editDog} getDogById={this.getDogById}/>} 
               />
                 <Route 
                   path='/details/:id' 
-                  render={(props)=><Details {...props} remove={this.remove}  getDogById={this.getDogById}/>}
+                  render={(props)=><Details {...props} removeDog={this.removeDog}  getDogById={this.getDogById} createApplication={this.createApplication} editDog={this.editDog}/>}
                 />
                 <Route 
-                path='/profile' 
-                component={ProfileWithDogContext}
+                path='/profile/:id' 
+                render={(props)=><ProfileWithDogContext {...props} getUserById={this.getUserById}/>}
               />
                 <Route 
                   path='/dashboard' 
-                  component={Dashboard} 
+                  render={(props)=><DashboardWithContext {...props} getAllApplications={this.getAllApplications}/>} 
                 />
                 <Route
                   component ={NotFound}

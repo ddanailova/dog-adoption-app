@@ -2,14 +2,23 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 
 const CardContent =(props)=>{
-    const {details, buttons, note, isThumbnail, isProfile, remove}=props;
+    const {details, buttons, note, isThumbnail, isProfile, removeDog, createApplication}=props;
 
     const handleClickButton =(ev)=>{
         const buttonType =ev.target.text.toLowerCase();
 
         switch(buttonType){
             case 'delete': 
-                remove(details._id);
+                removeDog(details._id);
+                break;
+            case 'adopt':
+                if(details.status === 'available'){
+                    createApplication({
+                        dogId:details._id,
+                        userId:localStorage.getItem('userId'),
+                        status:'processing'
+                    }, details);
+                }
                 break;
             default:
                 break;
@@ -55,8 +64,12 @@ const CardContent =(props)=>{
                     let path=`/${button}/${details._id}`
                     if(button==='delete'){
                         classCancelle='cancelle';
-                        path='/'
+                        path='/catalog';
                     }
+                    if(button==='adopt'){
+                        path='/';
+                    }
+
                     return(
                         <Link to={path} key={button} className={`button button-revelse ${classCancelle}`} onClick={handleClickButton}>{button}</Link>
                         )}

@@ -1,7 +1,7 @@
 import {post, get} from '../data/requester'
 const ADMINROLEID = 'b4bf1116-2fb3-4a53-87fe-0a518453c892';
 
-class userService {
+class UserService {
     constructor(){
         this._adminId=ADMINROLEID
     }
@@ -56,4 +56,4 @@ class userService {
       }
 }
 
-export default userService
+export default UserService;
