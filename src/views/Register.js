@@ -9,8 +9,14 @@ const Register =(props)=> {
 
     const handelSubmit = (ev, data)=>{
         ev.preventDefault();
-
-        if(!Object.keys(data.errors).length){
+        let hasAllValues=true;
+        for (const key in data) {
+            if (!data[key]) {
+                hasAllValues=false;
+                break;
+            }
+        }
+        if(!Object.keys(data.errors).length || !hasAllValues){
             toast.error('Please fill in all form fields!' , {
                 closeButton: false,
                 autoClose:6000

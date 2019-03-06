@@ -223,7 +223,7 @@ class App extends Component {
     })
   }
 
-  create =(dogData)=>{
+  create(dogData){
     App.DogService.create(dogData)
     .then(resBody=>{
       if(resBody.error){
@@ -237,6 +237,10 @@ class App extends Component {
           position: toast.POSITION.BOTTOM_RIGHT,
           autoClose: 3000
         });
+
+        this.setState({
+          redirectToHome:true
+        });
       }
     }).catch(err=>{
       console.log(err);
@@ -247,7 +251,7 @@ class App extends Component {
     })
   }
 
-  edit =(id,dogData)=>{
+  edit(id,dogData){
     App.DogService.update(id,dogData)
     .then(resBody=>{
       if(resBody.error){
@@ -256,10 +260,15 @@ class App extends Component {
           autoClose: 6000
         });
       }else{
+
         toast.success(`You have successfully edited a card for ${resBody.name}!`, {
           closeButton: false,
           position: toast.POSITION.BOTTOM_RIGHT,
           autoClose: 3000
+        });
+
+        this.setState({
+          redirectToDetails:true
         });
       }
     }).catch(err=>{

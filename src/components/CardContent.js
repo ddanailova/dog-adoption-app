@@ -36,7 +36,7 @@ const CardContent =(props)=>{
                 <p><span>E-mail: </span>{details.email}</p>
                 <p><span>Phone: </span>{details.phone}</p>
                 <p>* {note}</p>
-                <Link to="/catalog"> Back &gt;&gt;</Link>
+                <Link to="/"> Back to Home&gt;&gt;</Link>
             </div>
         )
     }
@@ -64,7 +64,7 @@ const CardContent =(props)=>{
             }
             
             <p>* {note}</p>
-            <Link to='/catalog'> Back &gt;&gt;</Link>
+            <Link to='/catalog'> Back to Catalog &gt;&gt;</Link>
         </div>
     )
 }

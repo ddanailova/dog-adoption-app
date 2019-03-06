@@ -3,6 +3,7 @@ import {Redirect} from 'react-router-dom'
 import BindingForm from '../components/BindingForms';
 import {UserContext} from '../components/contexts/userContext';
 import staticData from '../constants/staticData.js';
+import { toast } from 'react-toastify';
 
 class Edit extends Component{
     constructor(props){
@@ -10,13 +11,21 @@ class Edit extends Component{
 
         this.state={
             selectedItem:{},
+            redirectToDetails:false
         }
 
         this.getDogById=this.props.getDogById.bind(this);
+        this.edit=this.props.edit.bind(this);
     }
 
     handelSubmit = (ev, data)=>{
         ev.preventDefault();
+
+        if(!Object.keys(data.errors).length){
+            toast.error('Please fill in all form fields!' , {
+                closeButton: false,
+                autoClose:6000
+            })}else{
         const {id}= this.props.match.params;
         const dogData = {
             name:data.name,
@@ -26,7 +35,8 @@ class Edit extends Component{
             status:data.status,
             story:data.story
         };
-        this.props.edit(id,dogData);
+        this.edit(id,dogData);
+        }
     }
 
     componentDidMount(){
@@ -34,19 +44,22 @@ class Edit extends Component{
         this.getDogById(id);
     }
     render(){
-        const {selectedItem}=this.state;
-        const {isAdmin, edit}=this.props;
+        const {selectedItem, redirectToDetails}=this.state;
+        const {id}= this.props.match.params;
+        const {isAdmin}=this.props;
         const breeds = staticData.breeds;
         const statuses= staticData.statuses;
 
         if(!isAdmin){
             return <Redirect to="/"/>
+         }else if(redirectToDetails){
+            return <Redirect to={`/details/${id}`}/>
          }
         return(
             <main className='site-content admin'>
             <section className="site-edit">
                 <BindingForm 
-                    formType='Edit' 
+                    formType='edit' 
                     onSubmit={this.handelSubmit} 
                     initialState={selectedItem}
                 >
@@ -56,12 +69,10 @@ class Edit extends Component{
                         name="name"
                         minLength="2"
                         maxLength="10"
-                        required
                     />
                     <select 
                         id="breed" 
                         name="breed"
-                        required
                     >
                         {breeds.map(breed=>(<option key={breed}>{breed}</option>))}
                     </select>
@@ -72,19 +83,16 @@ class Edit extends Component{
                         name="age"
                         min="0"
                         max="15"
-                        required
                     />
                     <input 
                         type="text" 
                         id="image-url" 
                         name="image-url"
                         pattern="(http)?s?:?(\/\/[^']*\.(?:png|jpg|jpeg|gif|png|svg))"
-                        required
                     />
                     <select 
                         id="status" 
                         name="status"
-                        required
                     >
                         {statuses.map(status=>(<option key={status}>{status}</option>))}
                     </select>
@@ -92,7 +100,6 @@ class Edit extends Component{
                         type="text" 
                         id="story" 
                         name="story"
-                        required
                     />
                 </BindingForm>
             </section>

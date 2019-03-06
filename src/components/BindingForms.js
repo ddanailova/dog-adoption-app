@@ -15,9 +15,6 @@ class BindingForm extends Component {
     static iconsList = staticData.iconsList;
     static errorMassages =staticData.errorMassages;
 
-    // shouldComponentUpdate(nextProps, nextState) {
-    //     return !isEqual(nextProps.initialState, this.props.initialState);
-    // }
 
     static getDerivedStateFromProps(props, state){
 
@@ -78,7 +75,13 @@ class BindingForm extends Component {
                         if(child.type === 'input' || child.type==='select'|| child.type==='textarea'){
                             const inputName =child.props.name;
                             const icon = BindingForm.iconsList[inputName];
-                            let newChild = React.cloneElement(child,{value:this.state[inputName],onChange:this.handleChange, ...child.props} )
+                            let newChild;
+
+                            if(this.props.formType==='edit'){
+                                newChild = React.cloneElement(child,{value:this.state[inputName],onChange:this.handleChange, ...child.props} );
+                            }else{
+                                newChild = React.cloneElement(child,{onChange:this.handleChange, ...child.props} );
+                            }
                             return (
                                 <p className="field">
                                 <label htmlFor={inputName}>{inputName.replace('-', ' ')}</label>
