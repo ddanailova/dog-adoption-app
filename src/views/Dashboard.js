@@ -1,6 +1,7 @@
 import React, {Component}from 'react';
-import {Link} from 'react-router-dom'
+import {Link} from 'react-router-dom';
 import {UserContext} from '../components/contexts/userContext';
+import LinkButton from './../components/LinkButton';
 
 class Dashboard extends Component{
     constructor(props){
@@ -8,14 +9,30 @@ class Dashboard extends Component{
 
         this.state ={
             applications:[],
-            isLoading:true
+            isLoading:true,
+            hasChanged:false
         }
 
         this.getAllApplications=this.props.getAllApplications.bind(this);
+        this.changeAplication=this.props.changeAplication.bind(this);
     }
 
     componentDidMount(props){
         this.getAllApplications()
+    }
+
+    handleClick=(ev, data)=>{
+        const buttonType =ev.target.text.toLowerCase();
+
+        if(buttonType==='approve'){
+            //appId, appData, dogId, dogStatus
+            const newAppData = {...data, status:'approved'}
+            this.changeAplication(data._id, newAppData, data.dogId, 'adopted');
+        }else if(buttonType==='cancel'){
+            //appId, appData, dogId, dogStatus
+            const newAppData = {...data, status:'canceled'}
+            this.changeAplication(data._id, newAppData, data.dogId, 'available');
+        }
     }
 
     render(){
@@ -49,8 +66,22 @@ class Dashboard extends Component{
                                             <td><Link to={`/details/${application.dogId}`}>{application.dogId}</Link></td>
                                             <td><Link to={`/profile/${application.userId}`}>{application.userId}</Link></td>
                                             <td>{application.status}</td>
-                                            <td><button className="button button-reverse">Approve</button><button className="button button-reverse cancel">Cancel</button></td>
-                                        </tr>)
+                                            <td>
+                                                <LinkButton 
+                                                    extraClassNames='button-reverse' 
+                                                    buttonType='approve' 
+                                                    text='approve'
+                                                    onClick={(ev)=>this.handleClick(ev, application)}
+                                                    />
+                                                <LinkButton 
+                                                    extraClassNames='button-reverse cancel'
+                                                    buttonType='cancel' 
+                                                    text='cancel'
+                                                    onClick={(ev)=>this.handleClick(ev, application)}
+                                                />
+                                            </td>
+                                        </tr>
+                                    )
                                 }
 
                                 </tbody>
@@ -64,20 +95,20 @@ class Dashboard extends Component{
     }
 }
 
-const DashboardWithContext =(props)=> {
-    return (
-        <UserContext.Consumer>
-            {
-                ({isAdmin})=>(
-                    <Dashboard
-                        {...props}
-                        isAdmin={isAdmin}
-                    />
-                )
-            }
-        </UserContext.Consumer>
-    )
-}
+// const DashboardWithContext =(props)=> {
+//     return (
+//         <UserContext.Consumer>
+//             {
+//                 ({isAdmin})=>(
+//                     <Dashboard
+//                         {...props}
+//                         isAdmin={isAdmin}
+//                     />
+//                 )
+//             }
+//         </UserContext.Consumer>
+//     )
+// }
 
-export {Dashboard}
-export default DashboardWithContext;
+// export {Dashboard}
+export default Dashboard;

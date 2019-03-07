@@ -30,6 +30,10 @@ const LinkButton =(props)=>{
             return(<Link to='/' key={buttonType} className={styleClasses}>{text}</Link>);
         case 'backToCatalog':
             return(<Link to='/catalog' key={buttonType} className={styleClasses}>{text}</Link>);
+        case 'approve':
+            return(<Link to={`/dashboard`} key={buttonType} className={styleClasses} onClick={onClick}>{text}</Link>);
+        case 'cancel':
+            return(<Link to={`/dashboard`} key={buttonType} className={styleClasses +' cancel'} onClick={onClick}>{text}</Link>);
         default:
             return null;
     }

@@ -1,10 +1,13 @@
 import {get, post, update, remove} from '../data/requester';
 
 class ApplicationService {
-    getAll = (filter)=>{
+    getAll = (filter,sortParms)=>{
         let endpoint='applications';
         if(filter){
             endpoint=`applications?query={${filter}}`;
+        }
+        if(sortParms){
+            endpoint=endpoint+`&sort={"_kmd.ect": -1}`;
         }
         return get('appdata', endpoint, 'kinvey')
          .then(rawData=>rawData.json())

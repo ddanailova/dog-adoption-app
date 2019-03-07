@@ -15,14 +15,13 @@ import CreateWithContext from '../views/Create';
 import EditWithContext from '../views/Edit';
 import CatalogWithContext from '../views/Catalog';
 import Details from '../views/Details';
-import ProfileWithDogContext from '../views/Profile';
+import Profile from '../views/Profile';
 import DashboardWithContext from '../views/Dashboard';
 import NotFound from '../views/NotFound';
 
 import HeaderWithContext from '../components/Header';
 import Footer from '../components/Footer';
 import {defaultUserState, UserContext} from '../components/contexts/userContext';
-import {defaultDogState, DogContext} from '../components/contexts/dogContext';
 
 import './App.css';
 
@@ -319,9 +318,8 @@ class App extends Component {
   }
 
   //for applications 
-
   getAllApplications(){
-    App.ApplicationService.getAll()
+    App.ApplicationService.getAll('')
       .then(resBody=>{
         if(resBody.error){
           toast.error(resBody.description , {
@@ -352,12 +350,71 @@ class App extends Component {
           autoClose: 6000
         });
       }else{
-        toast.success(`Your application has been sent. We will get in touch with you shortly for more details.`, {
+        App.DogService.update(data.dogId,{...dogDetails, status:'processing'})
+          .then(resBody=>{
+            if(resBody.error){
+              toast.error(resBody.description , {
+                closeButton: false,
+                autoClose: 6000
+              });
+            }else{
+              toast.success(`Your application has been sent. We will get in touch with you shortly for more details.`, {
+                closeButton: false,
+                position: toast.POSITION.BOTTOM_RIGHT,
+                autoClose: 6000
+              });
+            }
+          }
+        );
+      }
+    }).catch(err=>{
+      console.log(err);
+      toast.error('Sorry, something went wrong with the server. We are working on it!', {
           closeButton: false,
-          position: toast.POSITION.BOTTOM_RIGHT,
+          autoClose: false
+      })
+    })
+  }
+
+  changeAplication(appId, appData, dogId, dogStatus){
+    App.ApplicationService.update(appId, appData)
+    .then(resBody=>{
+      if(resBody.error){
+        toast.error(resBody.description , {
+          closeButton: false,
           autoClose: 6000
         });
-        App.DogService.update(data.dogId,{...dogDetails, status:'processing'});
+      }else{
+        App.DogService.getById(dogId)
+          .then(resBody=>{
+            if(resBody.error){
+              toast.error(resBody.description , {
+                closeButton: false,
+                autoClose: 6000
+              });
+            }else{
+              App.DogService.update(dogId,{...resBody, status:dogStatus})
+              .then(resBody=>{
+                if(resBody.error){
+                  toast.error(resBody.description , {
+                    closeButton: false,
+                    autoClose: 6000
+                  });
+                }else{
+                  toast.success(`The application has been ${appData.status}ed`, {
+                    closeButton: false,
+                    position: toast.POSITION.BOTTOM_RIGHT,
+                    autoClose: 6000
+                  });
+                  this.setState({
+                    // applications:[],
+                    hasChanged:true
+                  })
+                }
+              });
+            }
+          }
+        )
       }
     }).catch(err=>{
       console.log(err);
@@ -373,7 +430,6 @@ class App extends Component {
     return (
       <Router>
         <UserContext.Provider value={user}>
-        {/*} <DogContext.Provider value={dogs}>  */}     
           <div className="site">
             <HeaderWithContext/>
             <ToastContainer className='toast-container'/>
@@ -412,11 +468,11 @@ class App extends Component {
                 />
                 <Route 
                 path='/profile/:id' 
-                render={(props)=><ProfileWithDogContext {...props} getUserById={this.getUserById}/>}
+                render={(props)=><Profile {...props} getUserById={this.getUserById}/>}
               />
                 <Route 
                   path='/dashboard' 
-                  render={(props)=><DashboardWithContext {...props} getAllApplications={this.getAllApplications}/>} 
+                  render={(props)=><DashboardWithContext {...props} getAllApplications={this.getAllApplications} changeAplication={this.changeAplication}/>} 
                 />
                 <Route
                   component ={NotFound}
@@ -424,7 +480,6 @@ class App extends Component {
               </Switch>
             <Footer/>
           </div>
-         {/* </DogContext.Provider> */}
         </UserContext.Provider>
       </Router>
     );

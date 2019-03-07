@@ -37,6 +37,7 @@ function update (module, endpoint, auth, data, options) {
     req.body= JSON.stringify(data);
     return fetch(makeUrl(module, endpoint),req);
 }
+
 // Function to return DELETE promise
 function remove (module, endpoint, auth, options) {
     return fetch(makeUrl(module, endpoint),makeRequest('DELETE', auth, options));
@@ -45,6 +46,6 @@ export {
     get,
     post,
     update,
-    remove
+    remove,
 }
 

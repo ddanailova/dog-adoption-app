@@ -1,5 +1,4 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
 import LinkButton from './LinkButton';
 
 const CardContent =(props)=>{
@@ -8,21 +7,16 @@ const CardContent =(props)=>{
     const handleClickButton =(ev)=>{
         const buttonType =ev.target.text.toLowerCase();
 
-        switch(buttonType){
-            case 'delete': 
-                removeDog(details._id);
-                break;
-            case 'adopt':
-                if(details.status === 'available'){
-                    createApplication({
-                        dogId:details._id,
-                        userId:localStorage.getItem('userId'),
-                        status:'processing'
-                    }, details);
-                }
-                break;
-            default:
-                break;
+        if(buttonType==='delete'){
+            removeDog(details._id);
+        }else if(buttonType ==='adopt'){
+            if(details.status === 'available'){
+                createApplication({
+                    dogId:details._id,
+                    userId:localStorage.getItem('userId'),
+                    status:'processing'
+                }, details);
+            }
         }
     }
     
@@ -31,7 +25,12 @@ const CardContent =(props)=>{
         return (
             <div className="content">
             <h3>Hello, my name is {details.name}</h3>
-            <LinkButton buttonType={'details'} idForPath={details._id} extraClassNames={'button-reverse'} text={'details'}/>
+            <LinkButton 
+                buttonType='details'
+                idForPath={details._id} 
+                extraClassNames='button-reverse'
+                text='details'
+            />
         </div>
         )
     }
@@ -46,7 +45,11 @@ const CardContent =(props)=>{
                 <p><span>E-mail: </span>{details.email}</p>
                 <p><span>Phone: </span>{details.phone}</p>
                 <p>* {note}</p>
-                <LinkButton buttonType={'backToHome'} noButtonStyle={true} text={'Back to Home >>'}/>
+                <LinkButton 
+                    buttonType='backToHome'
+                    noButtonStyle={true} 
+                    text='Back to Home >>'
+                />
             </div>
         )
     }
@@ -61,24 +64,24 @@ const CardContent =(props)=>{
             <p><span>Story: </span>{details.story}</p>
             {
                 buttons.map(button=>{
-                    // let classCancelle ='';
-                    // let path=`/${button}/${details._id}`
-                    // if(button==='delete'){
-                    //     classCancelle='cancelle';
-                    //     path='/catalog';
-                    // }
-                    // if(button==='adopt'){
-                    //     path='/';
-                    // }
-                    // <Link to={path} key={button} className={`button button-reverse ${classCancelle}`} onClick={handleClickButton}>{button}</Link>
                     return(
-                        <LinkButton buttonType={button} idForPath={details._id} extraClassNames={`button-reverse`} text={button}  onClick={handleClickButton}/>
-                        )}
+                        <LinkButton 
+                            buttonType={button} 
+                            idForPath={details._id} 
+                            extraClassNames='button-reverse'
+                            text={button}  
+                            onClick={handleClickButton}
+                        />
                     )
+                })
             }
             
             <p>* {note}</p>
-            <LinkButton buttonType={'backToCatalog'} noButtonStyle={true} text={'Back to Catalog >>'}/>
+            <LinkButton 
+                buttonType='backToCatalog'
+                noButtonStyle={true} 
+                text='Back to Catalog >>'
+            />
         </div>
     )
 }

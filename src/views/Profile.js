@@ -2,7 +2,7 @@ import React, {Component, Fragment} from 'react';
 import toast from 'react-toastify';
 import {Card} from '../components/Card';
 import userService from './../services/userService';
-import {DogContext} from '../components/contexts/dogContext';
+
 
 class Profile extends Component{
     constructor(props){
@@ -40,11 +40,7 @@ class Profile extends Component{
                     <h2>Watch List</h2>
                     <hr/>
                     {
-                        // (checkedDogs.length === 0) ? (
-                        //     <h5> You have nothing in your watch list yet.</h5>
-                        // ) : (
-                        //         checkedDogs.map(dog=><Card {...this.props} details={dog} isThumbnail={true} key={dog._id} />)
-                        // )
+
                     }
                     </section>
                     </Fragment>
@@ -55,19 +51,5 @@ class Profile extends Component{
     )}
 }
 
-const ProfileWithDogContext =(props)=>{
-    return(
-        <DogContext.Consumer>
-            {
-                ({checkedDogs})=>{
-                    return(
-                        <Profile {...props} checkedDogs={checkedDogs}/>
-                    )
-                }
-            }
-        </DogContext.Consumer>
-    )
-}
 
-export {Profile}
-export default ProfileWithDogContext;
+export default Profile
