@@ -30,25 +30,25 @@ button:hover, .button:hover {
     color:#fff;
 }
 
-.button-revelse{
+.button-reverse{
     color: #fff;
     background: orange;
     border: 2px solid orange;
 }
 
-.button-revelse:hover {
+.button-reverse:hover {
     
     color:orange;
     background: #fff;
 }
 
-.button-revelse.cancelle{
+.button-reverse.cancel{
     color: #fff;
     background: tomato;
     border: 2px solid tomato;
 }
 
-.button-revelse.cancelle:hover {
+.button-reverse.cancel:hover {
     color:tomato;
     background: #fff;
 }

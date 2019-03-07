@@ -1,5 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+import LinkButton from './LinkButton';
 
 const CardContent =(props)=>{
     const {details, buttons, note, isThumbnail, isProfile, removeDog, createApplication}=props;
@@ -30,7 +31,7 @@ const CardContent =(props)=>{
         return (
             <div className="content">
             <h3>Hello, my name is {details.name}</h3>
-            <Link to={`/details/${details._id}` } className="button button-revelse">Details</Link>
+            <LinkButton buttonType={'details'} idForPath={details._id} extraClassNames={'button-reverse'} text={'details'}/>
         </div>
         )
     }
@@ -45,7 +46,7 @@ const CardContent =(props)=>{
                 <p><span>E-mail: </span>{details.email}</p>
                 <p><span>Phone: </span>{details.phone}</p>
                 <p>* {note}</p>
-                <Link to="/"> Back to Home&gt;&gt;</Link>
+                <LinkButton buttonType={'backToHome'} noButtonStyle={true} text={'Back to Home >>'}/>
             </div>
         )
     }
@@ -60,24 +61,24 @@ const CardContent =(props)=>{
             <p><span>Story: </span>{details.story}</p>
             {
                 buttons.map(button=>{
-                    let classCancelle ='';
-                    let path=`/${button}/${details._id}`
-                    if(button==='delete'){
-                        classCancelle='cancelle';
-                        path='/catalog';
-                    }
-                    if(button==='adopt'){
-                        path='/';
-                    }
-
+                    // let classCancelle ='';
+                    // let path=`/${button}/${details._id}`
+                    // if(button==='delete'){
+                    //     classCancelle='cancelle';
+                    //     path='/catalog';
+                    // }
+                    // if(button==='adopt'){
+                    //     path='/';
+                    // }
+                    // <Link to={path} key={button} className={`button button-reverse ${classCancelle}`} onClick={handleClickButton}>{button}</Link>
                     return(
-                        <Link to={path} key={button} className={`button button-revelse ${classCancelle}`} onClick={handleClickButton}>{button}</Link>
+                        <LinkButton buttonType={button} idForPath={details._id} extraClassNames={`button-reverse`} text={button}  onClick={handleClickButton}/>
                         )}
                     )
             }
             
             <p>* {note}</p>
-            <Link to='/catalog'> Back to Catalog &gt;&gt;</Link>
+            <LinkButton buttonType={'backToCatalog'} noButtonStyle={true} text={'Back to Catalog >>'}/>
         </div>
     )
 }

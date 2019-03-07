@@ -49,7 +49,7 @@ class Dashboard extends Component{
                                             <td><Link to={`/details/${application.dogId}`}>{application.dogId}</Link></td>
                                             <td><Link to={`/profile/${application.userId}`}>{application.userId}</Link></td>
                                             <td>{application.status}</td>
-                                            <td><button className="button button-revelse">Approve</button><button className="button button-revelse cancelle">Cancelle</button></td>
+                                            <td><button className="button button-reverse">Approve</button><button className="button button-reverse cancel">Cancel</button></td>
                                         </tr>)
                                 }
 

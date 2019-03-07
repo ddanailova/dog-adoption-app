@@ -20,23 +20,18 @@ class Edit extends Component{
 
     handelSubmit = (ev, data)=>{
         ev.preventDefault();
-
-        if(!Object.keys(data.errors).length){
-            toast.error('Please fill in all form fields!' , {
-                closeButton: false,
-                autoClose:6000
-            })}else{
+        const {selectedItem}=this.state;
         const {id}= this.props.match.params;
         const dogData = {
-            name:data.name,
-            breed:data.breed,
-            age:data.age,
-            'image-url':data['image-url'],
-            status:data.status,
-            story:data.story
+            name:data.name || selectedItem.name,
+            breed:data.breed || selectedItem.breed,
+            age:data.age || selectedItem.age,
+            'image-url':data['image-url'] || selectedItem['image-url'],
+            status:data.status || selectedItem.status,
+            story:data.story || selectedItem.story
         };
         this.editDog(id,dogData)
-        }
+
     }
 
     componentDidMount(){

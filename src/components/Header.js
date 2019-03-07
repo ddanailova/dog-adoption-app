@@ -1,9 +1,10 @@
 import React  from 'react';
 import {Link} from 'react-router-dom';
+import LinkButton from './LinkButton';
 import {UserContext} from '../components/contexts/userContext';
 
 const Header =(props)=>{
-    const {username, logout}=props;
+    const {username}=props;
 
     return(
     <header className="site-header">
@@ -12,7 +13,7 @@ const Header =(props)=>{
             <p className="slogan">Adopt, make a difference!</p>
         </div>
         { 
-            username?<Link to="/logout" className="button">Logout</Link>:null
+            username?<LinkButton buttonType={'logout'} text={'logout'}>Logout</LinkButton>:null
         }
     </header>
 )};

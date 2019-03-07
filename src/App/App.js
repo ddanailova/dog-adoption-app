@@ -375,7 +375,7 @@ class App extends Component {
         <UserContext.Provider value={user}>
         {/*} <DogContext.Provider value={dogs}>  */}     
           <div className="site">
-            <HeaderWithContext />
+            <HeaderWithContext/>
             <ToastContainer className='toast-container'/>
               <Switch>
                 <Route exact 

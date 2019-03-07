@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import staticData from '../constants/staticData.js';
 import isEqual from 'react-fast-compare';
+import staticData from '../constants/staticData.js';
+import Button from './LinkButton';
 
 class BindingForm extends Component {
     constructor(props){
@@ -108,7 +109,7 @@ class BindingForm extends Component {
                     })
                 }
                 { localStorage.getItem('username')?(
-                    <button className="button button-revelse">{this.props.formType}</button>
+                    <button className="button button-reverse">{this.props.formType}</button>
 
                 ):(
                     <button className="button">{this.props.formType}</button>

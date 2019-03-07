@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link} from 'react-router-dom'
+import LinkButton from './LinkButton';
 
 const HomeScreen=(props)=>{
     return(
@@ -12,10 +12,7 @@ const HomeScreen=(props)=>{
                 {
                     props.buttons.map(button=>{
                         const userId = localStorage.getItem('userId');
-                        if(button==='profile'){
-                            return<Link to={`/${button}/${userId}`} key={button} className="button">{button}</Link>
-                        }
-                        return<Link to={`/${button}`} key={button} className="button">{button}</Link>
+                            return <LinkButton idForPath={userId} buttonType={button} text={button}/>
                     })
                 }
         </section>
