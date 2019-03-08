@@ -10,7 +10,7 @@ class Profile extends Component{
 
         this.state={
             userDetails:{},
-            isLoaing:true
+            isLoaing:false
         }
 
         this.getUserById=this.props.getUserById.bind(this)
@@ -19,8 +19,10 @@ class Profile extends Component{
     static UserService = new userService();
     
     componentDidMount(){
-        const {id}= this.props.match.params;
-        this.getUserById(id);
+        this.setState({isLoading:true},()=>{
+            const {id}= this.props.match.params;
+            this.getUserById(id);
+        })
     }
 
     render(){

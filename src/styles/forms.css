@@ -131,22 +131,9 @@ textarea:focus,
     background: white;
 }
 
-
-/* @media screen and (max-width:800px) {
-
-    select,
-    textarea,
-    .field {
-        display: block;
+@media screen and (max-width:800px) {
+    form{
+        width: 60%;
+        padding: 3rem 0;
     }
-
-    select,
-    textarea {
-        width: 100%;
-    }
-
-    .field>label {
-        width: auto;
-        text-align: left;
-    }
-} */
+}

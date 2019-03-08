@@ -10,7 +10,7 @@ class Catalog extends Component{
 
         this.state ={
             dogs:[],
-            isLoading:true
+            isLoading:false
         }
 
         this.getAllDogs=this.props.getAllDogs.bind(this);
@@ -19,13 +19,15 @@ class Catalog extends Component{
     static DogService = new dogService();
 
     componentDidMount(props){
-        const isAdmin=this.props.isAdmin;
-        if(isAdmin){
-            this.getAllDogs()
-        }else{
-            const filter='"status":"available"';
-            this.getAllDogs(filter);
-        }
+        this.setState({isLoading:true},()=>{
+            const isAdmin=this.props.isAdmin;
+            if(isAdmin){
+                this.getAllDogs()
+            }else{
+                const filter='"status":"available"';
+                this.getAllDogs(filter);
+            }
+        })
     }
 
     render(){

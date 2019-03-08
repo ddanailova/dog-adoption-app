@@ -21,6 +21,33 @@ html {
     }
 }
 
+@media screen and (max-width:950px) {
+    table thead {
+        display: none;
+    }
+
+    table,
+    table tbody,
+    table tr,
+    table td {
+        display: block;
+    }
+
+    table tr {
+        border: 2px solid black;
+    }
+
+    table tbody td:before{
+        display: inline-block;
+        width: 20%;
+        font-weight: bold;
+        text-align: right;
+        padding-right:1rem;
+        white-space: nowrap;
+        content:attr(data-label);
+    }
+}
+
 table,
 td,
 th,

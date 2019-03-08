@@ -10,6 +10,7 @@ class Details extends Component{
 
         this.state={
             selectedItem:{},
+            isLoading:false
         }
 
         this.getDogById=this.props.getDogById.bind(this);
@@ -17,18 +18,23 @@ class Details extends Component{
     static DogService = new dogService();
 
     componentDidMount(){
-        const {id}= this.props.match.params;
-        this.getDogById(id);
+        this.setState({isLoading:true},()=>{
+            const {id}= this.props.match.params;
+            this.getDogById(id);
+        })
     }
 
 
     render(){
-        const {selectedItem}=this.state;
+        const {selectedItem, isLoading}=this.state;
         return (
             <main className='site-content user'>
                 <section className="site-details">
                     {
-                        <CardWithContext {...this.props} details={selectedItem} />
+                        isLoading ? (
+                            <h3><i className="fas fa-paw"></i> Loading ........ <i className="fas fa-paw"></i></h3>
+                        ):(
+                        <CardWithContext {...this.props} details={selectedItem} />)
                     }
                 </section>
             </main>

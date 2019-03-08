@@ -79,7 +79,7 @@
 
 .guest .site-index .site-description {
     color: #ccc;
-    width: 40rem;
+    width: 60%;
     margin: 0 auto;
 }
 
@@ -211,8 +211,10 @@
     }
 }
 
-
 @media screen and (max-width:900px) {
+    .guest .site-index .site-description {
+        width:80%;
+    }
     .watch-list {
         display: block;
     }
@@ -229,8 +231,5 @@
         padding: 2rem 2rem;
     }
 }
-/* @media screen and (max-width:700px) {
-    .site-details .card{
-        width: 100%;
-    }
-} */
+
+

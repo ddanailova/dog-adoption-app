@@ -66,10 +66,11 @@ const CardContent =(props)=>{
                 buttons.map(button=>{
                     return(
                         <LinkButton 
-                            buttonType={button} 
-                            idForPath={details._id} 
+                            key={button}
+                            text={button}
+                            buttonType={button}
+                            idForPath={details._id}
                             extraClassNames='button-reverse'
-                            text={button}  
                             onClick={handleClickButton}
                         />
                     )

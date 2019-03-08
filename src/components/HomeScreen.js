@@ -12,7 +12,7 @@ const HomeScreen=(props)=>{
                 {
                     props.buttons.map(button=>{
                         const userId = localStorage.getItem('userId');
-                            return <LinkButton idForPath={userId} buttonType={button} text={button}/>
+                            return <LinkButton idForPath={userId} buttonType={button} text={button} key={button}/>
                     })
                 }
         </section>

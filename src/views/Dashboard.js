@@ -1,5 +1,5 @@
 import React, {Component}from 'react';
-import {Link} from 'react-router-dom';
+import {Link,Redirect} from 'react-router-dom';
 import {UserContext} from '../components/contexts/userContext';
 import LinkButton from './../components/LinkButton';
 
@@ -9,7 +9,7 @@ class Dashboard extends Component{
 
         this.state ={
             applications:[],
-            isLoading:true,
+            isLoading:false,
             hasChanged:false
         }
 
@@ -18,8 +18,9 @@ class Dashboard extends Component{
     }
 
     componentDidMount(props){
-        this.getAllApplications()
+        this.setState({isLoading:true},()=>this.getAllApplications());
     }
+
 
     handleClick=(ev, data)=>{
         const buttonType =ev.target.text.toLowerCase();
@@ -37,6 +38,10 @@ class Dashboard extends Component{
 
     render(){
         const {applications, isLoading}=this.state;
+        const {isAdmin}=this.props;
+        if(!isAdmin){
+            return <Redirect to="/"/>
+         }
         return(
             <main className='site-content admin'>
                 <section className="site-index">
@@ -52,10 +57,10 @@ class Dashboard extends Component{
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Dog ID</th>
-                                        <th>User ID</th>
-                                        <th>Status</th>
-                                        <th>Update</th>
+                                        <th data-label="Dog ID">Dog ID</th>
+                                        <th data-label="User ID">User ID</th>
+                                        <th data-label="Status">Status</th>
+                                        <th data-label="Update">Update</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -95,20 +100,36 @@ class Dashboard extends Component{
     }
 }
 
-// const DashboardWithContext =(props)=> {
-//     return (
-//         <UserContext.Consumer>
-//             {
-//                 ({isAdmin})=>(
-//                     <Dashboard
-//                         {...props}
-//                         isAdmin={isAdmin}
-//                     />
-//                 )
-//             }
-//         </UserContext.Consumer>
-//     )
-// }
+class DashboardWithContext extends Component {
+    constructor(props){
+        super(props);
 
-// export {Dashboard}
-export default Dashboard;
+        this.state={
+            hasChanged:false
+        }
+    }
+
+    updateParentState=(state)=>{
+        this.setState({
+            hasChanged:state
+        })
+    }
+    render(){
+        return (
+            <UserContext.Consumer>
+                {
+                    ({isAdmin})=>(
+                        <Dashboard
+                            {...this.props}
+                            isAdmin={isAdmin}
+                            updateParentState={this.props}
+                        />
+                    )
+                }
+            </UserContext.Consumer>
+        )
+    }
+}
+
+export {Dashboard}
+export default DashboardWithContext;

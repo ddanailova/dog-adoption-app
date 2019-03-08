@@ -159,7 +159,7 @@ class App extends Component {
         }else{
             this.setState({
                 userDetails:resBody,
-                isLoaing:false
+                isLoading:false
             })
         }
     })
@@ -223,6 +223,7 @@ class App extends Component {
                   story:resBody.story,
                   '_id':resBody._id
               },
+              isLoading:false
             })
         }
     })
@@ -404,12 +405,11 @@ class App extends Component {
                   toast.success(`The application has been ${appData.status}ed`, {
                     closeButton: false,
                     position: toast.POSITION.BOTTOM_RIGHT,
-                    autoClose: 6000
+                    autoClose: 3000
                   });
                   this.setState({
-                    // applications:[],
-                    hasChanged:true
-                  })
+                    isLoading:true
+                  }, ()=>this.getAllApplications())
                 }
               });
             }
