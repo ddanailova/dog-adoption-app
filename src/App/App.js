@@ -303,11 +303,36 @@ class App extends Component {
           autoClose: 6000
         });
       }else{
-        toast.success(`You have successfully deleted the card!`, {
-          closeButton: false,
-          position: toast.POSITION.BOTTOM_RIGHT,
-          autoClose: 3000
-        });
+        App.ApplicationService.getAll(`"dogId":"${id}"`).then(resBody=>{
+          if(resBody.error){
+            toast.error(resBody.description , {
+              closeButton: false,
+              autoClose: 6000
+            });
+          }else{
+            let hadIssue=false;
+            resBody.forEach(app=>{
+              App.ApplicationService.update(app._id, {...app, status:"dog deleted"})
+              .then(()=>{
+                if(resBody.error){
+                  hadIssue=true;
+                  toast.error(resBody.description , {
+                    closeButton: false,
+                    autoClose: 6000
+                  });
+                }
+              })
+            });
+
+            if(!hadIssue){
+              toast.success(`You have successfully deleted the card!`, {
+                closeButton: false,
+                position: toast.POSITION.BOTTOM_RIGHT,
+                autoClose: 3000
+              });
+            }
+          }
+        })
       }
     }).catch(err=>{
       console.log(err);
@@ -320,7 +345,7 @@ class App extends Component {
 
   //for applications 
   getAllApplications(){
-    App.ApplicationService.getAll('')
+    App.ApplicationService.getAll('',{type:"_kmd.ect",value: -1})
       .then(resBody=>{
         if(resBody.error){
           toast.error(resBody.description , {

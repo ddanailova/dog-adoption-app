@@ -23,7 +23,7 @@ const LinkButton =(props)=>{
         case 'edit':
             return(<Link to={`/${buttonType}/${idForPath}`} className={styleClasses}>{text}</Link>);
         case 'delete':
-            return(<Link to={`/catalog`} className={styleClasses +' cancel'} onClick={onClick}>{text}</Link>);
+            return(<Link to={'/'} className={styleClasses +' cancel'} onClick={onClick}>{text}</Link>);
         case 'adopt':
             return(<Link to='/' className={styleClasses} onClick={onClick}>{text}</Link>);
         case 'backToHome':
