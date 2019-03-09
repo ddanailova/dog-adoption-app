@@ -78,10 +78,7 @@ class App extends Component {
       }
     }).catch(err=>{
       console.log(err);
-      toast.error('Sorry, something went wrong with the server. We are working on it!', {
-          closeButton: false,
-          autoClose: false
-      })
+      this.displayToastMessage('error', 'Sorry, something went wrong with the server. We are working on it!', 6000 );
     })
   }
 
@@ -104,7 +101,7 @@ class App extends Component {
       }
     }).catch(err=>{
       console.log(err);
-      this.displayToastMessage('error', 'Sorry, something went wrong with the server. We are working on it!', false );
+      this.displayToastMessage('error', 'Sorry, something went wrong with the server. We are working on it!', 6000 );
     })
   }
 
@@ -126,7 +123,7 @@ class App extends Component {
       }
     }).catch(err=>{
       console.log(err);
-      this.displayToastMessage('error', 'Sorry, something went wrong with the server. We are working on it!', false );
+      this.displayToastMessage('error', 'Sorry, something went wrong with the server. We are working on it!', 6000 );
     })
   }
 
@@ -147,7 +144,7 @@ class App extends Component {
         this.setState({
             isLoading:false
         });
-        this.displayToastMessage('error', 'Sorry, something went wrong with the server. We are working on it!', false );
+        this.displayToastMessage('error', 'Sorry, something went wrong with the server. We are working on it!', 6000 );
     })
   }
   //for the dogs
@@ -169,7 +166,7 @@ class App extends Component {
             this.setState({
                 isLoading:false
             });
-          this.displayToastMessage('error', 'Sorry, something went wrong with the server. We are working on it!', false );
+          this.displayToastMessage('error', 'Sorry, something went wrong with the server. We are working on it!', 6000 );
       })
   }
 
@@ -195,7 +192,7 @@ class App extends Component {
     })
     .catch(err => {
         console.log(err);
-        this.displayToastMessage('error', 'Sorry, something went wrong with the server. We are working on it!', false );
+        this.displayToastMessage('error', 'Sorry, something went wrong with the server. We are working on it!', 6000 );
     })
   }
 
@@ -212,7 +209,7 @@ class App extends Component {
       }
     }).catch(err=>{
       console.log(err);
-      this.displayToastMessage('error', 'Sorry, something went wrong with the server. We are working on it!', false );
+      this.displayToastMessage('error', 'Sorry, something went wrong with the server. We are working on it!', 6000 );
     })
   }
 
@@ -229,25 +226,19 @@ class App extends Component {
       }
     }).catch(err=>{
       console.log(err);
-      this.displayToastMessage('error', 'Sorry, something went wrong with the server. We are working on it!', false );
+      this.displayToastMessage('error', 'Sorry, something went wrong with the server. We are working on it!', 6000 );
     })
   }
 
-  removeDog(id){
+  removeDog=(id)=>{
     App.DogService.remove(id)
     .then(resBody=>{
       if(resBody.error){
-        toast.error(resBody.description , {
-          closeButton: false,
-          autoClose: 6000
-        });
+        this.displayToastMessage('error', resBody.description, 6000 );
       }else{
         App.ApplicationService.getAll(`"dogId":"${id}"`).then(resBody=>{
           if(resBody.error){
-            toast.error(resBody.description , {
-              closeButton: false,
-              autoClose: 6000
-            });
+            this.displayToastMessage('error', resBody.description, 6000 );
           }else{
             let hadIssue=false;
             resBody.forEach(app=>{
@@ -255,29 +246,20 @@ class App extends Component {
               .then(()=>{
                 if(resBody.error){
                   hadIssue=true;
-                  toast.error(resBody.description , {
-                    closeButton: false,
-                    autoClose: 6000
-                  });
+                  this.displayToastMessage('error', resBody.description, 6000 );
                 }
               })
             });
 
             if(!hadIssue){
-              toast.success('You have successfully deleted the card!' , {
-                closeButton: false,
-                autoClose: 3000
-              });
+              this.displayToastMessage('success', 'You have successfully deleted the card!', 3000 );
             }
           }
         })
       }
     }).catch(err=>{
       console.log(err);
-      toast.error('Sorry, something went wrong with the server. We are working on it!' , {
-        closeButton: false,
-        autoClose: false
-      });
+      this.displayToastMessage('error', 'Sorry, something went wrong with the server. We are working on it!', 6000 );
     })
   }
 
@@ -295,12 +277,12 @@ class App extends Component {
         }
       }).catch(err=>{
         console.log(err);
-        this.displayToastMessage('error', 'Sorry, something went wrong with the server. We are working on it!', false );
+        this.displayToastMessage('error', 'Sorry, something went wrong with the server. We are working on it!', 6000 );
       }
     )
   }
 
-  createApplication(data, dogDetails){
+  createApplication=(data, dogDetails)=>{
     App.ApplicationService.create(data)
     .then(resBody=>{
       if(resBody.error){
@@ -311,14 +293,14 @@ class App extends Component {
             if(resBody.error){
               this.displayToastMessage('error', resBody.description, 6000 );
             }else{
-              this.displayToastMessage('success','Your application has been sent. We will get in touch with you shortly for more details.', 6000 );
+              this.displayToastMessage('success', 'Your application has been sent. We will get in touch with you shortly for more details.', 6000 );
             }
           }
         );
       }
     }).catch(err=>{
       console.log(err);
-      this.displayToastMessage('error', 'Sorry, something went wrong with the server. We are working on it!', false );
+      this.displayToastMessage('error', 'Sorry, something went wrong with the server. We are working on it!', 6000 );
     })
   }
 
@@ -337,8 +319,10 @@ class App extends Component {
               .then(resBody=>{
                 if(resBody.error){
                   this.displayToastMessage('error', resBody.description, 6000 );
+
                 }else{
-                  this.displayToastMessage('success',`The application has been ${appData.status}ed`, 3000 );
+                  this.displayToastMessage('success', `The application has been ${appData.status}ed`, 6000 );
+
                   this.setState({
                     isLoading:true
                   }, ()=>this.getAllApplications())
@@ -350,7 +334,7 @@ class App extends Component {
       }
     }).catch(err=>{
       console.log(err);
-      this.displayToastMessage('error', 'Sorry, something went wrong with the server. We are working on it!', false );
+      this.displayToastMessage('error', 'Sorry, something went wrong with the server. We are working on it!', 6000 );
     })
   }
 
@@ -368,7 +352,7 @@ class App extends Component {
 
     }).catch(err=>{
       console.log(err);
-      this.displayToastMessage('error', 'Sorry, something went wrong with the server. We are working on it!', false );
+      this.displayToastMessage('error', 'Sorry, something went wrong with the server. We are working on it!', 6000 );
     })
   }
 
