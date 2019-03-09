@@ -1,6 +1,5 @@
-import React, {Component}from 'react';
-import {Link,Redirect} from 'react-router-dom';
-import {UserContext} from '../components/contexts/userContext';
+import React, {Component, Fragment}from 'react';
+import {Link} from 'react-router-dom';
 import LinkButton from './../components/LinkButton';
 
 class Dashboard extends Component{
@@ -15,6 +14,7 @@ class Dashboard extends Component{
 
         this.getAllApplications=this.props.getAllApplications.bind(this);
         this.changeAplication=this.props.changeAplication.bind(this);
+        this.removeApplication=this.props.removeApplication.bind(this);
     }
 
     componentDidMount(props){
@@ -33,15 +33,13 @@ class Dashboard extends Component{
             //appId, appData, dogId, dogStatus
             const newAppData = {...data, status:'canceled'}
             this.changeAplication(data._id, newAppData, data.dogId, 'available');
+        }else if(buttonType==='remove'){
+            this.removeApplication(data._id);
         }
     }
 
     render(){
         const {applications, isLoading}=this.state;
-        const {isAdmin}=this.props;
-        if(!isAdmin){
-            return <Redirect to="/"/>
-         }
         return(
             <main className='site-content admin'>
                 <section className="site-index">
@@ -57,10 +55,10 @@ class Dashboard extends Component{
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th data-label="Dog ID">Dog ID</th>
-                                        <th data-label="User ID">User ID</th>
-                                        <th data-label="Status">Status</th>
-                                        <th data-label="Update">Update</th>
+                                        <th>Dog ID</th>
+                                        <th>User ID</th>
+                                        <th>Status</th>
+                                        <th>Update</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -72,18 +70,31 @@ class Dashboard extends Component{
                                             <td><Link to={`/profile/${application.userId}`}>{application.userId}</Link></td>
                                             <td>{application.status}</td>
                                             <td>
-                                                <LinkButton 
-                                                    extraClassNames='button-reverse' 
-                                                    buttonType='approve' 
-                                                    text='approve'
-                                                    onClick={(ev)=>this.handleClick(ev, application)}
-                                                    />
-                                                <LinkButton 
-                                                    extraClassNames='button-reverse cancel'
-                                                    buttonType='cancel' 
-                                                    text='cancel'
+                                            {   
+                                                (application.status==='remove from database')?(
+                                                    <LinkButton 
+                                                    extraClassNames='button-reverse cancel' 
+                                                    buttonType='remove' 
+                                                    text='remove'
                                                     onClick={(ev)=>this.handleClick(ev, application)}
                                                 />
+                                                ):(
+                                                    <Fragment>
+                                                        <LinkButton 
+                                                            extraClassNames='button-reverse' 
+                                                            buttonType='approve' 
+                                                            text='approve'
+                                                            onClick={(ev)=>this.handleClick(ev, application)}
+                                                        />
+                                                        <LinkButton 
+                                                            extraClassNames='button-reverse cancel'
+                                                            buttonType='cancel' 
+                                                            text='cancel'
+                                                            onClick={(ev)=>this.handleClick(ev, application)}
+                                                        />
+                                                    </Fragment>
+                                                )
+                                            }
                                             </td>
                                         </tr>
                                     )
@@ -100,36 +111,4 @@ class Dashboard extends Component{
     }
 }
 
-class DashboardWithContext extends Component {
-    constructor(props){
-        super(props);
-
-        this.state={
-            hasChanged:false
-        }
-    }
-
-    updateParentState=(state)=>{
-        this.setState({
-            hasChanged:state
-        })
-    }
-    render(){
-        return (
-            <UserContext.Consumer>
-                {
-                    ({isAdmin})=>(
-                        <Dashboard
-                            {...this.props}
-                            isAdmin={isAdmin}
-                            updateParentState={this.props}
-                        />
-                    )
-                }
-            </UserContext.Consumer>
-        )
-    }
-}
-
-export {Dashboard}
-export default DashboardWithContext;
+export default Dashboard;

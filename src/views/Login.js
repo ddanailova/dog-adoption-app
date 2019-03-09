@@ -1,11 +1,9 @@
 import React from 'react';
-import {Redirect} from 'react-router-dom'
 import BindingForm from '../components/BindingForms';
-import {UserContext} from '../components/contexts/userContext';
 import { toast } from 'react-toastify';
 
 const Login =(props) =>{
-    const {username, login}=props;
+    const {login}=props;
     const handelSubmit = (ev, data)=>{
         ev.preventDefault();
         let hasAllValues=true;
@@ -29,9 +27,6 @@ const Login =(props) =>{
         }
     }
 
-    if(username){
-       return <Redirect to="/"/>
-    }
     return (
 
         <main className='site-content guest'>
@@ -55,23 +50,6 @@ const Login =(props) =>{
             </section>
         </main>
     )
-    
 }
 
-const LoginWithContext =(props)=> {
-    return (
-        <UserContext.Consumer>
-            {
-                ({username})=>(
-                    <Login
-                        {...props}
-                        username={username}
-                    />
-                )
-            }
-        </UserContext.Consumer>
-    )
-}
-
-export {Login}
-export default LoginWithContext;
+export default Login;

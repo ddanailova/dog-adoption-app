@@ -26,17 +26,21 @@ html {
         display: none;
     }
 
+    table:hover thead{
+        display: block;
+    }
+
     table,
     table tbody,
     table tr,
     table td {
         display: block;
     }
-
+    
     table tr {
         border: 2px solid black;
     }
-
+    
     table tbody td:before{
         display: inline-block;
         width: 20%;
@@ -45,6 +49,17 @@ html {
         padding-right:1rem;
         white-space: nowrap;
         content:attr(data-label);
+    }
+    table td:first-child,
+    table th:first-child {
+        width:25%
+    }
+
+    table:hover thead tr {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top:24%; left:14%;
     }
 }
 

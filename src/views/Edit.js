@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
 import {Redirect} from 'react-router-dom'
 import BindingForm from '../components/BindingForms';
-import {UserContext} from '../components/contexts/userContext';
 import staticData from '../constants/staticData.js';
-import { toast } from 'react-toastify';
+
 
 class Edit extends Component{
     constructor(props){
@@ -41,13 +40,10 @@ class Edit extends Component{
     render(){
         const {selectedItem, redirect}=this.state;
         const {id}= this.props.match.params;
-        const {isAdmin}=this.props;
         const breeds = staticData.breeds;
         const statuses= staticData.statuses;
 
-        if(!isAdmin){
-            return <Redirect to="/"/>
-         }else if(redirect){
+        if(redirect){
             return <Redirect to={`/details/${id}`}/>
          }
         return(
@@ -103,20 +99,4 @@ class Edit extends Component{
     }
 }
 
-const EditWithContext =(props)=> {
-    return (
-        <UserContext.Consumer>
-            {
-                ({isAdmin})=>(
-                    <Edit
-                        {...props}
-                        isAdmin={isAdmin}
-                    />
-                )
-            }
-        </UserContext.Consumer>
-    )
-}
-
-export {Edit}
-export default EditWithContext;
+export default Edit;

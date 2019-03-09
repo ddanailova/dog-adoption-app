@@ -3,24 +3,26 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import UserService from '../services/userService';
-import DogService from '../services/dogService';
-import AplicationService from '../services/applicationService';
-
 import HomeWithContext from '../views/Home';
-import LoginWithContext from '../views/Login';
-import RegisterWithContext from '../views/Register';
-import LogoutWithContext from '../views/Logout';
-import CreateWithContext from '../views/Create';
-import EditWithContext from '../views/Edit';
+import Login from '../views/Login';
+import Register from '../views/Register';
+import Logout from '../views/Logout';
 import CatalogWithContext from '../views/Catalog';
 import Details from '../views/Details';
 import Profile from '../views/Profile';
-import DashboardWithContext from '../views/Dashboard';
+import Dashboard from '../views/Dashboard';
+import Create from '../views/Create';
+import Edit from '../views/Edit';
 import NotFound from '../views/NotFound';
 
 import HeaderWithContext from '../components/Header';
 import Footer from '../components/Footer';
+import {AdminRoute,UserRoute,AnonimusRoute} from '../components/AuthorizedRout'
+
+import UserService from '../services/userService';
+import DogService from '../services/dogService';
+import AplicationService from '../services/applicationService';
+
 import {defaultUserState, UserContext} from '../components/contexts/userContext';
 
 import './App.css';
@@ -58,7 +60,7 @@ class App extends Component {
           let isAdmin = App.UserService.isUserAdmin(resBody);
           App.UserService.storeUserData(resBody, isAdmin);
           
-          toast.success(`Registration successful! Welcome, ${resBody.username}`, {
+          toast.success(`Registration successful! Welcome, ${resBody.username}!`, {
             closeButton: false,
             position: toast.POSITION.BOTTOM_RIGHT,
             autoClose: 3000
@@ -93,7 +95,7 @@ class App extends Component {
         let isAdmin = App.UserService.isUserAdmin(resBody);
         App.UserService.storeUserData(resBody, isAdmin);
   
-        toast.success(`Login successful! Welcome back, ${resBody.username}`, {
+        toast.success(`Login successful! Welcome back, ${resBody.username}!`, {
           closeButton: false,
           position: toast.POSITION.BOTTOM_RIGHT,
           autoClose: 3000
@@ -154,7 +156,7 @@ class App extends Component {
         if(resBody.error){
             toast.error(resBody.description, {
                 closeButton: false,
-                autoClose: false
+                autoClose: 6000
             })
         }else{
             this.setState({
@@ -182,7 +184,7 @@ class App extends Component {
             if(resBody.error){
                 toast.error(resBody.description, {
                     closeButton: false,
-                    autoClose: false
+                    autoClose: 6000
                 })
             }else{
                 this.setState({
@@ -209,7 +211,7 @@ class App extends Component {
         if (resBody.error) {
             toast.error(resBody.description, {
                 closeButton: false,
-                autoClose: false
+                autoClose: 6000
             })
         } else {
 
@@ -312,7 +314,7 @@ class App extends Component {
           }else{
             let hadIssue=false;
             resBody.forEach(app=>{
-              App.ApplicationService.update(app._id, {...app, status:"dog deleted"})
+              App.ApplicationService.update(app._id, {...app, status:"remove from database"})
               .then(()=>{
                 if(resBody.error){
                   hadIssue=true;
@@ -450,6 +452,34 @@ class App extends Component {
     })
   }
 
+  removeApplication(id){
+    App.ApplicationService.remove(id)
+    .then(resBody=>{
+      if(resBody.error){
+        toast.error(resBody.description , {
+          closeButton: false,
+          autoClose: 6000
+        });
+      }else{
+        toast.success(`The application has been removed from the database!`, {
+          closeButton: false,
+          position: toast.POSITION.BOTTOM_RIGHT,
+          autoClose: 3000
+        });
+        this.setState({
+          isLoading:true
+        }, ()=>this.getAllApplications())
+      }
+
+    }).catch(err=>{
+      console.log(err);
+      toast.error('Sorry, something went wrong with the server. We are working on it!', {
+          closeButton: false,
+          autoClose: false
+      })
+    })
+  }
+
   render() {
     const {user}=this.state;
     return (
@@ -463,41 +493,65 @@ class App extends Component {
                   path="/" 
                   component={HomeWithContext}
                 />
-                <Route 
+                <AnonimusRoute 
                   path='/login' 
-                  render={(props)=><LoginWithContext {...props} login={this.login}/>}
+                  render={(props)=><Login {...props} 
+                    login={this.login}
+                  />}
                 />
-                <Route 
+                <AnonimusRoute 
                   path='/signup' 
-                  render={(props)=><RegisterWithContext {...props} register={this.register}/>} 
+                  render={(props)=><Register {...props} 
+                    register={this.register}
+                  />} 
                 />
-                <Route 
-                path='/logout' 
-                render={(props)=><LogoutWithContext {...props} logout={this.logout}/>} 
+                <UserRoute 
+                  path='/logout' 
+                  render={(props)=><Logout {...props} 
+                    logout={this.logout}
+                  />} 
                 />
-                <Route 
-                  path='/catalog' 
-                  render={(props)=><CatalogWithContext {...props} getAllDogs={this.getAllDogs}/>} 
+                <UserRoute
+                  path='/catalog'
+                  render={(props)=><CatalogWithContext {...props} 
+                    getAllDogs={this.getAllDogs}
+                  />} 
                 />
-                <Route 
-                  path='/create' 
-                  render={(props)=><CreateWithContext {...props} createDog={this.createDog}/>} 
+                <UserRoute 
+                path='/details/:id' 
+                render={(props)=><Details {...props}  
+                removeDog={this.removeDog}   
+                getDogById={this.getDogById}   
+                createApplication={this.createApplication}  
+                editDog={this.editDog}
+                />}
                 />
-                <Route 
-                path='/edit/:id' 
-                render={(props)=><EditWithContext {...props} editDog={this.editDog} getDogById={this.getDogById}/>} 
-              />
-                <Route 
-                  path='/details/:id' 
-                  render={(props)=><Details {...props} removeDog={this.removeDog}  getDogById={this.getDogById} createApplication={this.createApplication} editDog={this.editDog}/>}
-                />
-                <Route 
+                <UserRoute
                 path='/profile/:id' 
-                render={(props)=><Profile {...props} getUserById={this.getUserById}/>}
-              />
-                <Route 
+                render={(props)=><Profile {...props} 
+                getUserById={this.getUserById}
+                />}
+                />
+                <AdminRoute
                   path='/dashboard' 
-                  render={(props)=><DashboardWithContext {...props} getAllApplications={this.getAllApplications} changeAplication={this.changeAplication}/>} 
+                  render={(props)=><Dashboard {...props} 
+                    getAllApplications={this.getAllApplications} 
+                    changeAplication={this.changeAplication}
+                    removeApplication={this.removeApplication}
+                  />} 
+                />
+                <AdminRoute
+                  path='/create' 
+                  render={(props)=><Create {...props} 
+                    createDog={this.createDog}
+                  />} 
+                />
+                <AdminRoute 
+                  path='/edit/:id' 
+                  render={(props)=><Edit {...props} 
+                    editDog={this.editDog} 
+                    getDogById={this.getDogById}
+                  />} 
                 />
                 <Route
                   component ={NotFound}

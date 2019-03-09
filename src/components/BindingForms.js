@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import isEqual from 'react-fast-compare';
 import staticData from '../constants/staticData.js';
-import Button from './LinkButton';
 
 class BindingForm extends Component {
     constructor(props){

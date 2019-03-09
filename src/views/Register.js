@@ -1,11 +1,9 @@
 import React from 'react';
-import {Redirect} from 'react-router-dom';
-import {UserContext} from '../components/contexts/userContext';
 import BindingForm from '../components/BindingForms';
 import { toast } from 'react-toastify';
 
 const Register =(props)=> {
-    const {username, register}=props;
+    const {register}=props;
 
     const handelSubmit = (ev, data)=>{
         ev.preventDefault();
@@ -36,10 +34,6 @@ const Register =(props)=> {
             };
             register(userData);
         }
-    }
-
-    if(username){
-        return <Redirect to='/'/>
     }
 
     return (
@@ -89,23 +83,6 @@ const Register =(props)=> {
             </section>
         </main>
     )
-
 }
 
-const RegisterWithContext =(props)=> {
-    return (
-        <UserContext.Consumer>
-            {
-                ({username})=>(
-                    <Register
-                        {...props}
-                        username={username}
-                    />
-                )
-            }
-        </UserContext.Consumer>
-    )
-}
-
-export {Register}
-export default RegisterWithContext;
+export default Register;

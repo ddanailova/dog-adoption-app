@@ -1,20 +1,20 @@
-import React from 'react';
-import {Redirect} from 'react-router-dom';
-import {UserContext} from '../components/contexts/userContext';
+import React, {Component} from 'react';
+import HomeScreen from '../components/HomeScreen';
 
-const LogoutWithContext=(props)=>{
-    return(
-        <UserContext.Consumer>
-        {
-            ({username})=>{
-                if(username){
-                    props.logout();
-                }
-                return <Redirect to="/"/>
-            }
-        }
-        </UserContext.Consumer>
-    )
+class Logout extends Component{
+
+    componentDidMount(props){
+        const {logout}=this.props;
+        logout();
+    }
+    render(){
+
+        return (
+            <HomeScreen
+                title='Goodbye, see you soon!'
+            />
+        )
+    }
 }
 
-export default LogoutWithContext;
+export default Logout;

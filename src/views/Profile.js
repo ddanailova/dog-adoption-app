@@ -1,5 +1,4 @@
 import React, {Component, Fragment} from 'react';
-import toast from 'react-toastify';
 import {Card} from '../components/Card';
 import userService from './../services/userService';
 
