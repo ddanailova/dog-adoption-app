@@ -40,32 +40,34 @@ class App extends Component {
   static DogService= new DogService();
   static ApplicationService = new AplicationService();
 
-  componentWillUnmount(){
-    
-  }
-
     // for the user
   updateUser =(userData)=>{
     this.setState({user:userData})
   }
 
+  displayToastMessage(type, message, closingTime){
+    if(type==='error'){
+      toast.error(message , {
+        closeButton: false,
+        autoClose: closingTime
+      });
+    }else if(type==='success'){
+      toast.success(message, {
+        closeButton: false,
+        position: toast.POSITION.BOTTOM_RIGHT,
+        autoClose: closingTime
+      });
+    }
+  }
+
   register =(userData)=>{
     App.UserService.register(userData).then((resBody)=>{
       if(resBody.error){
-          toast.error(resBody.description , {
-            closeButton: false,
-            autoClose: 6000
-          });
+        this.displayToastMessage('error', resBody.description, 6000 );
         }else{
           let isAdmin = App.UserService.isUserAdmin(resBody);
           App.UserService.storeUserData(resBody, isAdmin);
-          
-          toast.success(`Registration successful! Welcome, ${resBody.username}!`, {
-            closeButton: false,
-            position: toast.POSITION.BOTTOM_RIGHT,
-            autoClose: 3000
-          });
-
+          this.displayToastMessage('success', `Registration successful! Welcome, ${resBody.username}!`, 3000 );
           this.setState({
             user:{
               username:resBody.username,
@@ -87,20 +89,11 @@ class App extends Component {
     App.UserService.login(userData)
     .then(resBody=>{ 
       if(resBody.error){
-        toast.error(resBody.description , {
-          closeButton: false,
-          autoClose: 6000
-        });
+        this.displayToastMessage('error', resBody.description, 6000 );
       }else{
         let isAdmin = App.UserService.isUserAdmin(resBody);
         App.UserService.storeUserData(resBody, isAdmin);
-  
-        toast.success(`Login successful! Welcome back, ${resBody.username}!`, {
-          closeButton: false,
-          position: toast.POSITION.BOTTOM_RIGHT,
-          autoClose: 3000
-        });
-
+        this.displayToastMessage('success', `Login successful! Welcome back, ${resBody.username}!`, 3000 );
         this.setState( {
           user:{
             username:resBody.username,
@@ -111,28 +104,18 @@ class App extends Component {
       }
     }).catch(err=>{
       console.log(err);
-      toast.error('Sorry, something went wrong with the server. We are working on it!', {
-          closeButton: false,
-          autoClose: false
-      })
+      this.displayToastMessage('error', 'Sorry, something went wrong with the server. We are working on it!', false );
     })
   }
 
   logout = () => {
     App.UserService.logout()
-    .then(response=>{
-      if(response.error){
-          toast.error(response.description , {
-            closeButton: false,
-            autoClose: 6000
-          });
+    .then(resBody=>{
+      if(resBody.error){
+        this.displayToastMessage('error', resBody.description, 6000 );
         }else{
         App.UserService.clearStoredData();
-        toast.success('Logout successful! Come back soon!', {
-          closeButton: false,
-          position: toast.POSITION.BOTTOM_RIGHT,
-          autoClose: 3000 
-        });
+        this.displayToastMessage('success', 'Logout successful! Come back soon!', 3000 );
         this.setState({
           user:{
             username:null,
@@ -143,10 +126,7 @@ class App extends Component {
       }
     }).catch(err=>{
       console.log(err);
-      toast.error('Sorry, something went wrong with the server. We are working on it!', {
-          closeButton: false,
-          autoClose: false
-      })
+      this.displayToastMessage('error', 'Sorry, something went wrong with the server. We are working on it!', false );
     })
   }
 
@@ -154,10 +134,7 @@ class App extends Component {
     App.UserService.getUserById(id)
     .then(resBody=>{
         if(resBody.error){
-            toast.error(resBody.description, {
-                closeButton: false,
-                autoClose: 6000
-            })
+          this.displayToastMessage('error', resBody.description, 6000 );
         }else{
             this.setState({
                 userDetails:resBody,
@@ -170,10 +147,7 @@ class App extends Component {
         this.setState({
             isLoading:false
         });
-        toast.error('Sorry, something went wrong with the server. We are working on it!', {
-            closeButton: false,
-            autoClose: false
-        })
+        this.displayToastMessage('error', 'Sorry, something went wrong with the server. We are working on it!', false );
     })
   }
   //for the dogs
@@ -182,39 +156,29 @@ class App extends Component {
     App.DogService.getAll(filter)
         .then(resBody=>{
             if(resBody.error){
-                toast.error(resBody.description, {
-                    closeButton: false,
-                    autoClose: 6000
-                })
+              this.displayToastMessage('error', resBody.description, 6000 );
             }else{
                 this.setState({
                     dogs:resBody,
                     isLoading:false
                 })
             }
-        })
-        .catch(err=>{
+          }
+        ).catch(err=>{
             console.log(err);
             this.setState({
                 isLoading:false
             });
-            toast.error('Sorry, something went wrong with the server. We are working on it!', {
-                closeButton: false,
-                autoClose: false
-            })
-        })
+          this.displayToastMessage('error', 'Sorry, something went wrong with the server. We are working on it!', false );
+      })
   }
 
   getDogById(id){
     App.DogService.getById(id)
     .then(resBody => {
         if (resBody.error) {
-            toast.error(resBody.description, {
-                closeButton: false,
-                autoClose: 6000
-            })
+          this.displayToastMessage('error', resBody.description, 6000 );
         } else {
-
             this.setState({
                 selectedItem:{
                   name:resBody.name,
@@ -231,11 +195,7 @@ class App extends Component {
     })
     .catch(err => {
         console.log(err);
-        toast.error('Sorry, something went wrong with the server. We are working on it!', {
-            closeButton: false,
-            autoClose: false
-        }
-      )
+        this.displayToastMessage('error', 'Sorry, something went wrong with the server. We are working on it!', false );
     })
   }
 
@@ -243,27 +203,16 @@ class App extends Component {
     App.DogService.create(dogData)
     .then(resBody=>{
       if(resBody.error){
-        toast.error(resBody.description , {
-          closeButton: false,
-          autoClose: 6000
-        });
+        this.displayToastMessage('error', resBody.description, 6000 );
       }else{
-        toast.success(`You have successfully created a card for ${resBody.name}!`, {
-          closeButton: false,
-          position: toast.POSITION.BOTTOM_RIGHT,
-          autoClose: 3000
-        });
-
+        this.displayToastMessage('success', `You have successfully created a card for ${resBody.name}!`, 3000 );
         this.setState({
           redirectToHome:true
         });
       }
     }).catch(err=>{
       console.log(err);
-      toast.error('Sorry, something went wrong with the server. We are working on it!', {
-          closeButton: false,
-          autoClose: false
-      })
+      this.displayToastMessage('error', 'Sorry, something went wrong with the server. We are working on it!', false );
     })
   }
 
@@ -271,30 +220,18 @@ class App extends Component {
     App.DogService.update(id,dogData)
     .then(resBody=>{
       if(resBody.error){
-        toast.error(resBody.description , {
-          closeButton: false,
-          autoClose: 6000
-        });
+        this.displayToastMessage('error', resBody.description, 6000 );
       }else{
-        toast.success(`You have successfully edited a card for ${resBody.name}!`, {
-          closeButton: false,
-          position: toast.POSITION.BOTTOM_RIGHT,
-          autoClose: 3000
-        });
-
+        this.displayToastMessage('success', `You have successfully edited a card for ${resBody.name}!`, 3000 );
         this.setState({
           redirect:true
         });
       }
     }).catch(err=>{
       console.log(err);
-      toast.error('Sorry, something went wrong with the server. We are working on it!', {
-          closeButton: false,
-          autoClose: false
-      })
+      this.displayToastMessage('error', 'Sorry, something went wrong with the server. We are working on it!', false );
     })
   }
-
 
   removeDog(id){
     App.DogService.remove(id)
@@ -327,9 +264,8 @@ class App extends Component {
             });
 
             if(!hadIssue){
-              toast.success(`You have successfully deleted the card!`, {
+              toast.success('You have successfully deleted the card!' , {
                 closeButton: false,
-                position: toast.POSITION.BOTTOM_RIGHT,
                 autoClose: 3000
               });
             }
@@ -338,10 +274,10 @@ class App extends Component {
       }
     }).catch(err=>{
       console.log(err);
-      toast.error('Sorry, something went wrong with the server. We are working on it!', {
-          closeButton: false,
-          autoClose: false
-      })
+      toast.error('Sorry, something went wrong with the server. We are working on it!' , {
+        closeButton: false,
+        autoClose: false
+      });
     })
   }
 
@@ -350,10 +286,7 @@ class App extends Component {
     App.ApplicationService.getAll('',{type:"_kmd.ect",value: -1})
       .then(resBody=>{
         if(resBody.error){
-          toast.error(resBody.description , {
-            closeButton: false,
-            autoClose: 6000
-          });
+          this.displayToastMessage('error', resBody.description, 6000 );
         }else{
           this.setState({
             applications:resBody,
@@ -362,45 +295,30 @@ class App extends Component {
         }
       }).catch(err=>{
         console.log(err);
-        toast.error('Sorry, something went wrong with the server. We are working on it!', {
-            closeButton: false,
-            autoClose: false
-        })
-      })
+        this.displayToastMessage('error', 'Sorry, something went wrong with the server. We are working on it!', false );
+      }
+    )
   }
 
   createApplication(data, dogDetails){
     App.ApplicationService.create(data)
     .then(resBody=>{
       if(resBody.error){
-        toast.error(resBody.description , {
-          closeButton: false,
-          autoClose: 6000
-        });
+        this.displayToastMessage('error', resBody.description, 6000 );
       }else{
         App.DogService.update(data.dogId,{...dogDetails, status:'processing'})
           .then(resBody=>{
             if(resBody.error){
-              toast.error(resBody.description , {
-                closeButton: false,
-                autoClose: 6000
-              });
+              this.displayToastMessage('error', resBody.description, 6000 );
             }else{
-              toast.success(`Your application has been sent. We will get in touch with you shortly for more details.`, {
-                closeButton: false,
-                position: toast.POSITION.BOTTOM_RIGHT,
-                autoClose: 6000
-              });
+              this.displayToastMessage('success','Your application has been sent. We will get in touch with you shortly for more details.', 6000 );
             }
           }
         );
       }
     }).catch(err=>{
       console.log(err);
-      toast.error('Sorry, something went wrong with the server. We are working on it!', {
-          closeButton: false,
-          autoClose: false
-      })
+      this.displayToastMessage('error', 'Sorry, something went wrong with the server. We are working on it!', false );
     })
   }
 
@@ -408,32 +326,19 @@ class App extends Component {
     App.ApplicationService.update(appId, appData)
     .then(resBody=>{
       if(resBody.error){
-        toast.error(resBody.description , {
-          closeButton: false,
-          autoClose: 6000
-        });
+        this.displayToastMessage('error', resBody.description, 6000 );
       }else{
         App.DogService.getById(dogId)
           .then(resBody=>{
             if(resBody.error){
-              toast.error(resBody.description , {
-                closeButton: false,
-                autoClose: 6000
-              });
+              this.displayToastMessage('error', resBody.description, 6000 );
             }else{
               App.DogService.update(dogId,{...resBody, status:dogStatus})
               .then(resBody=>{
                 if(resBody.error){
-                  toast.error(resBody.description , {
-                    closeButton: false,
-                    autoClose: 6000
-                  });
+                  this.displayToastMessage('error', resBody.description, 6000 );
                 }else{
-                  toast.success(`The application has been ${appData.status}ed`, {
-                    closeButton: false,
-                    position: toast.POSITION.BOTTOM_RIGHT,
-                    autoClose: 3000
-                  });
+                  this.displayToastMessage('success',`The application has been ${appData.status}ed`, 3000 );
                   this.setState({
                     isLoading:true
                   }, ()=>this.getAllApplications())
@@ -445,10 +350,7 @@ class App extends Component {
       }
     }).catch(err=>{
       console.log(err);
-      toast.error('Sorry, something went wrong with the server. We are working on it!', {
-          closeButton: false,
-          autoClose: false
-      })
+      this.displayToastMessage('error', 'Sorry, something went wrong with the server. We are working on it!', false );
     })
   }
 
@@ -456,16 +358,9 @@ class App extends Component {
     App.ApplicationService.remove(id)
     .then(resBody=>{
       if(resBody.error){
-        toast.error(resBody.description , {
-          closeButton: false,
-          autoClose: 6000
-        });
+        this.displayToastMessage('error', resBody.description, 6000 );
       }else{
-        toast.success(`The application has been removed from the database!`, {
-          closeButton: false,
-          position: toast.POSITION.BOTTOM_RIGHT,
-          autoClose: 3000
-        });
+        this.displayToastMessage('success','The application has been removed from the database!', 3000 );
         this.setState({
           isLoading:true
         }, ()=>this.getAllApplications())
@@ -473,10 +368,7 @@ class App extends Component {
 
     }).catch(err=>{
       console.log(err);
-      toast.error('Sorry, something went wrong with the server. We are working on it!', {
-          closeButton: false,
-          autoClose: false
-      })
+      this.displayToastMessage('error', 'Sorry, something went wrong with the server. We are working on it!', false );
     })
   }
 
@@ -515,21 +407,24 @@ class App extends Component {
                   path='/catalog'
                   render={(props)=><CatalogWithContext {...props} 
                     getAllDogs={this.getAllDogs}
+                    displayToastMessage={this.displayToastMessage}
                   />} 
                 />
                 <UserRoute 
-                path='/details/:id' 
-                render={(props)=><Details {...props}  
-                removeDog={this.removeDog}   
-                getDogById={this.getDogById}   
-                createApplication={this.createApplication}  
-                editDog={this.editDog}
+                  path='/details/:id' 
+                  render={(props)=><Details {...props}  
+                    removeDog={this.removeDog}   
+                    getDogById={this.getDogById}   
+                    createApplication={this.createApplication}  
+                    editDog={this.editDog}
+                    displayToastMessage={this.displayToastMessage}
                 />}
                 />
                 <UserRoute
-                path='/profile/:id' 
-                render={(props)=><Profile {...props} 
-                getUserById={this.getUserById}
+                  path='/profile/:id' 
+                  render={(props)=><Profile {...props} 
+                    getUserById={this.getUserById}
+                    displayToastMessage={this.displayToastMessage}
                 />}
                 />
                 <AdminRoute
@@ -538,12 +433,14 @@ class App extends Component {
                     getAllApplications={this.getAllApplications} 
                     changeAplication={this.changeAplication}
                     removeApplication={this.removeApplication}
+                    displayToastMessage={this.displayToastMessage}
                   />} 
                 />
                 <AdminRoute
                   path='/create' 
                   render={(props)=><Create {...props} 
                     createDog={this.createDog}
+                    displayToastMessage={this.displayToastMessage}
                   />} 
                 />
                 <AdminRoute 
@@ -551,6 +448,7 @@ class App extends Component {
                   render={(props)=><Edit {...props} 
                     editDog={this.editDog} 
                     getDogById={this.getDogById}
+                    displayToastMessage={this.displayToastMessage}
                   />} 
                 />
                 <Route

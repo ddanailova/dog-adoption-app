@@ -15,6 +15,7 @@ class Create extends Component{
         }
 
         this.createDog=this.props.createDog.bind(this);
+        this.displayToastMessage=this.props.displayToastMessage.bind(this);
     }
 
     static breeds = staticData.breeds;
@@ -33,7 +34,8 @@ class Create extends Component{
             toast.error('Please fill in all form fields!' , {
                 closeButton: false,
                 autoClose:6000
-            })}else{
+            }
+        )}else{
                 const dogData = {
                     name:data.name,
                     breed:data.breed || 'mix',
@@ -42,7 +44,7 @@ class Create extends Component{
                     status:data.status || 'available',
                     story:data.story
                 };
-                this.createDog(dogData);
+            this.createDog(dogData);
         }
     }
 

@@ -14,6 +14,7 @@ class Details extends Component{
         }
 
         this.getDogById=this.props.getDogById.bind(this);
+        this.displayToastMessage=this.props.displayToastMessage.bind(this);
     }
     static DogService = new dogService();
 

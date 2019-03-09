@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import dogService from '../services/dogService';
 import {Card} from '../components/Card'
 import {UserContext} from '../components/contexts/userContext';
 
@@ -14,9 +13,8 @@ class Catalog extends Component{
         }
 
         this.getAllDogs=this.props.getAllDogs.bind(this);
+        this.displayToastMessage=this.props.displayToastMessage.bind(this);
     }
-
-    static DogService = new dogService();
 
     componentDidMount(props){
         this.setState({isLoading:true},()=>{

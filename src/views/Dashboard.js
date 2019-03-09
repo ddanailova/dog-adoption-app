@@ -15,6 +15,7 @@ class Dashboard extends Component{
         this.getAllApplications=this.props.getAllApplications.bind(this);
         this.changeAplication=this.props.changeAplication.bind(this);
         this.removeApplication=this.props.removeApplication.bind(this);
+        this.displayToastMessage=this.props.displayToastMessage.bind(this);
     }
 
     componentDidMount(props){

@@ -12,7 +12,8 @@ class Profile extends Component{
             isLoaing:false
         }
 
-        this.getUserById=this.props.getUserById.bind(this)
+        this.getUserById=this.props.getUserById.bind(this);
+        this.displayToastMessage=this.props.displayToastMessage.bind(this);
     }
     
     static UserService = new userService();

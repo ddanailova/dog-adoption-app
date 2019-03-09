@@ -15,6 +15,7 @@ class Edit extends Component{
 
         this.getDogById=this.props.getDogById.bind(this);
         this.editDog=this.props.editDog.bind(this);
+        this.displayToastMessage=this.props.displayToastMessage.bind(this);
     }
 
     handelSubmit = (ev, data)=>{
