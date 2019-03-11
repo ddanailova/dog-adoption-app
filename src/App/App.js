@@ -57,6 +57,12 @@ class App extends Component {
         position: toast.POSITION.BOTTOM_RIGHT,
         autoClose: closingTime
       });
+    }else if(type==='info'){
+      toast.info(message, {
+        closeButton: false,
+        position: toast.POSITION.BOTTOM_RIGHT,
+        autoClose: closingTime
+      });
     }
   }
 
@@ -112,7 +118,7 @@ class App extends Component {
         this.displayToastMessage('error', resBody.description, 6000 );
         }else{
         App.UserService.clearStoredData();
-        this.displayToastMessage('success', 'Logout successful! Come back soon!', 3000 );
+        this.displayToastMessage('success', 'Logout successful!', 3000 );
         this.setState({
           user:{
             username:null,
@@ -144,6 +150,35 @@ class App extends Component {
         this.setState({
             isLoading:false
         });
+        this.displayToastMessage('error', 'Sorry, something went wrong with the server. We are working on it!', 6000 );
+    })
+  }
+
+  addDogToUserWatched=(id, dogData)=>{
+    App.UserService.getUserById(id)
+    .then(resBody=>{
+        if(resBody.error){
+          this.displayToastMessage('error', resBody.description, 6000 );
+        }else{
+          for (const dog of resBody.watched) {
+            if(dog._id === dogData._id){
+              this.displayToastMessage('info', `This dog is already in your watched list`, 3000 );
+              return
+            }
+          }
+          resBody.watched.push(dogData)
+          App.UserService.update(resBody._id, resBody)
+          .then(resBody=>{
+            if(resBody.error){
+              this.displayToastMessage('error', resBody.description, 6000 );
+            }else{
+              this.displayToastMessage('success', `Successfully added ${dogData.name} to your Watch List!`, 3000 );
+            }
+          })
+        }
+    })
+    .catch(err=>{
+        console.log(err);
         this.displayToastMessage('error', 'Sorry, something went wrong with the server. We are working on it!', 6000 );
     })
   }
@@ -401,6 +436,7 @@ class App extends Component {
                     getDogById={this.getDogById}   
                     createApplication={this.createApplication}  
                     editDog={this.editDog}
+                    addDogToUserWatched={this.addDogToUserWatched}
                     displayToastMessage={this.displayToastMessage}
                 />}
                 />

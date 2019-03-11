@@ -24,7 +24,7 @@ const CardWithContext =(props)=>{
         <UserContext.Consumer>
             {
                 ({isAdmin})=>{
-                    let buttons = ['adopt'];
+                    let buttons = ['adopt', 'watch'];
                     let note='If you press the Adopt button we will get in touch with you for more details before proceeding with your request.';
 
                     if(isAdmin){

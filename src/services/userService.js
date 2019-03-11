@@ -1,4 +1,4 @@
-import {post, get} from '../data/requester'
+import {post, get, update} from '../data/requester'
 const ADMINROLEID = 'b4bf1116-2fb3-4a53-87fe-0a518453c892';
 
 class UserService {
@@ -29,6 +29,11 @@ class UserService {
 
       getUserById =(id)=>{
         return get('user', id, 'kinvey')
+        .then(rawData=>rawData.json())
+      }
+
+      update=(id, data)=>{
+        return update('user', id, 'kinvey', data)
         .then(rawData=>rawData.json())
       }
 

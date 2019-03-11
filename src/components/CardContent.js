@@ -2,7 +2,7 @@ import React from 'react';
 import LinkButton from './LinkButton';
 
 const CardContent =(props)=>{
-    const {details, buttons, note, isThumbnail, isProfile, removeDog, createApplication}=props;
+    const {details, buttons, note, isThumbnail, isProfile, removeDog, createApplication, addDogToUserWatched}=props;
 
     const handleClickButton =(ev)=>{
         const buttonType =ev.target.text.toLowerCase();
@@ -17,11 +17,13 @@ const CardContent =(props)=>{
                     status:'processing'
                 }, details);
             }
+        }else if(buttonType ==='watch'){
+            const userId= localStorage.getItem('userId');
+            addDogToUserWatched(userId,details);
         }
     }
     
     if(isThumbnail){
-
         return (
             <div className="content">
             <h3>Hello, my name is {details.name}</h3>
@@ -38,7 +40,7 @@ const CardContent =(props)=>{
     if(isProfile){
         return(
             <div className="content">
-                <h2>Profile Deteails</h2>
+                <h2>Profile Details</h2>
                 <hr/>
                 <p><span>Username: </span>{details.username}</p>
                 <p><span>Full Name: </span>{details['full-name']}</p>

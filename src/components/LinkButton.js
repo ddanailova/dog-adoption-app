@@ -25,6 +25,7 @@ const LinkButton =(props)=>{
         case 'delete':
             return(<Link to={'/'} className={styleClasses +' cancel'} onClick={onClick}>{text}</Link>);
         case 'adopt':
+        case 'watch':
             return(<Link to='/' className={styleClasses} onClick={onClick}>{text}</Link>);
         case 'backToHome':
             return(<Link to='/' className={styleClasses}>{text}</Link>);

@@ -30,7 +30,8 @@ const Register =(props)=> {
                 password:data.password,
                 'full-name':data['full-name'],
                 email:data.email,
-                phone:data.phone
+                phone:data.phone,
+                watched:[]
             };
             register(userData);
         }
