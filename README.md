@@ -1,68 +1,42 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+#Dog Adoption App
+============= 
 
-## Available Scripts
+## Idea
+---------------
 
-In the project directory, you can run:
+An application that allows you to adopt a dog. It stores information about the **dogs** (name, breed, age, image url, story and adoption status), registered **users**(username, full name, phone, email and the dogs in their watch list) and the adoption **applications** made by registered users only (dog id, user id and status of the application).
 
-### `npm start`
+##Design
+---------------
+The application has three types of users with the following functionalities
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+* Guest
+    * Guests can access the guest homepage
+    * Guests can register - access through the homepage
+    * Guests can login - access through the homepage
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+* Admin
+    * Admins can manage all dog cards (All CRUD operations)
+        * Admins can create new card - access through the homepage
+        * Admins can see all listed cards -access through the homepage page
+        * Admins can check details for a specific card - access through the catalog page
+        * Admins can update a specific card - access through the details page for the card
+        * Admins can delete a specific card - access through the details page for the card
+    *Admins can manage all adoption applications through the dashboard - access through the homepage
+        * Admins can see all listed applications
+        * Admins can update a statuse of a specific applications
+        * Admins can delete a specific applications
 
-### `npm test`
+* User
+    * Users can see all cards of dogs available for adoption - access through the homepage page
+    * Users can check details for a specific card - access through the catalog page
+    * Users can create an adoption requst - access through the details page for the card
+    * Users can add to their watch list - access through the details page for the card
+    * Users can check their prifile details including watch list - access through the homepage page
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+##Backend
+---------------
+The application uses [Progress® Kinvey™](https://www.progress.com/kinvey "Progress® Kinvey™") as a backend. 
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
