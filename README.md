@@ -1,20 +1,15 @@
 # Dog Adoption App
-============= 
 
 ## Idea
----------------
-
 An application that allows you to adopt a dog. It stores information about the **dogs** (name, breed, age, image url, story and adoption status), registered **users**(username, full name, phone, email and the dogs in their watch list) and the adoption **applications** made by registered users only (dog id, user id and status of the application).
 
 ## Design
----------------
 The application has three types of users with the following functionalities
 
 * Guest
     * Guests can access the guest homepage
     * Guests can register - access through the homepage
     * Guests can login - access through the homepage
-
 * Admin
     * Admins can manage all dog cards (All CRUD operations)
         * Admins can create new card - access through the homepage
@@ -26,7 +21,6 @@ The application has three types of users with the following functionalities
         * Admins can see all listed applications
         * Admins can update a statuse of a specific applications
         * Admins can delete a specific applications
-
 * User
     * Users can see all cards of dogs available for adoption - access through the homepage page
     * Users can check details for a specific card - access through the catalog page
@@ -35,7 +29,6 @@ The application has three types of users with the following functionalities
     * Users can check their prifile details including watch list - access through the homepage page
 
 ## Backend
----------------
 The application uses [Progress® Kinvey™](https://www.progress.com/kinvey "Progress® Kinvey™") as a backend. 
 
 
