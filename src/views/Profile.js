@@ -1,7 +1,5 @@
 import React, {Component, Fragment} from 'react';
 import {Card} from '../components/Card';
-import userService from '../services/userService';
-
 
 class Profile extends Component{
     constructor(props){
@@ -15,8 +13,6 @@ class Profile extends Component{
         this.getUserById=this.props.getUserById.bind(this);
         this.displayToastMessage=this.props.displayToastMessage.bind(this);
     }
-    
-    static UserService = new userService();
     
     componentDidMount(){
         this.setState({isLoading:true},()=>{
@@ -33,7 +29,6 @@ class Profile extends Component{
         <main className='site-content user'>
             <section className="site-details">
             {
-                
                 isLoading ? (
                     <h3><i className="fas fa-paw"></i> Loading ........ <i className="fas fa-paw"></i></h3>
                 ):(
@@ -43,7 +38,7 @@ class Profile extends Component{
                     <h2>Watch List</h2>
                     <hr/>
                     {
-                        watched?(                        
+                        watched?(
                             (watched.length===0) ? (
                                 <h5><i className="fas fa-paw"></i> No dogs in your Watch List at the moment. <i className="fas fa-paw"></i></h5>
                             ) : (

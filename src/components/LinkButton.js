@@ -2,7 +2,7 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 
 const LinkButton =(props)=>{
-    const {buttonType, noButtonStyle, extraClassNames, idForPath,text, details, removeDog, createApplication, addDogToUserWatched}=props;
+    const {buttonType, noButtonStyle, extraClassNames, idForPath, text, onClick, details, removeDog, createApplication, addDogToUserWatched}=props;
     let styleClasses=`button ${extraClassNames}`;
     if(noButtonStyle){
         styleClasses=`${extraClassNames}`;
@@ -25,6 +25,11 @@ const LinkButton =(props)=>{
             case 'watch':
                 const userId= localStorage.getItem('userId');
                 addDogToUserWatched(userId,details);
+                break;
+            case 'approve':
+            case 'cancel':
+            case 'remove':
+                onClick()
                 break;
             default:
                 break;
@@ -55,7 +60,7 @@ const LinkButton =(props)=>{
         case 'approve':
         case 'cancel':
         case 'remove':
-            return(<Link to={`/dashboard`} className={styleClasses } onClick={handleClickButton}>{text}</Link>);
+            return(<Link to={`/dashboard`} className={styleClasses } onClick={onClick}>{text}</Link>);
         default:
             return null;
     }

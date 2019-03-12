@@ -1,6 +1,6 @@
 import React from 'react';
-import BindingForm from '../components/BindingForms';
 import { toast } from 'react-toastify';
+import BindingForm from '../components/BindingForms';
 
 const Register =(props)=> {
     const {register}=props;

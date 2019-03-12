@@ -18,12 +18,12 @@ import NotFound from '../views/NotFound';
 import HeaderWithContext from '../components/Header';
 import Footer from '../components/Footer';
 import {AdminRoute,UserRoute,AnonimusRoute} from '../components/AuthorizedRout'
+import {defaultUserState, UserContext} from '../components/contexts/userContext';
 
 import UserService from '../services/userService';
 import DogService from '../services/dogService';
 import AplicationService from '../services/applicationService';
 
-import {defaultUserState, UserContext} from '../components/contexts/userContext';
 
 import './App.css';
 
@@ -33,6 +33,7 @@ class App extends Component {
 
     this.state = {
       user:defaultUserState,
+      redirectToHome:false
     }
 
     this.updateUser=this.updateUser.bind(this);
@@ -40,6 +41,7 @@ class App extends Component {
     this.login=this.login.bind(this);
     this.logout=this.logout.bind(this);
     this.addDogToUserWatched=this.addDogToUserWatched.bind(this);
+    this.createDog=this.createDog.bind(this)
     this.removeDog=this.removeDog.bind(this)
     this.createApplication=this.createApplication.bind(this);
   }
@@ -47,11 +49,6 @@ class App extends Component {
   static UserService= new UserService();
   static DogService= new DogService();
   static ApplicationService = new AplicationService();
-
-    // for the user
-  updateUser =(userData)=>{
-    this.setState({user:userData})
-  }
 
   displayToastMessage(type, message, closingTime){
     if(type==='error'){
@@ -72,6 +69,11 @@ class App extends Component {
         autoClose: closingTime
       });
     }
+  }
+
+  // for the user
+  updateUser =(userData)=>{
+    this.setState({user:userData})
   }
 
   register(userData){
@@ -190,8 +192,8 @@ class App extends Component {
         this.displayToastMessage('error', 'Sorry, something went wrong with the server. We are working on it!', 6000 );
     })
   }
-  //for the dogs
 
+  //for the dogs
   getAllDogs(filter){
     App.DogService.getAll(filter)
         .then(resBody=>{
@@ -468,7 +470,8 @@ class App extends Component {
                   path='/create' 
                   render={(props)=><Create {...props} 
                     createDog={this.createDog}
-                    displayToastMessage={this.displayToastMessage}
+                    redirectToHome={this.state.redirectToHome}
+                    // displayToastMessage={this.displayToastMessage}
                   />} 
                 />
                 <AdminRoute 

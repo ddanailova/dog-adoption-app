@@ -1,6 +1,6 @@
 import React from 'react';
-import {UserContext} from '../components/contexts/userContext';
 import HomeScreen from '../components/HomeScreen';
+import {UserContext} from '../components/contexts/userContext';
 
 const Home =(props)=>(
     <HomeScreen

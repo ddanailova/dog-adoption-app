@@ -1,6 +1,6 @@
 import React from 'react';
-import BindingForm from '../components/BindingForms';
 import { toast } from 'react-toastify';
+import BindingForm from '../components/BindingForms';
 
 const Login =(props) =>{
     const {login}=props;
@@ -28,7 +28,6 @@ const Login =(props) =>{
     }
 
     return (
-
         <main className='site-content guest'>
             <section className="site-login">
                 <BindingForm formType='login' onSubmit={handelSubmit}>

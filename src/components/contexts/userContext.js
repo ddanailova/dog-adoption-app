@@ -1,6 +1,5 @@
 import {createContext} from 'react';
 
-//TODO fix the default value of Admin
 const isAdminDefined = (localStorage.getItem('isAdmin') === 'undefined' || localStorage.getItem('isAdmin') === 'false')?false:localStorage.getItem('isAdmin');
 
 const defaultUserState = { 
