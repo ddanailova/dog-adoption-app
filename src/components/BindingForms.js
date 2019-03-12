@@ -10,6 +10,9 @@ class BindingForm extends Component {
             initialState:{},
             errors:{}
         }
+
+        this.handleChange=this.handleChange.bind(this);
+        this.checkInputValidit=this.checkInputValidit.bind(this);
     }
 
     static iconsList = staticData.iconsList;
@@ -44,7 +47,7 @@ class BindingForm extends Component {
         });
     }
 
-    handleChange=(ev)=>{
+    handleChange(ev){
         const {name, value}= ev.target;
         this.setState({
             [name]:value,
@@ -52,7 +55,7 @@ class BindingForm extends Component {
         this.checkInputValidit(ev)
     }
 
-    checkInputValidit=(ev)=>{
+    checkInputValidit(ev){
         const {target}=ev;
         const {name}=target
         if(!target.validity.valid){

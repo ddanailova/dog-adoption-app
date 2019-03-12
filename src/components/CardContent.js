@@ -4,36 +4,17 @@ import LinkButton from './LinkButton';
 const CardContent =(props)=>{
     const {details, buttons, note, isThumbnail, isProfile, removeDog, createApplication, addDogToUserWatched}=props;
 
-    const handleClickButton =(ev)=>{
-        const buttonType =ev.target.text.toLowerCase();
-
-        if(buttonType==='delete'){
-            removeDog(details._id);
-        }else if(buttonType ==='adopt'){
-            if(details.status === 'available'){
-                createApplication({
-                    dogId:details._id,
-                    userId:localStorage.getItem('userId'),
-                    status:'processing'
-                }, details);
-            }
-        }else if(buttonType ==='watch'){
-            const userId= localStorage.getItem('userId');
-            addDogToUserWatched(userId,details);
-        }
-    }
-    
     if(isThumbnail){
         return (
             <div className="content">
-            <h3>Hello, my name is {details.name}</h3>
-            <LinkButton 
-                buttonType='details'
-                idForPath={details._id} 
-                extraClassNames='button-reverse'
-                text='details'
-            />
-        </div>
+                <h3>Hello, my name is {details.name}</h3>
+                <LinkButton 
+                    buttonType='details'
+                    idForPath={details._id} 
+                    extraClassNames='button-reverse'
+                    text='details'
+                />
+            </div>
         )
     }
 
@@ -73,7 +54,10 @@ const CardContent =(props)=>{
                             buttonType={button}
                             idForPath={details._id}
                             extraClassNames='button-reverse'
-                            onClick={handleClickButton}
+                            details={details}
+                            removeDog={removeDog}
+                            createApplication={createApplication}
+                            addDogToUserWatched={addDogToUserWatched}
                         />
                     )
                 })

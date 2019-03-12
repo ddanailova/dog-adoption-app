@@ -14,6 +14,7 @@ class Create extends Component{
             redirectToHome:false
         }
 
+        this.handelSubmit=this.handelSubmit.bind(this);
         this.createDog=this.props.createDog.bind(this);
         this.displayToastMessage=this.props.displayToastMessage.bind(this);
     }
@@ -21,7 +22,7 @@ class Create extends Component{
     static breeds = staticData.breeds;
     static statuses= staticData.statuses;
 
-     handelSubmit = (ev, data)=>{
+     handelSubmit(ev, data){
         ev.preventDefault();
         let hasAllValues=true;
         for (const key in data) {

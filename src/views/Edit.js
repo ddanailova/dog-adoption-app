@@ -13,12 +13,13 @@ class Edit extends Component{
             redirect:false
         }
 
+        this.handelSubmit=this.handelSubmit.bind(this);
         this.getDogById=this.props.getDogById.bind(this);
         this.editDog=this.props.editDog.bind(this);
         this.displayToastMessage=this.props.displayToastMessage.bind(this);
     }
 
-    handelSubmit = (ev, data)=>{
+    handelSubmit(ev, data){
         ev.preventDefault();
         const {selectedItem}=this.state;
         const {id}= this.props.match.params;

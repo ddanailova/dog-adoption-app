@@ -1,6 +1,6 @@
 import React, {Component, Fragment}from 'react';
 import {Link} from 'react-router-dom';
-import LinkButton from './../components/LinkButton';
+import LinkButton from '../components/LinkButton';
 
 class Dashboard extends Component{
     constructor(props){
@@ -9,9 +9,9 @@ class Dashboard extends Component{
         this.state ={
             applications:[],
             isLoading:false,
-            hasChanged:false
         }
 
+        this.handleClick=this.handleClick.bind(this);
         this.getAllApplications=this.props.getAllApplications.bind(this);
         this.changeAplication=this.props.changeAplication.bind(this);
         this.removeApplication=this.props.removeApplication.bind(this);
@@ -23,7 +23,7 @@ class Dashboard extends Component{
     }
 
 
-    handleClick=(ev, data)=>{
+    handleClick(ev, data){
         const buttonType =ev.target.text.toLowerCase();
 
         if(buttonType==='approve'){

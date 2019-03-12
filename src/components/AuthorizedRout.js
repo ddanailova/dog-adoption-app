@@ -1,6 +1,6 @@
 import React from 'react';
 import {Route,Redirect} from 'react-router-dom';
-import {UserContext} from '../components/contexts/userContext';
+import {UserContext} from './contexts/userContext';
 
 const AutherizedRoute =(props)=>{
     const {criteria, ...otherProps}=props;

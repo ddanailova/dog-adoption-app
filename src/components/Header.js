@@ -1,7 +1,7 @@
 import React  from 'react';
 import {Link} from 'react-router-dom';
 import LinkButton from './LinkButton';
-import {UserContext} from '../components/contexts/userContext';
+import {UserContext} from './contexts/userContext';
 
 const Header =(props)=>{
     const {username}=props;

@@ -1,5 +1,5 @@
 import React from 'react';
-import {UserContext} from '../components/contexts/userContext';
+import {UserContext} from './contexts/userContext';
 import CardContent from './CardContent';
 
 const Card =(props)=>{

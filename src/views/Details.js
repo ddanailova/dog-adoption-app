@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
-import dogService from '../services/dogService';
-import CardWithContext from './../components/Card';
+import CardWithContext from '../components/Card';
 
 
 class Details extends Component{
@@ -16,7 +15,6 @@ class Details extends Component{
         this.getDogById=this.props.getDogById.bind(this);
         this.displayToastMessage=this.props.displayToastMessage.bind(this);
     }
-    static DogService = new dogService();
 
     componentDidMount(){
         this.setState({isLoading:true},()=>{
@@ -24,7 +22,6 @@ class Details extends Component{
             this.getDogById(id);
         })
     }
-
 
     render(){
         const {selectedItem, isLoading}=this.state;

@@ -34,6 +34,14 @@ class App extends Component {
     this.state = {
       user:defaultUserState,
     }
+
+    this.updateUser=this.updateUser.bind(this);
+    this.register=this.register.bind(this);
+    this.login=this.login.bind(this);
+    this.logout=this.logout.bind(this);
+    this.addDogToUserWatched=this.addDogToUserWatched.bind(this);
+    this.removeDog=this.removeDog.bind(this)
+    this.createApplication=this.createApplication.bind(this);
   }
   
   static UserService= new UserService();
@@ -66,7 +74,7 @@ class App extends Component {
     }
   }
 
-  register =(userData)=>{
+  register(userData){
     App.UserService.register(userData).then((resBody)=>{
       if(resBody.error){
         this.displayToastMessage('error', resBody.description, 6000 );
@@ -88,7 +96,7 @@ class App extends Component {
     })
   }
 
-  login=(userData)=>{
+  login(userData){
     App.UserService.login(userData)
     .then(resBody=>{ 
       if(resBody.error){
@@ -111,7 +119,7 @@ class App extends Component {
     })
   }
 
-  logout = () => {
+  logout(){
     App.UserService.logout()
     .then(resBody=>{
       if(resBody.error){
@@ -154,7 +162,7 @@ class App extends Component {
     })
   }
 
-  addDogToUserWatched=(id, dogData)=>{
+  addDogToUserWatched(id, dogData){
     App.UserService.getUserById(id)
     .then(resBody=>{
         if(resBody.error){
@@ -265,7 +273,7 @@ class App extends Component {
     })
   }
 
-  removeDog=(id)=>{
+  removeDog(id){
     App.DogService.remove(id)
     .then(resBody=>{
       if(resBody.error){
@@ -317,7 +325,7 @@ class App extends Component {
     )
   }
 
-  createApplication=(data, dogDetails)=>{
+  createApplication(data, dogDetails){
     App.ApplicationService.create(data)
     .then(resBody=>{
       if(resBody.error){

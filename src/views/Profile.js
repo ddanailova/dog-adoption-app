@@ -1,6 +1,6 @@
 import React, {Component, Fragment} from 'react';
 import {Card} from '../components/Card';
-import userService from './../services/userService';
+import userService from '../services/userService';
 
 
 class Profile extends Component{
