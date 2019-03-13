@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import {Route, Switch } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -404,92 +404,90 @@ class App extends Component {
   render() {
     const {user}=this.state;
     return (
-      <Router>
-        <UserContext.Provider value={user}>
-          <div className="site">
-            <HeaderWithContext/>
-            <ToastContainer className='toast-container'/>
-              <Switch>
-                <Route exact 
-                  path="/" 
-                  component={HomeWithContext}
-                />
-                <AnonimusRoute 
-                  path='/login' 
-                  render={(props)=><Login {...props} 
-                    login={this.login}
-                  />}
-                />
-                <AnonimusRoute 
-                  path='/signup' 
-                  render={(props)=><Register {...props} 
-                    register={this.register}
-                  />} 
-                />
-                <UserRoute 
-                  path='/logout' 
-                  render={(props)=><Logout {...props} 
-                    logout={this.logout}
-                  />} 
-                />
-                <UserRoute
-                  path='/catalog'
-                  render={(props)=><CatalogWithContext {...props} 
-                    getAllDogs={this.getAllDogs}
-                    displayToastMessage={this.displayToastMessage}
-                  />} 
-                />
-                <UserRoute 
-                  path='/details/:id' 
-                  render={(props)=><Details {...props}  
-                    removeDog={this.removeDog}   
-                    getDogById={this.getDogById}   
-                    createApplication={this.createApplication}  
-                    editDog={this.editDog}
-                    addDogToUserWatched={this.addDogToUserWatched}
-                    displayToastMessage={this.displayToastMessage}
+      <UserContext.Provider value={user}>
+        <div className="site">
+          <HeaderWithContext/>
+          <ToastContainer className='toast-container'/>
+            <Switch>
+              <Route exact 
+                path="/" 
+                component={HomeWithContext}
+              />
+              <AnonimusRoute 
+                path='/login' 
+                render={(props)=><Login {...props} 
+                  login={this.login}
                 />}
-                />
-                <UserRoute
-                  path='/profile/:id' 
-                  render={(props)=><Profile {...props} 
-                    getUserById={this.getUserById}
-                    displayToastMessage={this.displayToastMessage}
-                />}
-                />
-                <AdminRoute
-                  path='/dashboard' 
-                  render={(props)=><Dashboard {...props} 
-                    getAllApplications={this.getAllApplications} 
-                    changeAplication={this.changeAplication}
-                    removeApplication={this.removeApplication}
-                    displayToastMessage={this.displayToastMessage}
-                  />} 
-                />
-                <AdminRoute
-                  path='/create' 
-                  render={(props)=><Create {...props} 
-                    createDog={this.createDog}
-                    redirectToHome={this.state.redirectToHome}
-                    // displayToastMessage={this.displayToastMessage}
-                  />} 
-                />
-                <AdminRoute 
-                  path='/edit/:id' 
-                  render={(props)=><Edit {...props} 
-                    editDog={this.editDog} 
-                    getDogById={this.getDogById}
-                    displayToastMessage={this.displayToastMessage}
-                  />} 
-                />
-                <Route
-                  component ={NotFound}
-                />
-              </Switch>
-            <Footer/>
-          </div>
-        </UserContext.Provider>
-      </Router>
+              />
+              <AnonimusRoute 
+                path='/signup' 
+                render={(props)=><Register {...props} 
+                  register={this.register}
+                />} 
+              />
+              <UserRoute 
+                path='/logout' 
+                render={(props)=><Logout {...props} 
+                  logout={this.logout}
+                />} 
+              />
+              <UserRoute
+                path='/catalog'
+                render={(props)=><CatalogWithContext {...props} 
+                  getAllDogs={this.getAllDogs}
+                  displayToastMessage={this.displayToastMessage}
+                />} 
+              />
+              <UserRoute 
+                path='/details/:id' 
+                render={(props)=><Details {...props}  
+                  removeDog={this.removeDog}   
+                  getDogById={this.getDogById}   
+                  createApplication={this.createApplication}  
+                  editDog={this.editDog}
+                  addDogToUserWatched={this.addDogToUserWatched}
+                  displayToastMessage={this.displayToastMessage}
+              />}
+              />
+              <UserRoute
+                path='/profile/:id' 
+                render={(props)=><Profile {...props} 
+                  getUserById={this.getUserById}
+                  displayToastMessage={this.displayToastMessage}
+              />}
+              />
+              <AdminRoute
+                path='/dashboard' 
+                render={(props)=><Dashboard {...props} 
+                  getAllApplications={this.getAllApplications} 
+                  changeAplication={this.changeAplication}
+                  removeApplication={this.removeApplication}
+                  displayToastMessage={this.displayToastMessage}
+                />} 
+              />
+              <AdminRoute
+                path='/create' 
+                render={(props)=><Create {...props} 
+                  createDog={this.createDog}
+                  redirectToHome={this.state.redirectToHome}
+                  // displayToastMessage={this.displayToastMessage}
+                />} 
+              />
+              <AdminRoute 
+                path='/edit/:id' 
+                render={(props)=><Edit {...props} 
+                  editDog={this.editDog} 
+                  getDogById={this.getDogById}
+                  displayToastMessage={this.displayToastMessage}
+                />} 
+              />
+              <Route
+                component ={NotFound}
+              />
+            </Switch>
+          <Footer/>
+        </div>
+      </UserContext.Provider>
     );
   }
 }

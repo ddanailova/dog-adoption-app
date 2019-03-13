@@ -47,10 +47,18 @@ class Dashboard extends Component{
                     <h1>Adoption applications</h1>
                     {
                         isLoading?(
-                            <h3><i className="fas fa-paw"></i> Loading ........ <i className="fas fa-paw"></i></h3>
+                            <h3>
+                                <i className="fas fa-paw"></i> 
+                                Loading ........ 
+                                <i className="fas fa-paw"></i>
+                            </h3>
                         ):(
                             (applications.length===0)?(
-                                <h3><i className="fas fa-paw"></i> There are no dogs adoption applications at the moment. <i className="fas fa-paw"></i></h3>
+                                <h3>
+                                    <i className="fas fa-paw"></i> 
+                                    There are no dogs adoption applications at the moment. 
+                                    <i className="fas fa-paw"></i>
+                                </h3>
                             ):(
                                 <table>
                                 <thead>

@@ -2,7 +2,19 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 
 const LinkButton =(props)=>{
-    const {buttonType, noButtonStyle, extraClassNames, idForPath, text, onClick, details, removeDog, createApplication, addDogToUserWatched}=props;
+    const {
+        buttonType, 
+        noButtonStyle, 
+        extraClassNames, 
+        idForPath, 
+        text, 
+        onClick, 
+        details, 
+        removeDog, 
+        createApplication, 
+        addDogToUserWatched
+    }=props;
+    
     let styleClasses=`button ${extraClassNames}`;
     if(noButtonStyle){
         styleClasses=`${extraClassNames}`;

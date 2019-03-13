@@ -54,6 +54,9 @@ class UserService {
         localStorage.setItem('userId', body._id);
         localStorage.setItem('username', body.username);
         localStorage.setItem('isAdmin', isAdmin);
+        if(isAdmin){
+          localStorage.setItem('adminRoleId', ADMINROLEID);
+        }
       }
 
       clearStoredData=()=>{

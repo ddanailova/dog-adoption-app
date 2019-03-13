@@ -20,7 +20,6 @@ class BindingForm extends Component {
 
 
     static getDerivedStateFromProps(props, state){
-
         if(!props.initialState){
             return state;
         }else if(Object.keys(props.initialState).length !==0 && !isEqual(props.initialState,state.initialState)){
