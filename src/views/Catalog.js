@@ -34,6 +34,7 @@ class Catalog extends Component{
         return(
             <main className='site-content user'>
                 <section className="site-index">
+ 
                 <h1>Dogs available for adoption</h1>
                 {
                     isLoading ? (

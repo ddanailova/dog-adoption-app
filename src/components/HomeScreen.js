@@ -6,6 +6,10 @@ const HomeScreen=(props)=>{
     return(
         <main className='site-content guest'>
         <section className="site-index">
+        {
+        // //For testing the error handling
+        // this.props.something
+        }
             <h1>{title}</h1>
             <p className="site-description">
                 {description}
