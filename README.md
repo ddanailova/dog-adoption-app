@@ -7,13 +7,14 @@ An application that allows you to adopt a dog. It stores information about the *
 The Dog Adoption App has three types of users that can perform the following actions.
 
 * Guest
-    * Guests can access the guest homepage
+    * Guests can access the guest homepage - direct access
     * Guests can register - access through the homepage
     * Guests can login - access through the homepage
 * Admin
+    * Admins can access the admin homepage - direct access
     * Admins can manage all dog cards (All CRUD operations)
         * Admins can create new card - access through the homepage
-        * Admins can see all listed cards -access through the homepage page
+        * Admins can see all listed cards - access through the homepage page
         * Admins can check details for a specific card - access through the catalog page
         * Admins can update a specific card - access through the details page for the card
         * Admins can delete a specific card - access through the details page for the card
@@ -22,6 +23,7 @@ The Dog Adoption App has three types of users that can perform the following act
         * Admins can update a statuse of a specific applications
         * Admins can delete a specific applications
 * User
+    * Users can access the user homepage - direct access
     * Users can see all cards of dogs available for adoption - access through the homepage page
     * Users can check details for a specific card - access through the catalog page
     * Users can create an adoption requst - access through the details page for the card
