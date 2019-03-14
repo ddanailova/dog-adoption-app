@@ -29,7 +29,8 @@ The Dog Adoption App has three types of users that can perform the following act
     * Users can create an adoption requst - access through the details page for the card
     * Users can add to their watch list - access through the details page for the card
     * Users can check their prifile details including watch list - access through the homepage page
-
+* Other
+   * Authorized users can logout from any page and after successful action will be redirected to the guest homepage.
 ## Backend
 The application uses [Progress® Kinvey™](https://www.progress.com/kinvey "Progress® Kinvey™") as a backend. 
 
