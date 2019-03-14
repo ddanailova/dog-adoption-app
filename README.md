@@ -22,7 +22,7 @@ The Dog Adoption App has three types of users that can perform the following act
         * Admins can see all listed applications
         * Admins can update a statuse of a specific applications
         * Admins can delete a specific applications
-* User
+ * User
     * Users can access the user homepage - direct access
     * Users can see all cards of dogs available for adoption - access through the homepage page
     * Users can check details for a specific card - access through the catalog page
@@ -31,6 +31,7 @@ The Dog Adoption App has three types of users that can perform the following act
     * Users can check their prifile details including watch list - access through the homepage page
 * Other
    * Authorized users can logout from any page and after successful action will be redirected to the guest homepage.
+   
 ## Backend
 The application uses [Progress® Kinvey™](https://www.progress.com/kinvey "Progress® Kinvey™") as a backend. 
 
