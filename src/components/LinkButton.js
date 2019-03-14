@@ -8,7 +8,8 @@ const LinkButton =(props)=>{
         extraClassNames, 
         idForPath, 
         text, 
-        onClick, 
+        changeApplication,
+        removeApplication,
         details, 
         removeDog, 
         createApplication, 
@@ -39,9 +40,19 @@ const LinkButton =(props)=>{
                 addDogToUserWatched(userId,details);
                 break;
             case 'approve':
-            case 'cancel':
+                if(details.status !== 'approved'){
+                    const newAppData = {...details, status:'approved'}
+                    changeApplication(details._id, newAppData, details.dogId, 'adopted');
+                }
+                break;
+            case 'cancel': 
+                if(details.status !== 'canceled'){
+                    const newAppData = {...details, status:'canceled'}
+                    changeApplication(details._id, newAppData, details.dogId, 'available');
+                }
+                break;
             case 'remove':
-                onClick()
+                removeApplication(details._id);
                 break;
             default:
                 break;
@@ -70,9 +81,17 @@ const LinkButton =(props)=>{
         case 'backToCatalog':
             return(<Link to='/catalog' className={styleClasses}>{text}</Link>);
         case 'approve':
+            if(details.status === 'approved'){
+                styleClasses+= ' disabled';
+            }
+            return(<Link to={`/dashboard`} className={styleClasses} onClick={handleClickButton}>{text}</Link>);
         case 'cancel':
+            if(details.status === 'canceled'){
+                styleClasses+= ' disabled';
+            }
+            return(<Link to={`/dashboard`} className={styleClasses} onClick={handleClickButton}>{text}</Link>);
         case 'remove':
-            return(<Link to={`/dashboard`} className={styleClasses } onClick={onClick}>{text}</Link>);
+            return(<Link to={`/dashboard`} className={styleClasses} onClick={handleClickButton}>{text}</Link>);
         default:
             return null;
     }

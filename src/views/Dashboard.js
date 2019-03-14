@@ -1,6 +1,9 @@
 import React, {Component, Fragment}from 'react';
 import {Link} from 'react-router-dom';
 import LinkButton from '../components/LinkButton';
+import ApplicationService from './../services/applicationService';
+import DogService from './../services/dogService';
+import staticData from './../constants/staticData';
 
 class Dashboard extends Component{
     constructor(props){
@@ -11,33 +14,89 @@ class Dashboard extends Component{
             isLoading:false,
         }
 
-        this.handleClick=this.handleClick.bind(this);
-        this.getAllApplications=this.props.getAllApplications.bind(this);
-        this.changeAplication=this.props.changeAplication.bind(this);
-        this.removeApplication=this.props.removeApplication.bind(this);
+        this.getAllApplications=this.getAllApplications.bind(this);
+        this.changeApplication=this.changeApplication.bind(this);
+        this.removeApplication=this.removeApplication.bind(this);
         this.displayToastMessage=this.props.displayToastMessage.bind(this);
     }
+
+    static ApplicationService = new ApplicationService();
+    static DogService= new DogService();
+    static tableColumns=staticData.dashboardColumns;
 
     componentDidMount(props){
         this.setState({isLoading:true},()=>this.getAllApplications());
     }
 
+    getAllApplications(){
+        Dashboard.ApplicationService.getAll('',{type:"_kmd.ect",value: -1})
+          .then(resBody=>{
+            if(resBody.error){
+              this.displayToastMessage('error', resBody.description, 6000 );
+            }else{
+              this.setState({
+                applications:resBody,
+                isLoading:false
+              })
+            }
+          }).catch(err=>{
+            console.log(err);
+            this.displayToastMessage('error', 'Sorry, something went wrong with the server. We are working on it!', 6000 );
+          }
+        )
+      }
 
-    handleClick(ev, data){
-        const buttonType =ev.target.text.toLowerCase();
-
-        if(buttonType==='approve'){
-            //appId, appData, dogId, dogStatus
-            const newAppData = {...data, status:'approved'}
-            this.changeAplication(data._id, newAppData, data.dogId, 'adopted');
-        }else if(buttonType==='cancel'){
-            //appId, appData, dogId, dogStatus
-            const newAppData = {...data, status:'canceled'}
-            this.changeAplication(data._id, newAppData, data.dogId, 'available');
-        }else if(buttonType==='remove'){
-            this.removeApplication(data._id);
-        }
-    }
+    changeApplication(appId, appData, dogId, dogStatus){
+        Dashboard.ApplicationService.update(appId, appData)
+        .then(resBody=>{
+          if(resBody.error){
+            this.displayToastMessage('error', resBody.description, 6000 );
+          }else{
+            Dashboard.DogService.getById(dogId)
+              .then(resBody=>{
+                if(resBody.error){
+                  this.displayToastMessage('error', resBody.description, 6000 );
+                }else{
+                    Dashboard.DogService.update(dogId,{...resBody, status:dogStatus})
+                  .then(resBody=>{
+                    if(resBody.error){
+                      this.displayToastMessage('error', resBody.description, 6000 );
+    
+                    }else{
+                      this.displayToastMessage('success', `The application has been ${appData.status}ed`, 6000 );
+    
+                      this.setState({
+                        isLoading:true
+                      }, ()=>this.getAllApplications())
+                    }
+                  });
+                }
+              }
+            )
+          }
+        }).catch(err=>{
+          console.log(err);
+          this.displayToastMessage('error', 'Sorry, something went wrong with the server. We are working on it!', 6000 );
+        })
+      }
+    
+      removeApplication(id){
+        Dashboard.ApplicationService.remove(id)
+        .then(resBody=>{
+          if(resBody.error){
+            this.displayToastMessage('error', resBody.description, 6000 );
+          }else{
+            this.displayToastMessage('success','The application has been removed from the database!', 3000 );
+            this.setState({
+              isLoading:true
+            }, ()=>this.getAllApplications())
+          }
+    
+        }).catch(err=>{
+          console.log(err);
+          this.displayToastMessage('error', 'Sorry, something went wrong with the server. We are working on it!', 6000 );
+        })
+      }
 
     render(){
         const {applications, isLoading}=this.state;
@@ -63,11 +122,9 @@ class Dashboard extends Component{
                                 <table>
                                 <thead>
                                     <tr>
-                                        <th>#</th>
-                                        <th>Dog ID</th>
-                                        <th>User ID</th>
-                                        <th>Status</th>
-                                        <th>Update</th>
+                                    {
+                                        Dashboard.tableColumns.map(column=><th key={column}>{column}</th>)
+                                    }
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -85,7 +142,8 @@ class Dashboard extends Component{
                                                     extraClassNames='button-reverse cancel' 
                                                     buttonType='remove' 
                                                     text='remove'
-                                                    onClick={(ev)=>this.handleClick(ev, application)}
+                                                    details={application}
+                                                    removeApplication={this.removeApplication}
                                                 />
                                                 ):(
                                                     <Fragment>
@@ -93,13 +151,15 @@ class Dashboard extends Component{
                                                             extraClassNames='button-reverse' 
                                                             buttonType='approve' 
                                                             text='approve'
-                                                            onClick={(ev)=>this.handleClick(ev, application)}
+                                                            details={application}
+                                                            changeApplication={this.changeApplication}
                                                         />
                                                         <LinkButton 
                                                             extraClassNames='button-reverse cancel'
                                                             buttonType='cancel' 
                                                             text='cancel'
-                                                            onClick={(ev)=>this.handleClick(ev, application)}
+                                                            details={application}
+                                                            changeApplication={this.changeApplication}
                                                         />
                                                     </Fragment>
                                                 )

@@ -1,4 +1,5 @@
 const staticData = {
+
     iconsList : {
         //for user
         username:'fas fa-user',
@@ -36,6 +37,14 @@ const staticData = {
         'available',
         'processing',
         'adopted'
+    ],
+
+    dashboardColumns:[
+        '#',
+        'Dog ID',
+        'User ID',
+        'Status',
+        'Update',
     ],
     breeds :[        
         "affenpinscher",

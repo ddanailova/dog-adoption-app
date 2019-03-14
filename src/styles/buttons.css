@@ -36,8 +36,7 @@ button:hover, .button:hover {
     border: 2px solid orange;
 }
 
-.button-reverse:hover {
-    
+.button-reverse:not(.disabled):hover {
     color:orange;
     background: #fff;
 }
@@ -48,8 +47,12 @@ button:hover, .button:hover {
     border: 2px solid tomato;
 }
 
-.button-reverse.cancel:hover {
+.button-reverse.cancel:not(.disabled):hover {
     color:tomato;
     background: #fff;
 }
 
+.button.disabled{
+    opacity: 0.3;
+    cursor: default;
+}

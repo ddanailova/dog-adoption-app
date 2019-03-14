@@ -22,7 +22,7 @@ import {defaultUserState, UserContext} from '../components/contexts/userContext'
 
 import UserService from '../services/userService';
 import DogService from '../services/dogService';
-import AplicationService from '../services/applicationService';
+import ApplicationService from '../services/applicationService';
 
 
 import './App.css';
@@ -48,7 +48,7 @@ class App extends Component {
   
   static UserService= new UserService();
   static DogService= new DogService();
-  static ApplicationService = new AplicationService();
+  static ApplicationService = new ApplicationService();
 
   displayToastMessage(type, message, closingTime){
     if(type==='error'){
@@ -309,24 +309,6 @@ class App extends Component {
   }
 
   //for applications 
-  getAllApplications(){
-    App.ApplicationService.getAll('',{type:"_kmd.ect",value: -1})
-      .then(resBody=>{
-        if(resBody.error){
-          this.displayToastMessage('error', resBody.description, 6000 );
-        }else{
-          this.setState({
-            applications:resBody,
-            isLoading:false
-          })
-        }
-      }).catch(err=>{
-        console.log(err);
-        this.displayToastMessage('error', 'Sorry, something went wrong with the server. We are working on it!', 6000 );
-      }
-    )
-  }
-
   createApplication(data, dogDetails){
     App.ApplicationService.create(data)
     .then(resBody=>{
@@ -343,58 +325,6 @@ class App extends Component {
           }
         );
       }
-    }).catch(err=>{
-      console.log(err);
-      this.displayToastMessage('error', 'Sorry, something went wrong with the server. We are working on it!', 6000 );
-    })
-  }
-
-  changeAplication(appId, appData, dogId, dogStatus){
-    App.ApplicationService.update(appId, appData)
-    .then(resBody=>{
-      if(resBody.error){
-        this.displayToastMessage('error', resBody.description, 6000 );
-      }else{
-        App.DogService.getById(dogId)
-          .then(resBody=>{
-            if(resBody.error){
-              this.displayToastMessage('error', resBody.description, 6000 );
-            }else{
-              App.DogService.update(dogId,{...resBody, status:dogStatus})
-              .then(resBody=>{
-                if(resBody.error){
-                  this.displayToastMessage('error', resBody.description, 6000 );
-
-                }else{
-                  this.displayToastMessage('success', `The application has been ${appData.status}ed`, 6000 );
-
-                  this.setState({
-                    isLoading:true
-                  }, ()=>this.getAllApplications())
-                }
-              });
-            }
-          }
-        )
-      }
-    }).catch(err=>{
-      console.log(err);
-      this.displayToastMessage('error', 'Sorry, something went wrong with the server. We are working on it!', 6000 );
-    })
-  }
-
-  removeApplication(id){
-    App.ApplicationService.remove(id)
-    .then(resBody=>{
-      if(resBody.error){
-        this.displayToastMessage('error', resBody.description, 6000 );
-      }else{
-        this.displayToastMessage('success','The application has been removed from the database!', 3000 );
-        this.setState({
-          isLoading:true
-        }, ()=>this.getAllApplications())
-      }
-
     }).catch(err=>{
       console.log(err);
       this.displayToastMessage('error', 'Sorry, something went wrong with the server. We are working on it!', 6000 );
@@ -459,9 +389,6 @@ class App extends Component {
               <AdminRoute
                 path='/dashboard' 
                 render={(props)=><Dashboard {...props} 
-                  getAllApplications={this.getAllApplications} 
-                  changeAplication={this.changeAplication}
-                  removeApplication={this.removeApplication}
                   displayToastMessage={this.displayToastMessage}
                 />} 
               />
@@ -470,7 +397,6 @@ class App extends Component {
                 render={(props)=><Create {...props} 
                   createDog={this.createDog}
                   redirectToHome={this.state.redirectToHome}
-                  // displayToastMessage={this.displayToastMessage}
                 />} 
               />
               <AdminRoute 
