@@ -4,7 +4,7 @@
 An application that allows you to adopt a dog. It stores information about the **dogs** (name, breed, age, image url, story and adoption status), registered **users**(username, full name, phone, email and the dogs in their watch list) and the adoption **applications** made by registered users only (dog id, user id and status of the application).
 
 ## Design
-The Dog Adoption App has three types of users with the following functionalities
+The Dog Adoption App has three types of users that can perform the following actions:
 
 * Guest
     * Guests can access the guest homepage
